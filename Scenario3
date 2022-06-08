@@ -1,0 +1,33 @@
+Task 1: 
+
+Apply the following configuration in R4:
+
+extcommunity-set opaque COLOR-3222
+  3222
+end-set
+
+Apply the following configuration in R7 and R8:
+
+extcommunity-set opaque COLOR-3232
+ 3232
+end-set
+
+Apply the following configuration in R4:
+
+route-policy CUST-A_SET_COLOR_IN
+ ##### Explicit Path - Color 3222 #####
+ if destination in (150.22.2.2) then
+  set extcommunity color COLOR-3222
+ ##### Everything Else #####
+else
+ pass
+endif
+end-policy
+
+!
+
+router bgp 65001
+ vrf CUSTOMER-A
+  neighbor 172.4.22.1
+   address-family ipv4 unicast
+   route-policy CUST-A_SET_COLOR_IN in
