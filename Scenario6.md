@@ -2,7 +2,7 @@
 
 ### Task 1: Configure color for Anycast SID
 
-####Apply the following configuration in R7 and R8:
+#### Apply the following configuration in R7 and R8:
 
 ```
 extcommunity-set opaque COLOR-3235
