@@ -1,19 +1,26 @@
-Task 1: 
+## Scenario 3 - Inter-domain SRTE using Explicit-path
 
-!! Apply the following configuration in R4:
+### Task 1: Configure color for Explicit-path
 
+#### Apply the following configuration in R4:
+
+```
 extcommunity-set opaque COLOR-3222
   3222
 end-set
+```
 
-!! Apply the following configuration in R7 and R8:
+#### Apply the following configuration in R7 and R8:
 
+```
 extcommunity-set opaque COLOR-3232
  3232
 end-set
+```
 
-!! Apply the following configuration in R4:
+#### Apply the following configuration in R4:
 
+```
 route-policy CUST-A_SET_COLOR_IN
  ##### Explicit Path - Color 3222 #####
  if destination in (150.22.2.2) then
@@ -29,37 +36,44 @@ router bgp 65001
   neighbor 172.4.22.1
    address-family ipv4 unicast
    route-policy CUST-A_SET_COLOR_IN in
+```
    
-!! Apply the following configuration in R7 and R8:
+#### Apply the following configuration in R7 and R8:
 
+```
 route-policy CUST-A_SET_COLOR_IN
-##### Explicit Path – Color 3232 #####
-if destination in (150.23.2.2) then
-set extcommunity color COLOR-3232
-##### Everything Else #####
-else
-pass
-endif
+ ##### Explicit Path – Color 3232 #####
+ if destination in (150.23.2.2) then
+  set extcommunity color COLOR-3232
+  ##### Everything Else #####
+ else
+  pass
+ endif
 end-policy
+```
 
-! Apply the following configuration in R7:
+#### Apply the following configuration in R7:
+
+```
 router bgp 65001
  vrf CUSTOMER-A
   neighbor 172.7.23.1
    address-family ipv4 unicast
    route-policy CUST-A_SET_COLOR_IN in
 
-! Apply the following configuration in R8:
+#### Apply the following configuration in R8:
 router bgp 65001
  vrf CUSTOMER-A
   neighbor 172.8.23.1
    address-family ipv4 unicast
    route-policy CUST-A_SET_COLOR_IN in
+```
 
-TASK 3
+### Task 3: Configure SRTE policy using Explicit-path
 
-! On R1 & R2 apply the following configuration:
+#### On R1 & R2 apply the following configuration:
 
+```
 segment-routing
  traffic-eng
   segment-list PCE1-R3-R4
@@ -101,5 +115,5 @@ segment-routing
      preference 100
       explicit segment-list R4-R3-R5-R6-R8
 !
-
+```
 
