@@ -1,8 +1,8 @@
-# Scenario 10 - Configure Flex Algo for Dual Plane
+## Scenario 10 - Configure Flex Algo for Dual Plane
 
-Task 1: Configure Flex Algo for User plane-1
+### Task 1: Configure Flex Algo for User plane-1
 
-Apply the following configuration in R3:
+#### Apply the following configuration in R3:
 
 ```
 router isis ACCESS-1
@@ -26,7 +26,7 @@ router isis AGG-CORE
 ```
 
 
-Apply the following configuration in R5:
+#### Apply the following configuration in R5:
 
 ```
 router isis ACCESS-1
@@ -49,9 +49,9 @@ router isis AGG-CORE
 
 ```
 
-! Task 2: Configure Flex Algo for User plane-2
+### Task 2: Configure Flex Algo for User plane-2
 
-! Apply the following configuration in R4:
+#### Apply the following configuration in R4:
 
 ```
 router isis ACCESS-1
@@ -75,7 +75,7 @@ router isis AGG-CORE
 ```
 
 
-! Apply the following configuration in R6:
+#### Apply the following configuration in R6:
 
 ```
 router isis ACCESS-2
@@ -98,9 +98,9 @@ router isis AGG-CORE
 !
 ```
 
-! Task 3: Configure Flex Algo for User plane-1 & 2
+### Task 3: Configure Flex Algo for User plane-1 & 2
 
-! Apply the following configuration in R1:
+#### Apply the following configuration in R1:
 
 ```
 router isis ACCESS-1
@@ -114,7 +114,7 @@ router isis ACCESS-1
 !
 ```
 
-! Apply the following configuration in R2:
+#### Apply the following configuration in R2:
 
 ```
 router isis ACCESS-1
@@ -128,7 +128,7 @@ router isis ACCESS-1
   !
 ```
 
-! Apply the following configuration in PCE1:
+#### Apply the following configuration in PCE1:
 
 ```
 router isis ACCESS-1
@@ -142,7 +142,7 @@ router isis ACCESS-1
   !
 ```
 
-! Apply the following configuration in PCE2:
+#### Apply the following configuration in PCE2:
 
 ```
 router isis AGG-CORE
@@ -156,7 +156,7 @@ router isis AGG-CORE
   !
 ```
 
-! Apply the following configuration in PCE3:
+#### Apply the following configuration in PCE3:
 
 ```
 router isis ACCESS-2
@@ -170,7 +170,7 @@ router isis ACCESS-2
   !
 ```
 
-! Apply the following configuration in R7:
+#### Apply the following configuration in R7:
 
 ```
 router isis ACCESS-2
@@ -184,7 +184,7 @@ router isis ACCESS-2
   !
 ```
 
-Apply the following configuration in R8:
+#### Apply the following configuration in R8:
 
 ```
 router isis ACCESS-2
@@ -199,38 +199,9 @@ router isis ACCESS-2
 ``` 
 
 
-! Task 6: Configure RPL to Color CE prefixes of VRF CUSTOMER-B
+### Task 6: Configure RPL to Color CE prefixes of VRF CUSTOMER-B
 
-! Apply the following configuration in R7:
-
-```
-extcommunity-set opaque COLOR-4129
-  4129
-end-set
-!
-extcommunity-set opaque COLOR-4130
-  4130
-end-set
-!
-route-policy CUST-B_SET_COLOR_IN
-  ##### ODN Flex Algo 128 - Latency #####
-  if destination in (150.23.7.7) then
-    set extcommunity color COLOR-4128
-  ##### ODN Flex Algo 129 - User Plane1 #####
-  elseif destination in (150.23.1.1) then
-    set extcommunity color COLOR-4129
-  ##### ODN Flex Algo 130 - User Plane2 #####
-  elseif destination in (150.23.2.2) then
-    set extcommunity color COLOR-4130
-  ##### Everything Else #####
-  else
-    pass
-  endif
-end-policy
-!
-```
-
-! Apply the following configuration in R8:
+#### Apply the following configuration in R7:
 
 ```
 extcommunity-set opaque COLOR-4129
@@ -256,12 +227,41 @@ route-policy CUST-B_SET_COLOR_IN
     pass
   endif
 end-policy
+!
+```
+
+#### Apply the following configuration in R8:
+
+```
+extcommunity-set opaque COLOR-4129
+  4129
+end-set
+!
+extcommunity-set opaque COLOR-4130
+  4130
+end-set
+!
+route-policy CUST-B_SET_COLOR_IN
+  ##### ODN Flex Algo 128 - Latency #####
+  if destination in (150.23.7.7) then
+    set extcommunity color COLOR-4128
+  ##### ODN Flex Algo 129 - User Plane1 #####
+  elseif destination in (150.23.1.1) then
+    set extcommunity color COLOR-4129
+  ##### ODN Flex Algo 130 - User Plane2 #####
+  elseif destination in (150.23.2.2) then
+    set extcommunity color COLOR-4130
+  ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
 ```
 
 
-! Task 8: ODN and flex Algo 129 & 130 policy on R1 & R2
+### Task 8: ODN and flex Algo 129 & 130 policy on R1 & R2
 
-! Apply the following configuration in R1 & R2:
+#### Apply the following configuration in R1 & R2:
 
 ```
 segment-routing
