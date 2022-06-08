@@ -1,8 +1,8 @@
 # Scenario 10 - Configure Flex Algo for Dual Plane
 
-! Task 1: Configure Flex Algo for User plane-1
+Task 1: Configure Flex Algo for User plane-1
 
-! Apply the following configuration in R3:
+Apply the following configuration in R3:
 
 '''
 router isis ACCESS-1
