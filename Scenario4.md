@@ -1,6 +1,10 @@
-! Task 1 Configure color Low Latency Traffic
-! Apply the following configuration in R7 and R8:
+## Scenario 4 - Inter-Domain Network Slicing for Low Latency 
 
+### Task 1: Configure color Low Latency Traffic
+
+#### Apply the following configuration in R7 and R8:
+
+'''
 extcommunity-set opaque COLOR-3233
  3233
 end-set
@@ -17,8 +21,9 @@ route-policy CUST-A_SET_COLOR_IN
   pass
  endif
 end-policy
+'''
 
-! Task 3: Configure SRTE policy Low Latency Traffic 
+#### Task 3: Configure SRTE policy Low Latency Traffic 
 
 
 ! On R1 & R2 apply the following configuration:
