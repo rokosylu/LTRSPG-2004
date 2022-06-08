@@ -1,9 +1,10 @@
-! Scenario 9 - Configure Flex Algo & ODN for low latency
+## Scenario 9 - Configure Flex Algo & ODN for low latency
 
-! Task 1: Configure Flex Algo 128 for low latency and a prefix SID on the ABR Nodes
+### Task 1: Configure Flex Algo 128 for low latency and a prefix SID on the ABR Nodes
 
-! Apply the following configuration in R3:
+#### Apply the following configuration in R3:
 
+```
 router isis ACCESS-1
  flex-algo 128
   metric-type delay
@@ -24,9 +25,11 @@ router isis AGG-CORE
    address-family ipv4 unicast
     prefix-sid algorithm 128 absolute 103128
 !
+```
 
-! Apply the following configuration in R4:
+#### Apply the following configuration in R4:
 
+```
 router isis ACCESS-1
  flex-algo 128
   metric-type delay
@@ -46,32 +49,35 @@ router isis AGG-CORE
  interface Loopback0
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 104128
+```
 
-! Apply the following configuration in R5:
+#### Apply the following configuration in R5:
 
+```
 router isis ACCESS-2
-flex-algo 128
-metric-type delay
-advertise-definition
-!
-interface Loopback0
-address-family ipv4 unicast
-prefix-sid algorithm 128 absolute 105128
-!
-!
-!
+ flex-algo 128
+  metric-type delay
+   advertise-definition
+   !
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid algorithm 128 absolute 105128
+   !
+  !
+ !
 router isis AGG-CORE
-flex-algo 128
-metric-type delay
-advertise-definition
-!
-interface Loopback0
-address-family ipv4 unicast
-prefix-sid algorithm 128 absolute 105128
+ flex-algo 128
+  metric-type delay
+   advertise-definition
+   !
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid algorithm 128 absolute 105128
+```
 
+#### Apply the following configuration in R6:
 
-! Apply the following configuration in R6:
-
+```
 router isis ACCESS-2
  flex-algo 128
   metric-type delay
@@ -92,10 +98,11 @@ router isis AGG-CORE
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 106128
 !
+```
 
+#### Apply the following configuration in R1:
 
-! Apply the following configuration in R1:
-
+```
 router isis ACCESS-1
  flex-algo 128
 !
@@ -103,9 +110,11 @@ router isis ACCESS-1
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 101128
 !
+```
 
-! Apply the following configuration in R2:
+#### Apply the following configuration in R2:
 
+```
 router isis ACCESS-1
  flex-algo 128
 !
@@ -113,9 +122,11 @@ router isis ACCESS-1
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 102128
 !
+```
 
-! Apply the following configuration in PCE1:
+#### Apply the following configuration in PCE1:
 
+```
 router isis ACCESS-1
  flex-algo 128
 !
@@ -123,9 +134,11 @@ router isis ACCESS-1
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 111128
 !
+```
 
-! Apply the following configuration in PCE2:
+#### Apply the following configuration in PCE2:
 
+```
 router isis AGG-CORE
  flex-algo 128
 !
@@ -133,9 +146,11 @@ router isis AGG-CORE
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 112128
 !
+```
 
-! Apply the following configuration in PCE3:
+#### Apply the following configuration in PCE3:
 
+```
 router isis ACCESS-2
  flex-algo 128
 !
@@ -143,9 +158,11 @@ router isis ACCESS-2
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 113128
 !
+```
 
-! Apply the following configuration in R7:
+#### Apply the following configuration in R7:
 
+```
 router isis ACCESS-2
  flex-algo 128
 !
@@ -153,9 +170,11 @@ router isis ACCESS-2
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 107128
 !
+```
 
-! Apply the following configuration in R8:
+#### Apply the following configuration in R8:
 
+```
 router isis ACCESS-2
  flex-algo 128
 !
@@ -163,12 +182,13 @@ router isis ACCESS-2
   address-family ipv4 unicast
    prefix-sid algorithm 128 absolute 108128
 !
+```
 
+### Task 4: RPL to Color CE prefixes of VRF CUSTOMER-B on R4, R7 & R8
 
-! Task 4: RPL to Color CE prefixes of VRF CUSTOMER-B on R4, R7 & R8
+#### Apply the following configuration in R4:
 
-! Apply the following configuration in R4:
-
+```
 extcommunity-set opaque COLOR-4128
  4128
 end-set
@@ -189,9 +209,11 @@ neighbor 172.4.22.101
 address-family ipv4 unicast
 route-policy CUST-B_SET_COLOR_IN in
 !
+```
 
-! Apply the following configuration in R7:
+#### Apply the following configuration in R7:
 
+```
 extcommunity-set opaque COLOR-4128
  4128
 end-set
@@ -212,10 +234,11 @@ router bgp 65001
    address-family ipv4 unicast
     route-policy CUST-B_SET_COLOR_IN in
 !
+```
 
+#### Apply the following configuration in R8:
 
-! Apply the following configuration in R8:
-
+```
 extcommunity-set opaque COLOR-4128
  4128
 end-set
@@ -236,11 +259,13 @@ router bgp 65001
    address-family ipv4 unicast
     route-policy CUST-B_SET_COLOR_IN in
 !
+```
 
-! Task 6: ODN and flex Algo 128 policy on R1 & R2
+### Task 6: ODN and flex Algo 128 policy on R1 & R2
 
-! Apply the following configuration in R1 & R2:
+### Apply the following configuration in R1 & R2:
 
+```
 segment-routing
  traffic-eng
   on-demand color 4128
@@ -249,12 +274,13 @@ segment-routing
     !
     sid-algorithm 128
 !
+```
 
+### Task 8: Change Latency value of a link
 
-! Task 8: Change Latency value of a link
+#### On PCE2 configure the delay to R5 and R6 as 150ms.
 
-! On PCE2 configure the delay to R5 and R6 as 150ms.
-
+```
 performance-measurement
  interface GigabitEthernet0/0/0/2
   delay-measurement
@@ -265,12 +291,13 @@ performance-measurement
   delay-measurement
    advertise-delay 150
 !
+```
 
+### Task 10: Restore original Latency value
 
-! Task 10: Restore original Latency value
+#### On PCE2 restore the delay to R5 as 10ms and to R6 as 13ms.
 
-! On PCE2 restore the delay to R5 as 10ms and to R6 as 13ms.
-
+```
 performance-measurement
  interface GigabitEthernet0/0/0/2
   delay-measurement
@@ -281,6 +308,6 @@ performance-measurement
   delay-measurement
    advertise-delay 13
 !
-
+```
 
 
