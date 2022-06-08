@@ -4,6 +4,7 @@
 
 ! Apply the following configuration in R3:
 
+'''
 router isis ACCESS-1
  flex-algo 129
   advertise-definition
@@ -21,6 +22,8 @@ router isis AGG-CORE
  interface Loopback0
   address-family ipv4 unicast
    prefix-sid algorithm 129 absolute 103129
+'''
+
 
 ! Apply the following configuration in R5:
 
