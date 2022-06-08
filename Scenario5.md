@@ -57,15 +57,24 @@ segment-routing
 
 ### Task 5: Change TE metric of a link
 
+#### On R1 and R2 issue the following command:
+
+```
 segment-routing
  traffic-eng
   interface GigabitEthernet0/0/0/3
    metric 5000
 !
+```
 
-! Task 7: Restore original TE metric
+### Task 7: Restore original TE metric
+
+#### On R1 and R2 issue the following command:
+
+```
 segment-routing
  traffic-eng
   interface GigabitEthernet0/0/0/3
    metric 1000
 !
+```
