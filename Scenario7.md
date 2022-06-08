@@ -1,7 +1,10 @@
-! Scenario 7 - Inter-Domain Network Slicing with link affinities
+## Scenario 7 - Inter-Domain Network Slicing with link affinities
 
-! Task 1: Configure color
+### Task 1: Configure color
 
+#### Apply the following configuration in R7 and R8:
+
+```
 extcommunity-set opaque COLOR-3236
  3236
 end-set
@@ -27,12 +30,13 @@ route-policy CUST-A_SET_COLOR_IN
   pass
  endif
 end-policy
+```
 
+### Task 3: Configure color to avoid using links with marked affinity (red link)
 
-! Task 3: Configure color to avoid using links with marked affinity (red link)
+#### On R1 and R2 issue the following command:
 
-! On R1 and R2 issue the following command:
-
+```
 segment-routing
  traffic-eng
   interface GigabitEthernet0/0/0/3
@@ -43,11 +47,13 @@ segment-routing
    affinity-map
     name RED bit-position 1
 !
+```
 
-! Task 4: Configure SRTE policy to avoid red links
+### Task 4: Configure SRTE policy to avoid red links
 
-! On R1 and R2 issue the following command:
+#### On R1 and R2 issue the following command:
 
+```
 segment-routing
  traffic-eng
   policy AFF-TE_COLOR-3236_R7
@@ -85,6 +91,4 @@ segment-routing
        affinity
         exclude-any
          name RED 
-         
-
-
+```
