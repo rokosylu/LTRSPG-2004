@@ -1,6 +1,6 @@
 <h1 align="center"> Programmable Intent-Based Slicing <BR> Powered by Segment Routing on IOS XR <BR> LTRSPG-2004 </h1>
 
-#### Below are links for each scenario.  
+#### Below are links for the configurations in each scenario.  
 
 [Scenario 3 - Inter-domain SRTE using Explicit-path](https://github.com/rokosylu/LTRSPG-2004/blob/main/scenarios/scenario3.md)
 
