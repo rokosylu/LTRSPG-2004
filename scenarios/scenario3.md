@@ -60,8 +60,11 @@ router bgp 65001
   neighbor 172.7.23.1
    address-family ipv4 unicast
    route-policy CUST-A_SET_COLOR_IN in
+```
 
 #### Apply the following configuration in R8:
+
+```
 router bgp 65001
  vrf CUSTOMER-A
   neighbor 172.8.23.1
