@@ -102,7 +102,7 @@ segment-routing
    color 3222 end-point ipv4 4.4.4.4
     candidate-paths
      preference 100
-      explicit segmnt-list PCE1-R3-R4
+      explicit segment-list PCE1-R3-R4
 !
 
   policy EXP_COLOR-3232_R7
