@@ -29,7 +29,7 @@ router isis AGG-CORE
 #### Apply the following configuration in R5:
 
 ```
-router isis ACCESS-1
+router isis ACCESS-2
  flex-algo 129
   advertise-definition
  !
