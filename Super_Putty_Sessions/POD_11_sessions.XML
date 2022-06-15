@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSessionData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SessionData SessionId="POD_11/CE1" SessionName="CE1" ImageKey="computer" Host="10.10.211.21" Port="23" Proto="Telnet" PuttySession="Default Settings" Username="" ExtraArgs="" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/CE2" SessionName="CE2" ImageKey="computer" Host="10.10.211.22" Port="23" Proto="Telnet" PuttySession="Default Settings" Username="" ExtraArgs="" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/CE3" SessionName="CE3" ImageKey="computer" Host="10.10.211.23" Port="23" Proto="Telnet" PuttySession="Default Settings" Username="" ExtraArgs="" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/PCE1" SessionName="PCE1" ImageKey="computer" Host="10.10.211.11" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/PCE2" SessionName="PCE2" ImageKey="computer" Host="10.10.211.12" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/PCE3" SessionName="PCE3" ImageKey="computer" Host="10.10.211.13" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R1" SessionName="R1" ImageKey="computer" Host="10.10.211.1" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R2" SessionName="R2" ImageKey="computer" Host="10.10.211.2" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R3" SessionName="R3" ImageKey="computer" Host="10.10.211.3" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R4" SessionName="R4" ImageKey="computer" Host="10.10.211.4" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R5" SessionName="R5" ImageKey="computer" Host="10.10.211.5" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R6" SessionName="R6" ImageKey="computer" Host="10.10.211.6" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R7" SessionName="R7" ImageKey="computer" Host="10.10.211.7" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+  <SessionData SessionId="POD_11/R8" SessionName="R8" ImageKey="computer" Host="10.10.211.8" Port="22" Proto="SSH" PuttySession="Default Settings" Username="cisco" ExtraArgs="-pw cisco" SPSLFileName="" RemotePath="" LocalPath="" />
+</ArrayOfSessionData>
