@@ -1,6 +1,6 @@
 # LTRSPG-2004
 
-![](RackMultipart20230222-1-cgwn2a_html_243d69abbdb4e265.png)-2022
+![](RackMultipart20230222-1-cgwn2a_html_243d69abbdb4e265.png)-2023
 
 # **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR**
 
