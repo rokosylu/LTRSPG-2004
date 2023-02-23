@@ -29,7 +29,7 @@
 
 Use GitHub TOC
 
-![](images/) ADD capture of TOC on GITHUB
+![](images/) ADD A PIC OF A capture of TOC on GITHUB
 
 ---
 
