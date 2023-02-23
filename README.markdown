@@ -182,7 +182,7 @@ All IP addresses, IGP protocol configuration, and basic BGP configuration have b
 
 Log into R3 and verify it has an adjacency relationship with R1, R4, and PCE1 in the ACCESS-1 process and R4, R5, and PCE2 in the AGG-CORE Process. There are two processes since this is an ABR.
 
-RP/0/RP0/CPU0:R3# **show isis adjacency**
+RP/0/RP0/CPU0:R3# `show isis adjacency`
 
 IS-IS ACCESS-1 Level-1 adjacencies:
 
