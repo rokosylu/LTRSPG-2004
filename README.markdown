@@ -222,25 +222,25 @@ Drawing of the physical connections in the lab.
 
 There are 3 different IGP domains "ACCESS 1", "AGG-CORE" and "ACCESS 2" in the lab. There is no redistribution between areas. BGP-LU is used across the domains for end to end loopback reachability.
 
-![](RackMultipart20230222-1-cgwn2a_html_7122fda9f3784cb1.gif)
+![](images/IGPTopology.png)
 
 ## IP and SID Diagram
 
 The SRGB in the lab is configured as 19000-119000. There are 2 VRFs configured "CUSTOMER-A" and "CUSTOMER-B".
 
-![](RackMultipart20230222-1-cgwn2a_html_9cb041963704165d.gif)
+![](images/IPandSID.png)
 
 ## IGP Metric Diagram
 
 The default IGP metric is 100 throughout the topology.
 
-![](RackMultipart20230222-1-cgwn2a_html_fbf90746f4531e32.gif)
+![](images/IGPMetric.png)
 
 ## Latency Metric Diagram
 
 The default latency metrics of the links are seen below. Latency is lower on the links going through the inline PCE nodes.
 
-![](RackMultipart20230222-1-cgwn2a_html_e9c30d2bb789daa5.gif)
+![](images/LatencyMetric.png)
 
 ##
 
@@ -248,7 +248,7 @@ The default latency metrics of the links are seen below. Latency is lower on the
 
 The default TE metric is 1000 throughout the topology.
 
-![](RackMultipart20230222-1-cgwn2a_html_3c4d0d4c53c4f2da.gif)
+![](images/TEMetric.png)
 
 # Access the Lab
 
