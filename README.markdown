@@ -163,22 +163,15 @@ Now you are ready to start the lab 
 | CE2 | 10.10.2XX.22 |
 | CE3 | 10.10.2XX.23 |
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- Where XX is your POD number. i.e: POD01 will use 01, POD 13 will use 13Username and Password is cisco/cisco for all devices |
 
 
+>NOTE
+>Where XX is your POD number. i.e: POD01 will use 01, POD 13 will use 13Username and Password is cisco/cisco for all devices
 
-NOTE
-
- |
- | For convenience all the lab configuration sections are posted in the following link [https://github.com/rokosylu/LTRSPG-2004](https://github.com/rokosylu/LTRSPG-2004) which will enable to easly copy and paste the config to your lab devices |
+>NOTE
+>For convenience all the lab configuration sections are posted in the following link [https://github.com/rokosylu/LTRSPG-2004](https://github.com/rokosylu/LTRSPG-2004) which will enable to easly copy and paste the config to your lab devices
+<br/>
+<br/>
 
 # Scenario 1 - Lab Verification of the Underlay and Overlay Fundamentals
 
