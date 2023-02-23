@@ -2,11 +2,11 @@
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
-# -2023
+ -2023
 
 ---
 
-# <font size= "7"> **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR** </font>
+ <font size= "7"> **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR** </font>
 
 ---
 
