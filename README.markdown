@@ -270,7 +270,7 @@ There are two ways to configure the Prefix-Sid value.
 
 In this lab, an Index Value is used. Verify R3 has an index of 3.
 
-RP/0/RP0/CPU0:R3# **show run router isis**
+RP/0/RP0/CPU0:R3# `show run router isis`
 
 router isis ACCESS-1
 
