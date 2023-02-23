@@ -18,107 +18,107 @@
 
 # Table of Contents
 
-_**[Learning Objectives 5](#_Toc106023414)**_
+_**[Learning Objectives](#_Toc106023414)**_
 
-_**[Introduction 5](#_Toc106023415)**_
+_**[Introduction](#_Toc106023415)**_
 
-**[Overview 5](#_Toc106023416)**
+**[Overview](#_Toc106023416)**
 
-**[Physical Topology Diagram 6](#_Toc106023417)**
+**[Physical Topology Diagram](#_Toc106023417)**
 
-**[IGP (IS-IS) Topology Diagram 6](#_Toc106023418)**
+**[IGP (IS-IS) Topology Diagram](#_Toc106023418)**
 
-**[IP and SID Diagram 7](#_Toc106023419)**
+**[IP and SID Diagram](#_Toc106023419)**
 
-**[IGP Metric Diagram 7](#_Toc106023420)**
+**[IGP Metric Diagram](#_Toc106023420)**
 
-**[Latency Metric Diagram 8](#_Toc106023421)**
+**[Latency Metric Diagram](#_Toc106023421)**
 
-**[TE Metric Diagram 8](#_Toc106023422)**
+**[TE Metric Diagram](#_Toc106023422)**
 
-_**[Access the Lab 9](#_Toc106023423)**_
+_**[Access the Lab](#_Toc106023423)**_
 
-**[Management IPs of the lab devices 12](#_Toc106023424)**
+**[Management IPs of the lab devices](#_Toc106023424)**
 
-_**[Scenario 1 - Lab Verification of the Underlay and Overlay Fundamentals 13](#_Toc106023425)**_
+_**[Scenario 1 - Lab Verification of the Underlay and Overlay Fundamentals](#_Toc106023425)**_
 
-**[Task 1: Verify ISIS Operation 13](#_Toc106023426)**
+**[Task 1: Verify ISIS Operation](#_Toc106023426)**
 
-**[Task 2: Verify Segment Routing Configuration and Operation 13](#_Toc106023427)**
+**[Task 2: Verify Segment Routing Configuration and Operation](#_Toc106023427)**
 
-**[Task 3: Verify Link Protection (TI-LFA) 15](#_Toc106023428)**
+**[Task 3: Verify Link Protection (TI-LFA)](#_Toc106023428)**
 
-**[Task 4: Verify BGL-LS 17](#_Toc106023429)**
+**[Task 4: Verify BGL-LS](#_Toc106023429)**
 
-**[Task 5: Verify PCE Communication 19](#_Toc106023430)**
+**[Task 5: Verify PCE Communication](#_Toc106023430)**
 
-_**[Scenario 2 - Inter-Domain Network Slicing for Regular Traffic 20](#_Toc106023431)**_
+_**[Scenario 2 - Inter-Domain Network Slicing for Regular Traffic](#_Toc106023431)**_
 
-**[Task 1: Verify Service Path 20](#_Toc106023432)**
+**[Task 1: Verify Service Path](#_Toc106023432)**
 
-_**[Scenario 3 - Inter-domain SRTE using Explicit-path 21](#_Toc106023433)**_
+_**[Scenario 3 - Inter-domain SRTE using Explicit-path](#_Toc106023433)**_
 
-**[Task 1: Configure color for Explicit-path 21](#_Toc106023434)**
+**[Task 1: Configure color for Explicit-path](#_Toc106023434)**
 
-**[Task 2: Verify the prefixes are tagged with the new color 23](#_Toc106023435)**
+**[Task 2: Verify the prefixes are tagged with the new color](#_Toc106023435)**
 
-**[Task 3: Configure SRTE policy using Explicit-path 24](#_Toc106023436)**
+**[Task 3: Configure SRTE policy using Explicit-path](#_Toc106023436)**
 
-**[Task 4: Verify Service Path 25](#_Toc106023437)**
+**[Task 4: Verify Service Path](#_Toc106023437)**
 
-_**[Scenario 4 - Inter-Domain Network Slicing for Low Latency 31](#_Toc106023438)**_
+_**[Scenario 4 - Inter-Domain Network Slicing for Low Latency](#_Toc106023438)**_
 
-**[Task 1: Configure color Low Latency Traffic 31](#_Toc106023439)**
+**[Task 1: Configure color Low Latency Traffic](#_Toc106023439)**
 
-**[Task 2: Verify the prefix is tagged with the new color 32](#_Toc106023440)**
+**[Task 2: Verify the prefix is tagged with the new color](#_Toc106023440)**
 
-**[Task 3: Configure SRTE policy Low Latency Traffic 33](#_Toc106023441)**
+**[Task 3: Configure SRTE policy Low Latency Traffic](#_Toc106023441)**
 
-**[Task 4: Verify Service Path 34](#_Toc106023442)**
+**[Task 4: Verify Service Path](#_Toc106023442)**
 
-**[Task 5: Change the Latency value of a link 37](#_Toc106023443)**
+**[Task 5: Change the Latency value of a link](#_Toc106023443)**
 
-**[Task 6: Verify Service Path Change 37](#_Toc106023444)**
+**[Task 6: Verify Service Path Change](#_Toc106023444)**
 
-**[Task 7: Restore the original Latency value 39](#_Toc106023445)**
+**[Task 7: Restore the original Latency value](#_Toc106023445)**
 
-_**[Scenario 5 - Inter-Domain Network Slicing for TE-Metric 40](#_Toc106023446)**_
+_**[Scenario 5 - Inter-Domain Network Slicing for TE-Metric](#_Toc106023446)**_
 
-**[Task 1: Configure color for TE-metric 40](#_Toc106023447)**
+**[Task 1: Configure color for TE-metric](#_Toc106023447)**
 
-**[Task 2: Verify the prefix is tagged with the new color 41](#_Toc106023448)**
+**[Task 2: Verify the prefix is tagged with the new color](#_Toc106023448)**
 
-**[Task 3: Configure SRTE policy for TE-metric 42](#_Toc106023449)**
+**[Task 3: Configure SRTE policy for TE-metric](#_Toc106023449)**
 
-**[Task 4: Verify Service Path 43](#_Toc106023450)**
+**[Task 4: Verify Service Path](#_Toc106023450)**
 
-**[Task 5: Change TE metric of a link 46](#_Toc106023451)**
+**[Task 5: Change TE metric of a link](#_Toc106023451)**
 
-**[Task 6: Verify Service Path Change 46](#_Toc106023452)**
+**[Task 6: Verify Service Path Change](#_Toc106023452)**
 
-**[Task 7: Restore original TE metric 48](#_Toc106023453)**
+**[Task 7: Restore original TE metric](#_Toc106023453)**
 
-_**[Scenario 6 - Inter-Domain Network Slicing for Regular Traffic with Anycast SID 49](#_Toc106023454)**_
+_**[Scenario 6 - Inter-Domain Network Slicing for Regular Traffic with Anycast SID](#_Toc106023454)**_
 
-**[Task 1: Configure color for Anycast SID 49](#_Toc106023455)**
+**[Task 1: Configure color for Anycast SID](#_Toc106023455)**
 
-**[Task 2: Verify the prefix is tagged with the new color 50](#_Toc106023456)**
+**[Task 2: Verify the prefix is tagged with the new color](#_Toc106023456)**
 
-**[Task 3: Configure Anycast-SID at ABRs 51](#_Toc106023457)**
+**[Task 3: Configure Anycast-SID at ABRs](#_Toc106023457)**
 
-**[Task 4: Configure SR-TE Policy using anycast SID 52](#_Toc106023458)**
+**[Task 4: Configure SR-TE Policy using anycast SID](#_Toc106023458)**
 
-**[Task 5: Verify Service Path 52](#_Toc106023459)**
+**[Task 5: Verify Service Path](#_Toc106023459)**
 
-_**[Scenario 7 - Inter-Domain Network Slicing with link affinities 56](#_Toc106023460)**_
+_**[Scenario 7 - Inter-Domain Network Slicing with link affinities](#_Toc106023460)**_
 
-**[Task 1: Configure color 56](#_Toc106023461)**
+**[Task 1: Configure color](#_Toc106023461)**
 
-**[Task 2: Verify the prefix is tagged with the new color 57](#_Toc106023462)**
+**[Task 2: Verify the prefix is tagged with the new color](#_Toc106023462)**
 
-**[Task 3: Configure color to avoid using links with marked affinity (red link) 58](#_Toc106023463)**
+**[Task 3: Configure color to avoid using links with marked affinity (red link)](#_Toc106023463)**
 
-**[Task 4: Configure SRTE policy to avoid red links 58](#_Toc106023464)**
+**[Task 4: Configure SRTE policy to avoid red links](#_Toc106023464)**
 
 **[Task 5: Verify service Path 59](#_Toc106023465)**
 
