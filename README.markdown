@@ -120,61 +120,61 @@ _**[Scenario 7 - Inter-Domain Network Slicing with link affinities](#_Toc1060234
 
 **[Task 4: Configure SRTE policy to avoid red links](#_Toc106023464)**
 
-**[Task 5: Verify service Path 59](#_Toc106023465)**
+**[Task 5: Verify service Path](#_Toc106023465)**
 
-_**[Scenario 8 – Intra and Inter-Domain Network Slicing for On-Demand Next Hop (ODN) 63](#_Toc106023466)**_
+_**[Scenario 8 – Intra and Inter-Domain Network Slicing for On-Demand Next Hop (ODN)](#_Toc106023466)**_
 
-**[Task 1: Configure color for ODN 63](#_Toc106023467)**
+**[Task 1: Configure color for ODN](#_Toc106023467)**
 
-**[Task 2: Verify the prefix is tagged with the new color 64](#_Toc106023468)**
+**[Task 2: Verify the prefix is tagged with the new color](#_Toc106023468)**
 
-**[Task 3: Configure SRTE policy to use ODN vs defined end point. 66](#_Toc106023469)**
+**[Task 3: Configure SRTE policy to use ODN vs defined end point.](#_Toc106023469)**
 
-**[Task 4: Verify Service Path 66](#_Toc106023470)**
+**[Task 4: Verify Service Path](#_Toc106023470)**
 
-_**[Scenario 9 - Configure Flex Algo & ODN for low latency 71](#_Toc106023471)**_
+_**[Scenario 9 - Configure Flex Algo & ODN for low latency](#_Toc106023471)**_
 
-**[Task 1: Configure Flex Algo 128 for low latency and a prefix SID on the ABR Nodes 73](#_Toc106023472)**
+**[Task 1: Configure Flex Algo 128 for low latency and a prefix SID on the ABR Nodes](#_Toc106023472)**
 
-**[Task 2: Configure Flex Algo 128 for low latency and a prefix SID on all the remaining ISIS nodes 75](#_Toc106023473)**
+**[Task 2: Configure Flex Algo 128 for low latency and a prefix SID on all the remaining ISIS nodes](#_Toc106023473)**
 
-**[Task 3: Verify Flex Algo 128 on all ISIS nodes 76](#_Toc106023474)**
+**[Task 3: Verify Flex Algo 128 on all ISIS nodes](#_Toc106023474)**
 
-**[Task 4: RPL to Color CE prefixes of VRF CUSTOMER-B on R4, R7 & R8 78](#_Toc106023475)**
+**[Task 4: RPL to Color CE prefixes of VRF CUSTOMER-B on R4, R7 & R8](#_Toc106023475)**
 
-**[Task 5: Verify the prefix is tagged with the new color 80](#_Toc106023476)**
+**[Task 5: Verify the prefix is tagged with the new color](#_Toc106023476)**
 
-**[Task 6: ODN and flex Algo 128 policy on R1 & R2 81](#_Toc106023477)**
+**[Task 6: ODN and flex Algo 128 policy on R1 & R2](#_Toc106023477)**
 
-**[Task 7: Verify Service Path 81](#_Toc106023478)**
+**[Task 7: Verify Service Path](#_Toc106023478)**
 
-**[Task 8: Change Latency value of a link 87](#_Toc106023479)**
+**[Task 8: Change Latency value of a link](#_Toc106023479)**
 
-**[Task 9: Verify Service Path Change 87](#_Toc106023480)**
+**[Task 9: Verify Service Path Change](#_Toc106023480)**
 
-**[Task 10: Restore original Latency value 89](#_Toc106023481)**
+**[Task 10: Restore original Latency value](#_Toc106023481)**
 
-_**[Scenario 10 - Configure Flex Algo for Dual Plane 90](#_Toc106023482)**_
+_**[Scenario 10 - Configure Flex Algo for Dual Plane](#_Toc106023482)**_
 
-**[Task 1: Configure Flex Algo for User plane-1 91](#_Toc106023483)**
+**[Task 1: Configure Flex Algo for User plane-1](#_Toc106023483)**
 
-**[Task 2: Configure Flex Algo for User plane-2 92](#_Toc106023484)**
+**[Task 2: Configure Flex Algo for User plane-2](#_Toc106023484)**
 
-**[Task 3: Configure Flex Algo for User plane-1 & 2 93](#_Toc106023485)**
+**[Task 3: Configure Flex Algo for User plane-1 & 2](#_Toc106023485)**
 
-**[Task 4: Verify Flex Algo 129 on User-Plane1 Nodes 95](#_Toc106023486)**
+**[Task 4: Verify Flex Algo 129 on User-Plane1 Nodes](#_Toc106023486)**
 
-**[Task 5: Verify Flex Algo 130 on User-Plane 2 Nodes 96](#_Toc106023487)**
+**[Task 5: Verify Flex Algo 130 on User-Plane 2 Nodes](#_Toc106023487)**
 
-**[Task 6: Configure RPL to Color CE prefixes of VRF CUSTOMER-B 98](#_Toc106023488)**
+**[Task 6: Configure RPL to Color CE prefixes of VRF CUSTOMER-B](#_Toc106023488)**
 
-**[Task 7: Verify the prefix is tagged with the new color 99](#_Toc106023489)**
+**[Task 7: Verify the prefix is tagged with the new color](#_Toc106023489)**
 
-**[Task 8: ODN and flex Algo 129 & 130 policy on R1 & R2 100](#_Toc106023490)**
+**[Task 8: ODN and flex Algo 129 & 130 policy on R1 & R2](#_Toc106023490)**
 
-**[Task 9: Verify Service Path for User Plane 1 - Flex Algo 129 100](#_Toc106023491)**
+**[Task 9: Verify Service Path for User Plane 1 - Flex Algo 129](#_Toc106023491)**
 
-**[Task 10: Verify Service Path for User Plane 2 - Flex Algo 130 103](#_Toc106023492)**
+**[Task 10: Verify Service Path for User Plane 2 - Flex Algo 130](#_Toc106023492)**
 
 # Learning Objectives
 
@@ -184,16 +184,10 @@ Upon completion of this lab, you will be able to:
 - Deploy On-Demand Next-Hop (ODN) policies with Automated Steering (AS) to enable auto-steering of traffic based on the operator SLAs.
 - Use Flex-Algo with On-Demand Next-Hop and Automated Steering to allow auto-steering of traffic into a topology, or path, defined by a service provider's logic.
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
 
-NOTE
+NOTE:
 
- |
- | This lab familiarizes the user with the Cisco SR TE and its configuration.Although the lab design and configuration examples could be used as a reference, it's not a real design, so not all recommended features are used, or enabled optimally. For design related questions please contact your Cisco representative, or a Cisco partner. |
+This lab familiarizes the user with the Cisco SR TE and its configuration.Although the lab design and configuration examples could be used as a reference, it's not a real design, so not all recommended features are used, or enabled optimally. For design related questions please contact your Cisco representative, or a Cisco partner. |
 
 # Introduction
 
@@ -315,14 +309,9 @@ Now you are ready to start the lab 
 
 NOTE
 
- |
- | Where XX is your POD number. i.e: POD01 will use 01, POD 13 will use 13Username and Password is cisco/cisco for all devices |
+ Where XX is your POD number. i.e: POD01 will use 01, POD 13 will use 13Username and Password is cisco/cisco for all devices |
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
+
 
 NOTE
 
