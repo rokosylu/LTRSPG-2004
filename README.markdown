@@ -216,7 +216,7 @@ In this lab, you will configure and verify SR-TE slicing in a SR-MPLS network by
 
 Drawing of the physical connections in the lab.
 
-![](RackMultipart20230222-1-cgwn2a_html_c00d6341f75b7428.gif)
+![](images/physicalTopology.png)
 
 ## IGP (IS-IS) Topology Diagram
 
