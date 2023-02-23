@@ -780,16 +780,9 @@ Tracing the route to 150.23.1.1
 
 5 ce3 (172.7.23.1) 0 msec
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
 
-NOTE
-
- |
- | Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
+NOTE:
+Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
 
 # Scenario 3 - Inter-domain SRTE using Explicit-path
 
@@ -1031,16 +1024,10 @@ EVPN Gateway Address : 0.0.0.0
 
 Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
 
-NOTE
 
- |
- | Output from R2 is similar, omitted for brevity. |
+NOTE:
+Output from R2 is similar, omitted for brevity. |
 
 ## Task 3: Configure SRTE policy using Explicit-path
 
@@ -1272,16 +1259,9 @@ SR policy color 3232, up, not-registered, bsid 119020
 
 Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
 
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+### NOTE:
+Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
 
 On R1 & R2 display the SR-TE policy details then observe the path and verify that the Binding SID matches the previous output
 
