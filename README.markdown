@@ -1,10 +1,18 @@
-# LTRSPG-2004
 
-![](RackMultipart20230222-1-cgwn2a_html_243d69abbdb4e265.png)-2023
 
-# **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR**
+![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
-# **LTRSPG-2004**
+# -2023
+
+---
+
+<font size= "7"> **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR** </font>
+
+---
+
+<font size= "7"> **LTRSPG-2004** </font>
+
+---
 
 **Speakers:**
 
@@ -14,13 +22,15 @@
 
 **Sam Yagui – Customer Delivery Architect**
 
-![](RackMultipart20230222-1-cgwn2a_html_c0e2074542cce05e.png)
+![](images/cisco-live-2.png) ADD CISCO LIVE IMAGE WHEN AVAILABLE
+
+---
 
 # Table of Contents
 
-_**[Learning Objectives](#_Toc106023414)**_
+**[Learning Objectives](#Learning)**
 
-_**[Introduction](#_Toc106023415)**_
+**[Introduction](#_Toc106023415)**
 
 **[Overview](#_Toc106023416)**
 
@@ -176,6 +186,8 @@ _**[Scenario 10 - Configure Flex Algo for Dual Plane](#_Toc106023482)**_
 
 **[Task 10: Verify Service Path for User Plane 2 - Flex Algo 130](#_Toc106023492)**
 
+---
+
 # Learning Objectives
 
 Upon completion of this lab, you will be able to:
@@ -184,10 +196,15 @@ Upon completion of this lab, you will be able to:
 - Deploy On-Demand Next-Hop (ODN) policies with Automated Steering (AS) to enable auto-steering of traffic based on the operator SLAs.
 - Use Flex-Algo with On-Demand Next-Hop and Automated Steering to allow auto-steering of traffic into a topology, or path, defined by a service provider's logic.
 
+<br/>
 
-NOTE:
+>NOTE:
+>This lab familiarizes the user with the Cisco SR TE and its configuration.Although the lab design and configuration examples could be used as a reference, it's not a real design, so not all recommended features are used, or enabled optimally. For design related questions please contact your Cisco representative, or a Cisco partner.  
 
-This lab familiarizes the user with the Cisco SR TE and its configuration.Although the lab design and configuration examples could be used as a reference, it's not a real design, so not all recommended features are used, or enabled optimally. For design related questions please contact your Cisco representative, or a Cisco partner. |
+<br/>
+<br/>
+
+---
 
 # Introduction
 
