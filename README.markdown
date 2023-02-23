@@ -184,6 +184,28 @@ Log into R3 and verify it has an adjacency relationship with R1, R4, and PCE1 in
 
 RP/0/RP0/CPU0:R3# `show isis adjacency`
 
+RP/0/RP0/CPU0:R3#show isis adjacency
+
+IS-IS ACCESS-1 Level-1 adjacencies:
+System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
+                                                                               BFD  BFD 
+R1             Gi0/0/0/3                *PtoP*         Up    29   00:01:55 Yes Up   None
+R4             Gi0/0/0/1.34             *PtoP*         Up    21   00:33:14 Yes Up   None
+PCE1           Gi0/0/0/2                *PtoP*         Up    21   00:32:44 Yes Up   None
+
+Total adjacency count: 3
+
+IS-IS AGG-CORE Level-1 adjacencies:
+System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
+                                                                               BFD  BFD 
+R4             Gi0/0/0/1.43             *PtoP*         Up    26   00:33:14 Yes Up   None
+R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes Up   None
+PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
+
+
+
+
+
 IS-IS ACCESS-1 Level-1 adjacencies:
 
 System Id Interface SNPA State Hold Changed NSF IPv4 IPv6
