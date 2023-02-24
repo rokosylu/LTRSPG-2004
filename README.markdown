@@ -1,22 +1,8 @@
 Dont care about this either $\textcolor{red}{\text{Verify this output}}$ Dont care about this at the end
 
-![Red text](https://via.placeholder.com/size/008000/FFFFFF?Text=a123)
 
-$${\color{red}Red}$$
-
-# Color Test Document
-
-<style>H1{color:Blue;}</style>
-<style>H2{color:DarkOrange;}</style>
-<style>p{color:Black;}</style>
-
-## Second Heading
-
-This is a test to see how the colors work.
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
-
-$${\color{red}Red Text}$$
 
  -2023
 
