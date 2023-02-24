@@ -16,6 +16,8 @@ This is a test to see how the colors work.
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
+$${\color{red}Red Text}$$
+
  -2023
 
 #
