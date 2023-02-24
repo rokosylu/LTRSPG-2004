@@ -72,7 +72,11 @@ Every SR-TE policy has a color value. Every policy between the same node pairs r
 
 SR-TE is the foundation of network slicing.
 
+#
+
 ## Overview
+
+#
 
 In this lab, you will configure and verify SR-TE slicing in a SR-MPLS network by using the following tools:
 
@@ -81,7 +85,11 @@ In this lab, you will configure and verify SR-TE slicing in a SR-MPLS network by
 - ODN (On-Demand NextHop)
 - Flex-Algo
 
+#
+
 ## Physical Topology Diagram
+
+#
 
 Drawing of the physical connections in the lab.
 
