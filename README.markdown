@@ -1,4 +1,4 @@
-![Red text](http://placehold.it/size/background-hex/foreground-hex?text=a123)
+![Red text](http://placehold.it/size/008000/0?text=a123)
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
