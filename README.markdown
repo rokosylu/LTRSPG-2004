@@ -1,4 +1,7 @@
-
+```diff
++ Green
+- Red
+```
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
