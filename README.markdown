@@ -2,6 +2,16 @@
 
 $${\color{red}Red}$$
 
+# Color Test Document
+
+<style>H1{color:Blue;}</style>
+<style>H2{color:DarkOrange;}</style>
+<style>p{color:Black;}</style>
+
+## Second Heading
+
+This is a test to see how the colors work.
+
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
  -2023
