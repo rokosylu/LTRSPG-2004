@@ -184,9 +184,8 @@ Log into R3 and verify it has an adjacency relationship with R1, R4, and PCE1 in
 
 RP/0/RP0/CPU0:R3# `show isis adjacency`
 
-RP/0/RP0/CPU0:R3#show isis adjacency
-
 ```
+RP/0/RP0/CPU0:R3#show isis adjacency
 IS-IS ACCESS-1 Level-1 adjacencies:
 System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
                                                                                BFD  BFD 
