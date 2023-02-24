@@ -1,4 +1,4 @@
-![Red text](https://via.placeholder.com/size/008000/000000?Text=Digital.com)
+![Red text](https://via.placeholder.com/size/008000/FFFFFF?Text=Digital.com)
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
