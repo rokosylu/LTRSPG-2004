@@ -49,7 +49,7 @@ Upon completion of this lab, you will be able to:
 <br/>
 
 >NOTE:
->This lab familiarizes the user with the Cisco SR TE and its configuration.Although the lab design and configuration examples could be used as a reference, it's not a real design, so not all recommended features are used, or enabled optimally. For design related questions please contact your Cisco representative, or a Cisco partner.  
+>This **lab** familiarizes the user with the Cisco SR TE and its configuration.Although the lab design and configuration examples could be used as a reference, it's not a real design, so not all recommended features are used, or enabled optimally. For design related questions please contact your Cisco representative, or a Cisco partner.  
 
 <br/>
 <br/>
