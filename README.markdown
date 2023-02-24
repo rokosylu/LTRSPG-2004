@@ -1,3 +1,50 @@
+#
+#
+#
+#
+Testing format
+#
+#
+#
+#
+Dont care about this either $\textcolor{red}{\text{Verify this output}}$ Dont care about this at the end
+
+<br/>
+
+blah blah $\textcolor{green}{\text{R1             Gi0/0/0/3 \*PtoP\* output is crooked}}$
+
+
+The background color should be `hello` for light mode and `#0d1117` for dark mode.
+
+````
+The background color should be `#ffffff` for light mode and `#0d1117` for dark mode.
+>RP/0/RP0/CPU0:R3#show isis adjacency
+>IS-IS ACCESS-1 Level-1 adjacencies:
+>System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6<br/>
+                                                                               BFD  BFD <br/>
+>$\textcolor{green}{\text{R1             Gi0/0/0/3}}$
+>R4             Gi0/0/0/1.34             *PtoP*         Up    21   00:33:14 Yes Up   None<br/>
+>PCE1           Gi0/0/0/2                *PtoP*         Up    21   00:32:44 Yes Up   None<br/>
+
+>Total adjacency count: 3
+
+IS-IS AGG-CORE Level-1 adjacencies:
+System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
+                                                                               BFD  BFD 
+R4             Gi0/0/0/1.43             *PtoP*         Up    26   00:33:14 Yes Up   None
+R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes Up   None
+PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
+````
+
+
+
+
+![](images/isisadjacency.png)
+
+
+#
+#
+#
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
@@ -191,7 +238,9 @@ Log into R3 and verify it has an adjacency relationship with R1, R4, and PCE1 in
 
 Dont care about this either $\textcolor{red}{\text{Verify this output}}$ Dont care about this at the end
 
-$\textcolor{red}{\text{R1             Gi0/0/0/3                *PtoP*         Up    29   00:01:55 Yes Up   None}}$
+<br/>
+
+blah blah $\textcolor{red}{\text{R1             Gi0/0/0/3                *PtoP*         Up    29   00:01:55 Yes Up   None}}$
 
 ```diff
 RP/0/RP0/CPU0:R3#show isis adjacency
