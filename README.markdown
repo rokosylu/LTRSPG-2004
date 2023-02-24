@@ -1,5 +1,7 @@
 ![Red text](https://via.placeholder.com/size/008000/FFFFFF?Text=a123)
 
+$${\color{red}Red}$$
+
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
  -2023
