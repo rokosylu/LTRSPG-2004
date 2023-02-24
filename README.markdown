@@ -1,3 +1,5 @@
+Dont care about this either $\textcolor{red}{\text{Verify this output}}$ Dont care about this at the end
+
 ![Red text](https://via.placeholder.com/size/008000/FFFFFF?Text=a123)
 
 $${\color{red}Red}$$
