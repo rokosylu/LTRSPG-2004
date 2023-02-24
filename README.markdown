@@ -1,4 +1,4 @@
-![Red text](http://placehold.it/size/008000/0?text=a123)
+![Red text](https://via.placeholder.com/150/008000/000000 ?Text=Digital.com)
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
