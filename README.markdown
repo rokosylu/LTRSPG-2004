@@ -4,14 +4,15 @@
 
  -2023
 
-##
+#
 
  <font size= "7"> **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR** </font>
-##
+
+#
 
 <font size= "7"> **LTRSPG-2004** </font>
 
-##
+#
 
 **Speakers:**
 
@@ -23,14 +24,19 @@
 
 ![](images/cisco-live-2.png) ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
-##
+
+#
+
 # Table of Content
 
 Use GitHub TOC
 
 ![](images/) ADD A PIC OF A capture of TOC on GITHUB
 
-##
+<br/>
+<br/>
+
+#
 
 # Learning Objectives
 
@@ -48,7 +54,7 @@ Upon completion of this lab, you will be able to:
 <br/>
 <br/>
 
-##
+#
 
 # Introduction
 
@@ -141,7 +147,9 @@ Once connected you will see this popup window.
 
 ![](RackMultipart20230222-1-cgwn2a_html_7049bb8d24cac6c3.png)
 
-Now you are ready to start the lab 
+Now you are ready to start the lab
+
+#
 
 ## Management IPs of the lab devices
 
@@ -173,6 +181,7 @@ Now you are ready to start the lab 
 <br/>
 <br/>
 
+#
 
 # Scenario 1 - Lab Verification of the Underlay and Overlay Fundamentals
 
@@ -203,71 +212,38 @@ R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes U
 PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
 ```
 
-
-
-
-IS-IS ACCESS-1 Level-1 adjacencies:
-
-System Id Interface SNPA State Hold Changed NSF IPv4 IPv6
-
-BFD BFD
-
-R1 Gi0/0/0/3 \*PtoP\* Up 29 00:01:55 Yes Up None
-
-R4 Gi0/0/0/1.34 \*PtoP\* Up 21 00:33:14 Yes Up None
-
-PCE1 Gi0/0/0/2 \*PtoP\* Up 21 00:32:44 Yes Up None
-
-Total adjacency count: 3
-
-IS-IS AGG-CORE Level-1 adjacencies:
-
-System Id Interface SNPA State Hold Changed NSF IPv4 IPv6
-
-BFD BFD
-
-R4 Gi0/0/0/1.43 \*PtoP\* Up 26 00:33:14 Yes Up None
-
-R5 Gi0/0/0/5 \*PtoP\* Up 24 00:33:07 Yes Up None
-
-PCE2 Gi0/0/0/4 \*PtoP\* Up 25 00:32:42 Yes Up None
-
 You can verify the other ABRs (R4, R5, R6) have adjacencies in both processes.
+
+<br/>
+<br/>
 
 ## Task 2: Verify Segment Routing Configuration and Operation
 
 IOS-XR has a default SRBG of 16000-23999. In this lab, we are not using the default SRBG but rather have configured one from 19000-119000. Verify this is configured correctly on R3.
 
-RP/0/RP0/CPU0:R3# **show run segment-routing**
+```
+RP/0/RP0/CPU0:R3# show run segment-routing
 
 segment-routing
 
 global-block 19000 119000
+```
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
 
-NOTE
-
- |
- | When changing the SRGB, a reload of the router may be needed. |
+>NOTE:
+>When changing the SRGB, a reload of the router may be needed. 
 
 Verify the size of the SRGB on R3 is the same as what is configured. It starts at 19000 and has a size of 100001 labels.
 
-RP/0/RP0/CPU0:R3# **sh mpls label table label 19000 detail**
-
-Table Label Owner State Rewrite
-
+```
+RP/0/RP0/CPU0:R3#sh mpls label table label 19000 detail 
+Table Label   Owner                           State  Rewrite
 ----- ------- ------------------------------- ------ -------
+0     19000   ISIS(A):AGG-CORE                InUse  No
+              ISIS(A):ACCESS-1                InUse  No
+  (Lbl-blk SRGB, vers:0, (start_label=19000, size=100001)
 
-0 19000 ISIS(A):AGG-CORE InUse No
-
-ISIS(A):ACCESS-1 InUse No
-
-(Lbl-blk SRGB, vers:0, (start\_label=19000, size=100001)
+```
 
 The table below shows the table of the router hostname and the Prefix-Sid values.
 
@@ -292,87 +268,58 @@ There are two ways to configure the Prefix-Sid value.
 
 In this lab, an Index Value is used. Verify R3 has an index of 3.
 
-RP/0/RP0/CPU0:R3# `show run router isis`
-
+```
+RP/0/RP0/CPU0:R3#show run router isis 
 router isis ACCESS-1
+ set-overload-bit on-startup 360
+ is-type level-1
+ net 49.0220.0000.0000.0003.00
+ distribute link-state instance-id 100
+ nsf ietf
+ log adjacency changes
+ lsp-gen-interval maximum-wait 5000 initial-wait 50 secondary-wait 200
+ lsp-mtu 4352
+ address-family ipv4 unicast
+  metric-style wide
+  metric 100
+  microloop avoidance segment-routing
+  mpls traffic-eng router-id Loopback0
+  spf-interval maximum-wait 5000 initial-wait 50 secondary-wait 200
+  segment-routing mpls sr-prefer
+ !
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+   tag 100
+   prefix-sid index 3
+```
 
-set-overload-bit on-startup 360
-
-is-type level-1
-
-net 49.0220.0000.0000.0003.00
-
-distribute link-state instance-id 100
-
-nsf ietf
-
-log adjacency changes
-
-lsp-gen-interval maximum-wait 5000 initial-wait 50 secondary-wait 200
-
-lsp-mtu 4352
-
-address-family ipv4 unicast
-
-metric-style wide
-
-metric 100
-
-microloop avoidance segment-routing
-
-mpls traffic-eng router-id Loopback0
-
-spf-interval maximum-wait 5000 initial-wait 50 secondary-wait 200
-
-segment-routing mpls sr-prefer
-
-!
-
-!
-
-interface Loopback0
-
-address-family ipv4 unicast
-
-tag 100
-
-prefix-sid index 3
 
 Check the ISIS segment-routing label table and verify 19003 is the label allocated for the local loopback0 interface. Recall R3 is an ABR and the interface/label will be in both processes.
 
-RP/0/RP0/CPU0:R3# **show isis segment-routing label table**
-
+```
+RP/0/RP0/CPU0:R3#show isis segment-routing label table   
 IS-IS ACCESS-1 IS Label Table
-
-Label Prefix/Interface
-
----------- ----------------
-
-19001 1.1.1.1/32
-
-19002 2.2.2.2/32
-
-19003 Loopback0
-
-19004 4.4.4.4/32
-
-19011 11.11.11.11/32
+Label         Prefix/Interface
+----------    ----------------
+19001         1.1.1.1/32
+19002         2.2.2.2/32
+19003         Loopback0
+19004         4.4.4.4/32
+19011         11.11.11.11/32
 
 IS-IS AGG-CORE IS Label Table
+Label         Prefix/Interface
+----------    ----------------
+19003         Loopback0
+19004         4.4.4.4/32
+19005         5.5.5.5/32
+19006         6.6.6.6/32
+19012         12.12.12.12/32       
+```
 
-Label Prefix/Interface
-
----------- ----------------
-
-19003 Loopback0
-
-19004 4.4.4.4/32
-
-19005 5.5.5.5/32
-
-19006 6.6.6.6/32
-
-19012 12.12.12.12/32
+<br/>
+<br/>
 
 ## Task 3: Verify Link Protection (TI-LFA)
 
