@@ -1,20 +1,12 @@
-Dont care about this either $\textcolor{red}{\text{Verify this output}}$ Dont care about this at the end
-
-
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
  -2023
 
 #
+# **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR**
 
-# <font size= "7"> **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR** </font>
-
-#
-
-# <font size= "7"> **LTRSPG-2004** </font>
-
-#
+# **LTRSPG-2004**
 
 **Speakers:**
 
@@ -73,10 +65,7 @@ Every SR-TE policy has a color value. Every policy between the same node pairs r
 SR-TE is the foundation of network slicing.
 
 #
-
 ## Overview
-
-#
 
 In this lab, you will configure and verify SR-TE slicing in a SR-MPLS network by using the following tools:
 
@@ -86,47 +75,48 @@ In this lab, you will configure and verify SR-TE slicing in a SR-MPLS network by
 - Flex-Algo
 
 #
-
 ## Physical Topology Diagram
-
-#
 
 Drawing of the physical connections in the lab.
 
 ![](images/physicalTopology.png)
 
+#
 ## IGP (IS-IS) Topology Diagram
 
 There are 3 different IGP domains "ACCESS 1", "AGG-CORE" and "ACCESS 2" in the lab. There is no redistribution between areas. BGP-LU is used across the domains for end to end loopback reachability.
 
 ![](images/IGPTopology.png)
 
+#
 ## IP and SID Diagram
 
 The SRGB in the lab is configured as 19000-119000. There are 2 VRFs configured "CUSTOMER-A" and "CUSTOMER-B".
 
 ![](images/IPandSID.png)
 
+#
 ## IGP Metric Diagram
 
 The default IGP metric is 100 throughout the topology.
 
 ![](images/IGPMetric.png)
 
+#
 ## Latency Metric Diagram
 
 The default latency metrics of the links are seen below. Latency is lower on the links going through the inline PCE nodes.
 
 ![](images/LatencyMetric.png)
 
-##
-
+#
 ## TE Metric Diagram
 
 The default TE metric is 1000 throughout the topology.
 
 ![](images/TEMetric.png)
 
+#
 # Access the Lab
 
 To start, find the anyconnect icon on the taskbar or home screen.
@@ -160,7 +150,6 @@ Once connected you will see this popup window.
 Now you are ready to start the lab
 
 #
-
 ## Management IPs of the lab devices
 
 | Router Hostname | Management IP |
@@ -192,12 +181,11 @@ Now you are ready to start the lab
 <br/>
 
 #
-
 # Scenario 1 - Lab Verification of the Underlay and Overlay Fundamentals
 
 All IP addresses, IGP protocol configuration, and basic BGP configuration have been completed in the simulation. The purpose of this is for you to focus on SRTE and other advanced topics. However, let's verify all protocols are functional properly, using this as a quick review of the fundamentals as well.
 
-## Task 1: Verify ISIS Operation
+## Task 1.1: Verify ISIS Operation
 
 Log into R3 and verify it has an adjacency relationship with R1, R4, and PCE1 in the ACCESS-1 process and R4, R5, and PCE2 in the AGG-CORE Process. There are two processes since this is an ABR.
 
@@ -208,18 +196,18 @@ RP/0/RP0/CPU0:R3#show isis adjacency
 IS-IS ACCESS-1 Level-1 adjacencies:
 System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
                                                                                BFD  BFD 
-+R1             Gi0/0/0/3                *PtoP*         Up    29   00:01:55 Yes Up   None
-+R4             Gi0/0/0/1.34             *PtoP*         Up    21   00:33:14 Yes Up   None
-+PCE1           Gi0/0/0/2                *PtoP*         Up    21   00:32:44 Yes Up   None
+$\textcolor{green}{\text{R1             Gi0/0/0/3                *PtoP*         Up    29   00:01:55 Yes Up   None}}$
+R4             Gi0/0/0/1.34             *PtoP*         Up    21   00:33:14 Yes Up   None
+PCE1           Gi0/0/0/2                *PtoP*         Up    21   00:32:44 Yes Up   None
 
 Total adjacency count: 3
 
 IS-IS AGG-CORE Level-1 adjacencies:
 System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
                                                                                BFD  BFD 
-+R4             Gi0/0/0/1.43             *PtoP*         Up    26   00:33:14 Yes Up   None
-+R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes Up   None
-+PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
+R4             Gi0/0/0/1.43             *PtoP*         Up    26   00:33:14 Yes Up   None
+R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes Up   None
+PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
 ```
 
 You can verify the other ABRs (R4, R5, R6) have adjacencies in both processes.
@@ -227,7 +215,7 @@ You can verify the other ABRs (R4, R5, R6) have adjacencies in both processes.
 <br/>
 <br/>
 
-## Task 2: Verify Segment Routing Configuration and Operation
+## Task 1.2: Verify Segment Routing Configuration and Operation
 
 IOS-XR has a default SRBG of 16000-23999. In this lab, we are not using the default SRBG but rather have configured one from 19000-119000. Verify this is configured correctly on R3.
 
