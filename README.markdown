@@ -1,34 +1,59 @@
+#
+#
+#
+#
+Testing format
+#
+#
+#
+#
 Dont care about this either $\textcolor{red}{\text{Verify this output}}$ Dont care about this at the end
 
-![Red text](https://via.placeholder.com/size/008000/FFFFFF?Text=a123)
+<br/>
 
-$${\color{red}Red}$$
+blah blah $\textcolor{green}{\text{R1             Gi0/0/0/3 \*PtoP\* output is crooked}}$
 
-# Color Test Document
 
-<style>H1{color:Blue;}</style>
-<style>H2{color:DarkOrange;}</style>
-<style>p{color:Black;}</style>
+The background color should be `hello` for light mode and `#0d1117` for dark mode.
 
-## Second Heading
+````
+The background color should be `#ffffff` for light mode and `#0d1117` for dark mode.
+>RP/0/RP0/CPU0:R3#show isis adjacency
+>IS-IS ACCESS-1 Level-1 adjacencies:
+>System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6<br/>
+                                                                               BFD  BFD <br/>
+>$\textcolor{green}{\text{R1             Gi0/0/0/3}}$
+>R4             Gi0/0/0/1.34             *PtoP*         Up    21   00:33:14 Yes Up   None<br/>
+>PCE1           Gi0/0/0/2                *PtoP*         Up    21   00:32:44 Yes Up   None<br/>
 
-This is a test to see how the colors work.
+>Total adjacency count: 3
+
+IS-IS AGG-CORE Level-1 adjacencies:
+System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
+                                                                               BFD  BFD 
+R4             Gi0/0/0/1.43             *PtoP*         Up    26   00:33:14 Yes Up   None
+R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes Up   None
+PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
+````
+
+
+
+
+![](images/isisadjacency.png)
+
+
+#
+#
+#
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
-
-$${\color{red}Red Text}$$
 
  -2023
 
 #
+# **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR**
 
-# <font size= "7"> **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR** </font>
-
-#
-
-# <font size= "7"> **LTRSPG-2004** </font>
-
-#
+# **LTRSPG-2004**
 
 **Speakers:**
 
@@ -86,6 +111,7 @@ Every SR-TE policy has a color value. Every policy between the same node pairs r
 
 SR-TE is the foundation of network slicing.
 
+#
 ## Overview
 
 In this lab, you will configure and verify SR-TE slicing in a SR-MPLS network by using the following tools:
@@ -95,78 +121,82 @@ In this lab, you will configure and verify SR-TE slicing in a SR-MPLS network by
 - ODN (On-Demand NextHop)
 - Flex-Algo
 
+#
 ## Physical Topology Diagram
 
 Drawing of the physical connections in the lab.
 
 ![](images/physicalTopology.png)
 
+#
 ## IGP (IS-IS) Topology Diagram
 
 There are 3 different IGP domains "ACCESS 1", "AGG-CORE" and "ACCESS 2" in the lab. There is no redistribution between areas. BGP-LU is used across the domains for end to end loopback reachability.
 
 ![](images/IGPTopology.png)
 
+#
 ## IP and SID Diagram
 
 The SRGB in the lab is configured as 19000-119000. There are 2 VRFs configured "CUSTOMER-A" and "CUSTOMER-B".
 
 ![](images/IPandSID.png)
 
+#
 ## IGP Metric Diagram
 
 The default IGP metric is 100 throughout the topology.
 
 ![](images/IGPMetric.png)
 
+#
 ## Latency Metric Diagram
 
 The default latency metrics of the links are seen below. Latency is lower on the links going through the inline PCE nodes.
 
 ![](images/LatencyMetric.png)
 
-##
-
+#
 ## TE Metric Diagram
 
 The default TE metric is 1000 throughout the topology.
 
 ![](images/TEMetric.png)
 
+#
 # Access the Lab
 
 To start, find the anyconnect icon on the taskbar or home screen.
 
-![](RackMultipart20230222-1-cgwn2a_html_14ce9d0a18fb7108.png)
+![](images/14ce9d0a18fb7108.png)
 
 Double click on the icon to open the Cisco AnyConnect Mobility Client.
 
-![](RackMultipart20230222-1-cgwn2a_html_325ba1b133700f9e.png)
+![](images/325ba1b133700f9e.png)
 
 Connect to your POD. The format will be [https://64.100.9.4/CLPODx](https://64.100.9.4/CLPODx) where X is your POD number.
 
-![](RackMultipart20230222-1-cgwn2a_html_cd00f0ae868d297d.png)
+![](images/cd00f0ae868d297d.png)
 
 Once connected a security warning message will be seen. Click "Connect Anyway".
 
-![](RackMultipart20230222-1-cgwn2a_html_46a2b563343ce9ea.png)
+![](images/46a2b563343ce9ea.png)
 
 Enter the username and password for your pod.
 
-![](RackMultipart20230222-1-cgwn2a_html_95dab4b1258cd5cd.png)
+![](images/95dab4b1258cd5cd.png)
 
 Click accept to connect to the lab.
 
-![](RackMultipart20230222-1-cgwn2a_html_b79d42209b771423.png)
+![](images/b79d42209b771423.png)
 
 Once connected you will see this popup window.
 
-![](RackMultipart20230222-1-cgwn2a_html_7049bb8d24cac6c3.png)
+![](images/7049bb8d24cac6c3.png)
 
 Now you are ready to start the lab
 
 #
-
 ## Management IPs of the lab devices
 
 | Router Hostname | Management IP |
@@ -198,68 +228,49 @@ Now you are ready to start the lab
 <br/>
 
 #
-
 # Scenario 1 - Lab Verification of the Underlay and Overlay Fundamentals
 
 All IP addresses, IGP protocol configuration, and basic BGP configuration have been completed in the simulation. The purpose of this is for you to focus on SRTE and other advanced topics. However, let's verify all protocols are functional properly, using this as a quick review of the fundamentals as well.
 
-## Task 1: Verify ISIS Operation
+<br/><br/>
+
+## Task 1.1: Verify ISIS Operation
 
 Log into R3 and verify it has an adjacency relationship with R1, R4, and PCE1 in the ACCESS-1 process and R4, R5, and PCE2 in the AGG-CORE Process. There are two processes since this is an ABR.
-
-RP/0/RP0/CPU0:R3# `show isis adjacency`
-
-```diff
-RP/0/RP0/CPU0:R3#show isis adjacency
-IS-IS ACCESS-1 Level-1 adjacencies:
-System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
-                                                                               BFD  BFD 
-+R1             Gi0/0/0/3                *PtoP*         Up    29   00:01:55 Yes Up   None
-+R4             Gi0/0/0/1.34             *PtoP*         Up    21   00:33:14 Yes Up   None
-+PCE1           Gi0/0/0/2                *PtoP*         Up    21   00:32:44 Yes Up   None
-
-Total adjacency count: 3
-
-IS-IS AGG-CORE Level-1 adjacencies:
-System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
-                                                                               BFD  BFD 
-+R4             Gi0/0/0/1.43             *PtoP*         Up    26   00:33:14 Yes Up   None
-+R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes Up   None
-+PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
+<br/>
 ```
+show isis adjacency
+```
+
+
+![](images/isisadjacency.png)
 
 You can verify the other ABRs (R4, R5, R6) have adjacencies in both processes.
 
 <br/>
 <br/>
 
-## Task 2: Verify Segment Routing Configuration and Operation
+## Task 1.2: Verify Segment Routing Configuration and Operation
 
 IOS-XR has a default SRBG of 16000-23999. In this lab, we are not using the default SRBG but rather have configured one from 19000-119000. Verify this is configured correctly on R3.
-
+<br/>
 ```
-RP/0/RP0/CPU0:R3# show run segment-routing
-
-segment-routing
-
-global-block 19000 119000
+show run segment-routing
 ```
 
+![](images/shRunSegment.png)
 
 >NOTE:
 >When changing the SRGB, a reload of the router may be needed. 
+<br/>
 
 Verify the size of the SRGB on R3 is the same as what is configured. It starts at 19000 and has a size of 100001 labels.
 
 ```
-RP/0/RP0/CPU0:R3#sh mpls label table label 19000 detail 
-Table Label   Owner                           State  Rewrite
------ ------- ------------------------------- ------ -------
-0     19000   ISIS(A):AGG-CORE                InUse  No
-              ISIS(A):ACCESS-1                InUse  No
-  (Lbl-blk SRGB, vers:0, (start_label=19000, size=100001)
-
+sh mpls label table label 19000 detail 
 ```
+![](images/shMplsLabelTableLabel.png)
+<br/><br/>
 
 The table below shows the table of the router hostname and the Prefix-Sid values.
 
@@ -285,193 +296,61 @@ There are two ways to configure the Prefix-Sid value.
 In this lab, an Index Value is used. Verify R3 has an index of 3.
 
 ```
-RP/0/RP0/CPU0:R3#show run router isis 
-router isis ACCESS-1
- set-overload-bit on-startup 360
- is-type level-1
- net 49.0220.0000.0000.0003.00
- distribute link-state instance-id 100
- nsf ietf
- log adjacency changes
- lsp-gen-interval maximum-wait 5000 initial-wait 50 secondary-wait 200
- lsp-mtu 4352
- address-family ipv4 unicast
-  metric-style wide
-  metric 100
-  microloop avoidance segment-routing
-  mpls traffic-eng router-id Loopback0
-  spf-interval maximum-wait 5000 initial-wait 50 secondary-wait 200
-  segment-routing mpls sr-prefer
- !
- !
- interface Loopback0
-  address-family ipv4 unicast
-   tag 100
-   prefix-sid index 3
+show run router isis 
 ```
-
+![](images/shRunRouterIsis.png)
+<br/>
 
 Check the ISIS segment-routing label table and verify 19003 is the label allocated for the local loopback0 interface. Recall R3 is an ABR and the interface/label will be in both processes.
 
 ```
-RP/0/RP0/CPU0:R3#show isis segment-routing label table   
-IS-IS ACCESS-1 IS Label Table
-Label         Prefix/Interface
-----------    ----------------
-19001         1.1.1.1/32
-19002         2.2.2.2/32
-19003         Loopback0
-19004         4.4.4.4/32
-19011         11.11.11.11/32
-
-IS-IS AGG-CORE IS Label Table
-Label         Prefix/Interface
-----------    ----------------
-19003         Loopback0
-19004         4.4.4.4/32
-19005         5.5.5.5/32
-19006         6.6.6.6/32
-19012         12.12.12.12/32       
+show isis segment-routing label table   
 ```
+![](images/shIsisSegmentLabelTable.png)
+
 
 <br/>
 <br/>
 
-## Task 3: Verify Link Protection (TI-LFA)
+## Task 1.3: Verify Link Protection (TI-LFA)
 
 Topology-Independent Loop-Free Alternate (TI-LFA) uses segment routing to provide link, node, and Shared Risk Link Groups (SRLG) protection in topologies where other fast reroute techniques cannot provide protection.
 
 TI-LFA is enabled under the interfaces in ISIS. Run the following command to verify the configuration.
 
-RP/0/RP0/CPU0:R3# **show run router isis ACCESS-1 interface**
+```
+show run router isis ACCESS-1 interface
+```
 
-router isis ACCESS-1
+![](images/shRunRouterIsisAccess.png)
+<br/>
 
-!
-
-interface Loopback0
-
-address-family ipv4 unicast
-
-tag 100
-
-prefix-sid index 3
-
-!
-
-interface GigabitEthernet0/0/0/1.34
-
-bfd minimum-interval 300
-
-bfd multiplier 4
-
-bfd fast-detect ipv4
-
-point-to-point
-
-hello-password hmac-md5 encrypted 104D000A0618
-
-address-family ipv4 unicast
-
-fast-reroute per-prefix
-
-fast-reroute per-prefix ti-lfa
-
-!
-
-interface GigabitEthernet0/0/0/2
-
-bfd minimum-interval 300
-
-bfd multiplier 4
-
-bfd fast-detect ipv4
-
-point-to-point
-
-hello-password hmac-md5 encrypted 110A1016141D
-
-address-family ipv4 unicast
-
-fast-reroute per-prefix
-
-fast-reroute per-prefix ti-lfa
-
-!
-
-interface GigabitEthernet0/0/0/3
-
-bfd minimum-interval 300
-
-bfd multiplier 4
-
-bfd fast-detect ipv4
-
-point-to-point
-
-hello-password hmac-md5 encrypted 14141B180F0B
-
-address-family ipv4 unicast
-
-fast-reroute per-prefix
-
-fast-reroute per-prefix ti-lfa
 
 Checking the details of the primary and backup path the following commands are run.
 
-NOTE: The primary path information is in GREEN and the backup path information is in BLUE.
+>NOTE: The primary path information is in GREEN and the backup path information is in BLUE.
 
-RP/0/RP0/CPU0:R3# **show isis ipv4 fast-reroute 1.1.1.1/32 detail**
+```
+show isis ipv4 fast-reroute 1.1.1.1/32 detail
+```
+![](images/shIsisIpv4Fast.png)
+<br/>
 
-L1 1.1.1.1/32 [200/115] Label: 19001, medium priority
-
-via 172.1.3.0, GigabitEthernet0/0/0/3, Label: ImpNull, R1 tag 100, SRGB Base: 19000, Weight: 0
-
-Backup path: LFA, via 172.3.11.1, GigabitEthernet0/0/0/2, Label: 19001, PCE1, SRGB Base: 19000, Weight: 0, Metric: 300
-
-P: No, TM: 300, LC: No, NP: No, D: No, SRLG: Yes
-
-src R1.00-00, 1.1.1.1, tag 100, prefix-SID index 1, R:0 N:1 P:0 E:0 V:0
-
-L:0, Alg:0
-
-RP/0/RP0/CPU0:R3# **show cef 1.1.1.1/32**
-
-1.1.1.1/32, version 110, labeled SR, internal 0x1000001 0x8310 (ptr 0xdbe72c8) [1], 0x0 (0xe4aa728), 0xa28 (0xf3932d8)
-
-Updated Apr 12 19:11:49.905
-
-remote adjacency to GigabitEthernet0/0/0/3
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 1
-
-via 172.1.3.0/32, GigabitEthernet0/0/0/3, 4 dependencies, weight 0, class 0, protected [flags 0x400]
-
-path-idx 0 bkup-idx 1 NHID 0x0 [0xf6e5b90 0xf6e5aa8]
-
-next hop 172.1.3.0/32
-
-local label 19001 labels imposed {ImplNull}
-
-via 172.3.11.1/32, GigabitEthernet0/0/0/2, 10 dependencies, weight 0, class 0, backup (Local-LFA) [flags 0x300]
-
-path-idx 1 NHID 0x0 [0xf2f3e58 0x0]
-
-next hop 172.3.11.1/32
-
-remote adjacency
-
-local label 19001 labels imposed {19001}
+```
+show cef 1.1.1.1/32
+```
+![](images/shCef.png)
 
 The output above shows the regular path sending the traffic to the link between R3-R1 via 171.1.3.0 with a ImpNull label (PHP). The backup path sends to traffic to PCE-1 via 172.3.11.1, and imposes the label of 19001.
+<br/><br/>
 
-## Task 4: Verify BGL-LS
+## Task 1.4: Verify BGL-LS
 
 BGP Link-State (LS) is an address family designed to carry an IGP link-state information through BGP. BGP-LS delivers the network topology information to topology servers, or any other application needing to know the topology for decisions.
 
 In this scenario, BGP-LS is used to deliver IGP information between domains. Below is a topology of the BGP-LS peerings.
 
-![](RackMultipart20230222-1-cgwn2a_html_1a672ea0d6fa8214.png)
+![](images/1a672ea0d6fa8214.png)
 
 Verify PCE-1 has a BGP-LS peering to PCE-2 and is receiving all the routes.
 
@@ -629,7 +508,7 @@ Your lab output may be different if the ECMP hashed to R2 instead, output using 
 
 In this scenario we will slice our network using explicit path. We will create two explicit paths, depicted below, the green path (color 3222) from CE1 to CE2 Loopback32 (150.22.2.2) and a red path (color 3232) from CE1 to CE3 Loopback32 (150.23.2.2).
 
-![](RackMultipart20230222-1-cgwn2a_html_17e50e0097672cd5.gif)
+![](images/17e50e0097672cd5.gif)
 
 ## Task 1: Configure color for Explicit-path
 
@@ -1014,7 +893,7 @@ Local
 
 Received Label 119013
 
-![Shape1](RackMultipart20230222-1-cgwn2a_html_32a410b690a134b0.gif)
+![Shape1](images/32a410b690a134b0.gif)
 
 Now SR policy is attached in BGP. This is automated steering,
 
@@ -1255,7 +1134,7 @@ On R1 & R2, display cef for CE2 Loopback32 (150.22.2.2) and CE3 Loopback32 (150.
 
 RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.22.2.2**
 
-![Shape2](RackMultipart20230222-1-cgwn2a_html_375de1d559d53e15.gif)
+![Shape2](images/375de1d559d53e15.gif)
 
 Local-label is the binding sid
 
@@ -1267,7 +1146,7 @@ Prefix Len 32, traffic index 0, precedence n/a, priority 3
 
 via local-label 119008, 3 dependencies, recursive [flags 0x6000]
 
-![Shape3](RackMultipart20230222-1-cgwn2a_html_fb07b8123d04d809.gif)
+![Shape3](images/fb07b8123d04d809.gif)
 
 119013 label imposed is the vpn label.
 
@@ -1423,7 +1302,7 @@ NOTE
 
 In this scenario, we will slice our network using a dynamic path. A dynamic path does not use a segment list, but it calculates on the head end the shortest path to the destination using the metric type selected. In this scenario, we will create a dynamic path from CE1 to CE3 Loopback33 (150.23.3.3) using delay as the metric.
 
-![](RackMultipart20230222-1-cgwn2a_html_2f80a5b1f5c00c7d.gif)
+![](images/2f80a5b1f5c00c7d.gif)
 
 ## Task 1: Configure color Low Latency Traffic
 
@@ -1964,7 +1843,7 @@ On PCE2 increase the delay to R5 and R6 from 10ms to 150ms.
 
 The new SR-TE path will re-optimize to avoid the high delay links.
 
-![](RackMultipart20230222-1-cgwn2a_html_ed9d4513afc3b5e2.gif)
+![](images/ed9d4513afc3b5e2.gif)
 
 On R1 & R2 display the SR-TE policy details.
 
@@ -2152,7 +2031,7 @@ On PCE2 restore the delay to R5 and R6 from 150ms to 10ms & 13ms respectively.
 
 In this scenario, we will slice our network using a dynamic path with TE metric. We will create a dynamic path from CE1 to CE3 Loopback34 (150.23.4.4) using TE metric.
 
-![](RackMultipart20230222-1-cgwn2a_html_ce8a3c921e9d73e2.gif)
+![](images/ce8a3c921e9d73e2.gif)
 
 ## Task 1: Configure color for TE-metric
 
@@ -2682,7 +2561,7 @@ On R1 and R2 issue the following command:
 
 The new SR-TE path should avoid the high TE metric links
 
-![](RackMultipart20230222-1-cgwn2a_html_7c97783a2de6fb3d.gif)
+![](images/7c97783a2de6fb3d.gif)
 
 On R1 & R2 display the SR-TE policy details.
 
@@ -2858,7 +2737,7 @@ On R1 and R2 issue the following command:
 
 In this scenario, we will configure and use an Anycast SID on R5 and R6. An Anycast SID is a type of prefix SID that identifies a set of nodes and is configured with n-flag clear. The set of nodes (Anycast group) is configured to advertise a shared prefix address and prefix SID. Anycast routing enables the steering of traffic toward multiple advertising nodes, providing load-balancing and redundancy. Packets addressed to an Anycast address are forwarded to the topologically nearest nodes.
 
-![](RackMultipart20230222-1-cgwn2a_html_1ce536dd7f6b05fb.gif)
+![](images/1ce536dd7f6b05fb.gif)
 
 ## Task 1: Configure color for Anycast SID
 
@@ -3418,7 +3297,7 @@ NOTE
 
 Affinity constraints allow the head-end router to compute a dynamic path that includes or excludes links that have specific colors or combinations of colors. We will create a dynamic path from CE1 to CE3 Loopback36 (150.23.6.6) using TE-metric and excluding RED links.
 
-![](RackMultipart20230222-1-cgwn2a_html_ab12831a4238472e.gif)
+![](images/ab12831a4238472e.gif)
 
 ## Task 1: Configure color
 
@@ -4002,7 +3881,7 @@ Segment Routing On-Demand Next Hop (ODN) allows a service head-end router to aut
 
 For this scenario, we will be using CE2 Loopback 37 (150.22.7.7) and CE3 Loopback37 (150.23.7.7) both will use the color 3207
 
-![](RackMultipart20230222-1-cgwn2a_html_a9bf7dbf27925959.gif)
+![](images/a9bf7dbf27925959.gif)
 
 ## Task 1: Configure color for ODN
 
@@ -4732,7 +4611,7 @@ Below section covers the following tasks:
 9. Verify Service Path Change
 10. Restore original Latency value
 
-![](RackMultipart20230222-1-cgwn2a_html_69c815519cf25695.gif)
+![](images/69c815519cf25695.gif)
 
 Below table summarize Loopback0 Prefix-SID that will be configured in the following section.
 
@@ -6111,7 +5990,7 @@ On PCE2 configure the delay to R5 and R6 as 150ms.
 
 The new SR-TE path should re-optimize to avoid the high delay links.
 
-![](RackMultipart20230222-1-cgwn2a_html_65dd843e42a2b8e.gif)
+![](images/65dd843e42a2b8e.gif)
 
 On R1 & R2 display the SR-TE policy details.
 
@@ -6327,7 +6206,7 @@ User Plane 2 – Flex Algo 130 – PCE1, R4, PCE2, R6, PCE3
 
 Both algorithms have the same definition: optimize IGP metric, no constraints. By using Flex Algorithm, operators can also join completely disjoint path. However, in the below topology devices PCE1, PCE2, PCE3 & Services nodes R1, R2, R7, R8 are participating in both user planes 1 & 2.
 
-![](RackMultipart20230222-1-cgwn2a_html_446d077a454a7cca.png)
+![](images/446d077a454a7cca.png)
 
 | **Node** | **Flex Algo 129 - Prefix-SID** | **Flex Algo 130 - Prefix-SID** |
 | --- | --- | --- |
@@ -7780,4 +7659,4 @@ NOTE
 
 ##
 
-6 ![](RackMultipart20230222-1-cgwn2a_html_7e7316a3bd6bf21f.png)| Page
+6 ![](images/7e7316a3bd6bf21f.png)| Page
