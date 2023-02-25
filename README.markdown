@@ -350,160 +350,54 @@ BGP Link-State (LS) is an address family designed to carry an IGP link-state inf
 
 In this scenario, BGP-LS is used to deliver IGP information between domains. Below is a topology of the BGP-LS peerings.
 
-![](images/1a672ea0d6fa8214.png)
+![](images/bgpLsPeering.png)
+<br/><br/>
 
 Verify PCE-1 has a BGP-LS peering to PCE-2 and is receiving all the routes.
-
-RP/0/RP0/CPU0:PCE1# **show bgp link-state link-state summary**
-
-BGP router identifier 11.11.11.11, local AS number 65001
-
-BGP generic scan interval 60 secs
-
-Non-stop routing is enabled
-
-BGP table state: Active
-
-Table ID: 0x0 RD version: 175
-
-BGP main routing table version 175
-
-BGP NSR Initial initsync version 1 (Reached)
-
-BGP NSR/ISSU Sync-Group versions 0/0
-
-BGP scan interval 60 secs
-
-BGP is operating in STANDALONE mode.
-
-Process RcvTblVer bRIB/RIB LabelVer ImportVer SendTblVer StandbyVer
-
-Speaker 175 175 175 175 175 0
-
-Neighbor Spk AS MsgRcvd MsgSent TblVer InQ OutQ Up/Down St/PfxRcd
-
-12.12.12.12 0 65001 271 150 175 0 0 02:27:38 126
+```
+show bgp link-state link-state summary
+```
+![](images/shBgpLinkStateSum.png)
+<br/><br/>
 
 Recall BGP-LS carries the IGP information into BGP. Check the IGP information for the link between R7 and R8 on PCE-1.
 
 In the example below, look in the link-state database and search for 172.7.8.1 (the link between R7 and R8). The result will give you two entries. One from R7 and one from R8. Take the whole NRLI and enter into the "show bgp link-state link-state" command to view the details.
 
-RP/0/RP0/CPU0:PCE1# **show bgp link-state link-state | i 172.7.8.1**
+```
+show bgp link-state link-state | i 172.7.8.1
+```
+![](images/shBgpLsLs.png)
+<br/><br/>
 
-Mon Apr 11 21:13:22.501 UTC
-
-\*\>i[E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0007.00]][R[c65001][b0.0.0.0][s0000.0000.0008.00]][L[i172.7.8.0][n172.7.8.1]]/696
-
-\*\>i[E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0008.00]][R[c65001][b0.0.0.0][s0000.0000.0007.00]][L[i172.7.8.1][n172.7.8.0]]/696
-
-RP/0/RP0/CPU0:PCE1#**show bgp link-state link-state [E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0007.00]][R[c65001][b0.0.0.0][s0000.0000.0008.00]][L[i172.7.8.0][n172.7.8.1]]/696**
-
-Mon Apr 11 21:14:36.108 UTC
-
-BGP routing table entry for [E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0007.00]][R[c65001][b0.0.0.0][s0000.0000.0008.00]][L[i172.7.8.0][n172.7.8.1]]/696
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 156 156
-
-Last Modified: Apr 11 18:42:16.854 for 02:32:19
-
-Paths: (1 available, best #1)
-
-Not advertised to any peer
-
-Path #1: Received by speaker 0
-
-Not advertised to any peer
-
-Local, (Received from a RR-client)
-
-5.5.5.5 (metric 400) from 12.12.12.12 (5.5.5.5)
-
-Origin IGP, localpref 100, valid, internal, best, group-best
-
-Received Path ID 1, Local Path ID 1, version 156
-
-Originator: 5.5.5.5, Cluster list: 12.12.12.12
-
-Link-state: Link ID: Local:8 Remote:8, Local TE Router-ID:
-
-7.7.7.7 Remote TE Router-ID: 8.8.8.8, admin-group: 0x00000000
-
-max-link-bw (kbits/sec): 1000000, max-reserv-link-bw (kbits/sec): 0
-
-max-unreserv-link-bw (kbits/sec): 0 0 0 0 0 0 0 0,
-
-TE-default-metric: 100 metric: 100, ADJ-SID: 119001(70)
-
-ADJ-SID: 119002(30) , ext-admin-group: 0x00000000.0x00000000
-
-.0x00000000.0x00000000.0x00000000.0x00000000.0x00000000
-
-.0x00000000
-
-## Task 5: Verify PCE Communication
+## Task 1.5: Verify PCE Communication
 
 All of the SRTE headend work will be done on R1 and R2 in this lab.
+```
+show segment-routing traffic-eng pcc ipv4 peer
+```
+![](images/shSegTePcc.png)
+<br/><br/>
 
-RP/0/RP0/CPU0:R1# **show segment-routing traffic-eng pcc ipv4 peer**
-
-Tue Apr 12 20:58:34.791 UTC
-
-PCC's peer database:
-
---------------------
-
-Peer address: 11.11.11.11, Precedence: 255, (best PCE)
-
-State up
-
-Capabilities: Stateful, Update, Segment-Routing, Instantiation
-
+#
 # Scenario 2 - Inter-Domain Network Slicing for Regular Traffic
 
 In this scenario we will get a baseline of the default routing scheme (IGP shortest path) for vrf "CUSTOMER-A" that we can use it to compare with the other scenarios later
 
-## Task 1: Verify Service Path
+## Task 2.1: Verify Service Path
 
 On CE1, issue a traceroute in CUSTOMER-A vrf to loopback 31 interface of CE2 and CE3
 
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.22.1.1 probe 1**
+```
+traceroute vrf CUSTOMER-A 150.22.1.1 probe 1
+traceroute vrf CUSTOMER-A 150.23.1.1 probe 1
+```
+![](images/2.1_traceroute.png)
 
-Type escape sequence to abort.
+>NOTE:
+>Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
 
-Tracing the route to 150.22.1.1
-
-1 r1 (172.1.21.0) 9 msec
-
-2 r2 (172.1.2.1) [MPLS: Labels 19004/119001 Exp 0] 0 msec
-
-3 r4 (172.4.11.0) [MPLS: Label 119001 Exp 0] 0 msec
-
-4 ce2 (172.4.22.1) 0 msec
-
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.23.1.1 probe 1**
-
-Type escape sequence to abort.
-
-Tracing the route to 150.23.1.1
-
-1 r1 (172.1.21.0) 9 msec
-
-2 r3 (172.1.3.1) [MPLS: Labels 19007/119008 Exp 0] 0 msec
-
-3 r5 (172.3.5.1) [MPLS: Labels 19007/119008 Exp 0] 0 msec
-
-4 r7 (172.5.7.1) [MPLS: Label 119008 Exp 0] 0 msec
-
-5 ce3 (172.7.23.1) 0 msec
-
-
-NOTE:
-Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
-
+#
 # Scenario 3 - Inter-domain SRTE using Explicit-path
 
 In this scenario we will slice our network using explicit path. We will create two explicit paths, depicted below, the green path (color 3222) from CE1 to CE2 Loopback32 (150.22.2.2) and a red path (color 3232) from CE1 to CE3 Loopback32 (150.23.2.2).
