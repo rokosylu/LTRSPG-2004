@@ -396,254 +396,117 @@ traceroute vrf CUSTOMER-A 150.23.1.1 probe 1
 
 >NOTE:
 >Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
-
+<br/><br/>
 #
 # Scenario 3 - Inter-domain SRTE using Explicit-path
 
 In this scenario we will slice our network using explicit path. We will create two explicit paths, depicted below, the green path (color 3222) from CE1 to CE2 Loopback32 (150.22.2.2) and a red path (color 3232) from CE1 to CE3 Loopback32 (150.23.2.2).
 
-![](images/17e50e0097672cd5.gif)
+![](images/3.0_flows.png)
+<br/><br/>
 
-## Task 1: Configure color for Explicit-path
+## Task 3.1: Configure color for Explicit-path
 
 We will assign the color for each explicit path at the tail end of each tunnel. The first step is to create an extended community for the colors.
 
 Apply the following configuration in R4:
 
-**extcommunity-set opaque COLOR-3222**
-
-**3222**
-
-**end-set**
+```
+extcommunity-set opaque COLOR-3222
+  3222
+end-set
+```
 
 Since CE3 has two connections to our network using R7 and R8, we will need to assign color 3232 on both routers.
 
 Apply the following configuration in R7 and R8:
-
-**extcommunity-set opaque COLOR-3232**
-
-**3232**
-
-**end-set**
+```
+extcommunity-set opaque COLOR-3232
+  3232
+end-set
+```
 
 After we have created the extended communities, we will need to create the route maps to apply the color to our prefixes, we will apply our route policies in the ingress direction from the CEs.
 
 The route-policy will match our destination IP on the CEs and tag the prefixes with the extended community, then we can use the extended community later to choose the desired path.
 
 Apply the following configuration in R4:
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path - Color 3222 #####**
-
-**if destination in (150.22.2.2) then**
-
-**set extcommunity color COLOR-3222**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-**!**
-
-**router bgp 65001**
-
-**vrf CUSTOMER-A**
-
-**neighbor 172.4.22.1**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-A\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
+```
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path - Color 3222 #####
+  if destination in (150.22.2.2) then
+    set extcommunity color COLOR-3222
+  ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+!
+router bgp 65001
+ vrf CUSTOMER-A
+  neighbor 172.4.22.1
+   address-family ipv4 unicast
+    route-policy CUST-A_SET_COLOR_IN in
+   !
+  !
+ !
+!
+```
 
 Apply the following configuration in R7 and R8:
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path – Color 3232 #####**
-
-**if destination in (150.23.2.2) then**
-
-**set extcommunity color COLOR-3232**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
+```
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path – Color 3232 #####
+  if destination in (150.23.2.2) then
+    set extcommunity color COLOR-3232
+  ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+```
 
 Apply the following configuration in R7:
-
-**router bgp 65001**
-
-**vrf CUSTOMER-A**
-
-**neighbor 172.7.23.1**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-A\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
+```
+router bgp 65001
+ vrf CUSTOMER-A
+  neighbor 172.7.23.1
+   address-family ipv4 unicast
+    route-policy CUST-A_SET_COLOR_IN in
+   !
+  !
+ !
+!
+```
 
 Apply the following configuration in R8:
+```
+router bgp 65001
+ vrf CUSTOMER-A
+  neighbor 172.8.23.1
+   address-family ipv4 unicast
+    route-policy CUST-A_SET_COLOR_IN in
+   !
+  !
+```
 
-**router bgp 65001**
-
-**vrf CUSTOMER-A**
-
-**neighbor 172.8.23.1**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-A\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-## Task 2: Verify the prefixes are tagged with the new color
+## Task 3.2: Verify the prefixes are tagged with the new color
 
 In our path head-end (R1 & R2) we will display the BGP attributes of our prefixes to make sure they have been tagged with the new color.
 
 In R1 issue the following commands:
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.22.2.2**
-
-BGP routing table entry for 150.22.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 34 34
-
-Last Modified: Apr 14 00:02:46.705 for 00:02:19
-
-Paths: (1 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-4.4.4.4 (metric 300) from 11.11.11.11 (4.4.4.4)
-
-Received Label 119002
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 34
-
-Extended community: Color:3222 RT:65001:3
-
-Originator: 4.4.4.4, Cluster list: 11.11.11.11
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 4.4.4.4:3
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.2.2**
-
-BGP routing table entry for 150.23.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 36 36
-
-Last Modified: Apr 14 00:04:35.705 for 00:01:19
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119009
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 35
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119011
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
+```
+sh bgp vrf CUSTOMER-A 150.22.2.2
+sh bgp vrf CUSTOMER-A 150.23.2.2
+```
+![](images/3.2_shBgp.png)
 
 
+>NOTE:
+>Output from R2 is similar, omitted for brevity. |
+<br/><br/>
 
-NOTE:
-Output from R2 is similar, omitted for brevity. |
-
-## Task 3: Configure SRTE policy using Explicit-path
+## Task 3.3: Configure SRTE policy using Explicit-path
 
 To configure an SR-TE policy with an explicit path, we will need to create the segment list and the SR-TE policy.
 
