@@ -174,10 +174,6 @@ Now you are ready to start the lab
 >NOTE
 >Where XX is your POD number. i.e: POD01 will use 01, POD 13 will use 13Username and Password is cisco/cisco for all devices
 
-
-
->NOTE
->For convenience all the lab configuration sections are posted in the following link [https://github.com/rokosylu/LTRSPG-2004](https://github.com/rokosylu/LTRSPG-2004) which will enable to easly copy and paste the config to your lab devices
 <br/>
 <br/>
 
@@ -558,13 +554,12 @@ sh segment-routing traffic-eng policy color 3232
 
 On R1 & R2, display cef for CE2 Loopback32 (150.22.2.2) and CE3 Loopback32 (150.23.2.2).
 ```
-RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.22.2.2**
+sh cef vrf CUSTOMER-A 150.22.2.2
+sh cef vrf CUSTOMER-A 150.23.2.2
 ```
 ![](images/3.4_4.png)
 
-```
-sh cef vrf CUSTOMER-A 150.23.2.2
-```
+
 
 >NOTE:
 >Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
@@ -589,6 +584,7 @@ Label  Label       or ID              Interface                    Switched
 Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 <br/>
+
 >NOTE:
 >For the first scenario, we will link everything together from the outputs to verify the label stack. Even though this is only shown here, the same steps can be followed for each scenario.
 
@@ -640,217 +636,102 @@ Tracing the route to 150.23.2.2
 
 In this scenario, we will slice our network using a dynamic path. A dynamic path does not use a segment list, but it calculates on the head end the shortest path to the destination using the metric type selected. In this scenario, we will create a dynamic path from CE1 to CE3 Loopback33 (150.23.3.3) using delay as the metric.
 
-![](images/2f80a5b1f5c00c7d.gif)
+![](images/4.0_flowDiagram.png)
 
-## Task 1: Configure color Low Latency Traffic
+## Task 4.1: Configure color Low Latency Traffic
 
 Similar to what we did for Explicit path, we will assign the color at the tail end of the tunnel.
 
-NOTE: We can only configure one route-policy to any given neighbor in each direction also inline modification of a route-policy is not allowed, therefore we will need to recreate the route-policy to include previous lines and add our new lines.
+>NOTE: We can only configure one route-policy to any given neighbor in each direction also inline modification of a route-policy is not allowed, therefore we will need to recreate the route-policy to include previous lines and add our new lines.
 
 Apply the following configuration in R7 and R8:
+```
+extcommunity-set opaque COLOR-3233
+  3233
+end-set
+!
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path - Color 3232 #####
+  if destination in (150.23.2.2) then
+    set extcommunity color COLOR-3232
+    ##### Dynamic Path - Latency #####
+  elseif destination in (150.23.3.3) then
+    set extcommunity color COLOR-3233
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+```
 
-**extcommunity-set opaque COLOR-3233**
+>NOTE:
+>There is no need to apply the route-policy in the BGP of R7 & R8 towards CE3 since that was done in scenario 2 already.
 
-**3233**
+<br/><br/>
 
-**end-set**
 
-**!**
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path - Color 3232 #####**
-
-**if destination in (150.23.2.2) then**
-
-**set extcommunity color COLOR-3232**
-
-**##### Dynamic Path - Latency #####**
-
-**elseif destination in (150.23.3.3) then**
-
-**set extcommunity color COLOR-3233**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | There is no need to apply the route-policy in the BGP of R7 & R8 towards CE3 since that was done in scenario 2 already. |
-
-##
-
-## Task 2: Verify the prefix is tagged with the new color
+## Task 4.2: Verify the prefix is tagged with the new color
 
 In our path head-end (R1 & R2) we will display the BGP attributes of our prefix to make sure it has been tagged with the new color.
 
 In R1 & R2 issue the following command:
+```
+sh bgp vrf CUSTOMER-A 150.23.3.3
+```
+![](images/4.2_shBgp.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.3.3**
+>NOTE:
+>Output from R2 is similar, omitted for brevity. 
 
-BGP routing table entry for 150.23.3.3/32, Route Distinguisher: 1.1.1.1:3
+<br/><br/>
 
-Versions:
+#
 
-Process bRIB/RIB SendTblVer
-
-Speaker 40 40
-
-Last Modified: Apr 14 04:27:50.705 for 00:00:03
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119010
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 39
-
-Extended community: Color:3233 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119012
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3233 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. |
-
-##
-
-## Task 3: Configure SRTE policy Low Latency Traffic
+## Task 4.3: Configure SRTE policy Low Latency Traffic
 
 Similar to the explicit path, a dynamic path is identified by the head-end, color and tail-end tuple. In this task, we will be configuring at the head-end router the policy with the assigned color and tail-end (end-point) however instead of using an explicit list, we will be using a dynamic calculation based on the lowest latency path.
 
 On R1 & R2 apply the following configuration:
+```
+segment-routing
+ traffic-eng
+  policy DYN-Latency_COLOR-3233_R7
+   color 3233 end-point ipv4 7.7.7.7
+   candidate-paths
+    preference 100
+     dynamic
+      pcep
+      !
+      metric
+       type latency
+      !
+     !
+    !
+   !
+  !
+  policy DYN-Latency_COLOR-3233_R8
+   color 3233 end-point ipv4 8.8.8.8
+   candidate-paths
+    preference 100
+     dynamic
+      pcep
+      !
+      metric
+       type latency
+      !
+     !
+    !
+   !
+  !
+ !
+!
+```
 
-**segment-routing**
+>NOTE: For inter-domain SR-TE with multiple IGP without mutual redistribution, it is required to have a PCEP that can collect all the link information from all IGPs, without a PCEP, the head end will not have a complete view of the network and it will be unable to create a valid path that traverses multiple IGP.
 
-**traffic-eng**
+<br/><br/>
 
-**policy DYN-Latency\_COLOR-3233\_R7**
-
-**color 3233 end-point ipv4 7.7.7.7**
-
-**candidate-paths**
-
-**preference 100**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**metric**
-
-**type latency**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**policy DYN-Latency\_COLOR-3233\_R8**
-
-**color 3233 end-point ipv4 8.8.8.8**
-
-**candidate-paths**
-
-**preference 100**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**metric**
-
-**type latency**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-NOTE: For inter-domain SR-TE with multiple IGP without mutual redistribution, it is required to have a PCEP that can collect all the link information from all IGPs, without a PCEP, the head end will not have a complete view of the network and it will be unable to create a valid path that traverses multiple IGP.
-
-## Task 4: Verify Service Path
+## Task 4.4: Verify Service Path
 
 On R1 & R2 display the BGP prefix.
 
