@@ -1,50 +1,4 @@
 #
-#
-#
-#
-Testing format
-#
-#
-#
-#
-Dont care about this either $\textcolor{red}{\text{Verify this output}}$ Dont care about this at the end
-
-<br/>
-
-blah blah $\textcolor{green}{\text{R1             Gi0/0/0/3 \*PtoP\* output is crooked}}$
-
-
-The background color should be `hello` for light mode and `#0d1117` for dark mode.
-
-````
-The background color should be `#ffffff` for light mode and `#0d1117` for dark mode.
->RP/0/RP0/CPU0:R3#show isis adjacency
->IS-IS ACCESS-1 Level-1 adjacencies:
->System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6<br/>
-                                                                               BFD  BFD <br/>
->$\textcolor{green}{\text{R1             Gi0/0/0/3}}$
->R4             Gi0/0/0/1.34             *PtoP*         Up    21   00:33:14 Yes Up   None<br/>
->PCE1           Gi0/0/0/2                *PtoP*         Up    21   00:32:44 Yes Up   None<br/>
-
->Total adjacency count: 3
-
-IS-IS AGG-CORE Level-1 adjacencies:
-System Id      Interface                SNPA           State Hold Changed  NSF IPv4 IPv6
-                                                                               BFD  BFD 
-R4             Gi0/0/0/1.43             *PtoP*         Up    26   00:33:14 Yes Up   None
-R5             Gi0/0/0/5                *PtoP*         Up    24   00:33:07 Yes Up   None
-PCE2           Gi0/0/0/4                *PtoP*         Up    25   00:32:42 Yes Up   None
-````
-
-
-
-
-![](images/isisadjacency.png)
-
-
-#
-#
-#
 
 ![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
 
@@ -220,10 +174,6 @@ Now you are ready to start the lab
 >NOTE
 >Where XX is your POD number. i.e: POD01 will use 01, POD 13 will use 13Username and Password is cisco/cisco for all devices
 
-
-
->NOTE
->For convenience all the lab configuration sections are posted in the following link [https://github.com/rokosylu/LTRSPG-2004](https://github.com/rokosylu/LTRSPG-2004) which will enable to easly copy and paste the config to your lab devices
 <br/>
 <br/>
 
@@ -350,406 +300,164 @@ BGP Link-State (LS) is an address family designed to carry an IGP link-state inf
 
 In this scenario, BGP-LS is used to deliver IGP information between domains. Below is a topology of the BGP-LS peerings.
 
-![](images/1a672ea0d6fa8214.png)
+![](images/bgpLsPeering.png)
+<br/><br/>
 
 Verify PCE-1 has a BGP-LS peering to PCE-2 and is receiving all the routes.
-
-RP/0/RP0/CPU0:PCE1# **show bgp link-state link-state summary**
-
-BGP router identifier 11.11.11.11, local AS number 65001
-
-BGP generic scan interval 60 secs
-
-Non-stop routing is enabled
-
-BGP table state: Active
-
-Table ID: 0x0 RD version: 175
-
-BGP main routing table version 175
-
-BGP NSR Initial initsync version 1 (Reached)
-
-BGP NSR/ISSU Sync-Group versions 0/0
-
-BGP scan interval 60 secs
-
-BGP is operating in STANDALONE mode.
-
-Process RcvTblVer bRIB/RIB LabelVer ImportVer SendTblVer StandbyVer
-
-Speaker 175 175 175 175 175 0
-
-Neighbor Spk AS MsgRcvd MsgSent TblVer InQ OutQ Up/Down St/PfxRcd
-
-12.12.12.12 0 65001 271 150 175 0 0 02:27:38 126
+```
+show bgp link-state link-state summary
+```
+![](images/shBgpLinkStateSum.png)
+<br/><br/>
 
 Recall BGP-LS carries the IGP information into BGP. Check the IGP information for the link between R7 and R8 on PCE-1.
 
 In the example below, look in the link-state database and search for 172.7.8.1 (the link between R7 and R8). The result will give you two entries. One from R7 and one from R8. Take the whole NRLI and enter into the "show bgp link-state link-state" command to view the details.
 
-RP/0/RP0/CPU0:PCE1# **show bgp link-state link-state | i 172.7.8.1**
+```
+show bgp link-state link-state | i 172.7.8.1
+```
+![](images/shBgpLsLs.png)
+<br/><br/>
 
-Mon Apr 11 21:13:22.501 UTC
-
-\*\>i[E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0007.00]][R[c65001][b0.0.0.0][s0000.0000.0008.00]][L[i172.7.8.0][n172.7.8.1]]/696
-
-\*\>i[E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0008.00]][R[c65001][b0.0.0.0][s0000.0000.0007.00]][L[i172.7.8.1][n172.7.8.0]]/696
-
-RP/0/RP0/CPU0:PCE1#**show bgp link-state link-state [E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0007.00]][R[c65001][b0.0.0.0][s0000.0000.0008.00]][L[i172.7.8.0][n172.7.8.1]]/696**
-
-Mon Apr 11 21:14:36.108 UTC
-
-BGP routing table entry for [E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0007.00]][R[c65001][b0.0.0.0][s0000.0000.0008.00]][L[i172.7.8.0][n172.7.8.1]]/696
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 156 156
-
-Last Modified: Apr 11 18:42:16.854 for 02:32:19
-
-Paths: (1 available, best #1)
-
-Not advertised to any peer
-
-Path #1: Received by speaker 0
-
-Not advertised to any peer
-
-Local, (Received from a RR-client)
-
-5.5.5.5 (metric 400) from 12.12.12.12 (5.5.5.5)
-
-Origin IGP, localpref 100, valid, internal, best, group-best
-
-Received Path ID 1, Local Path ID 1, version 156
-
-Originator: 5.5.5.5, Cluster list: 12.12.12.12
-
-Link-state: Link ID: Local:8 Remote:8, Local TE Router-ID:
-
-7.7.7.7 Remote TE Router-ID: 8.8.8.8, admin-group: 0x00000000
-
-max-link-bw (kbits/sec): 1000000, max-reserv-link-bw (kbits/sec): 0
-
-max-unreserv-link-bw (kbits/sec): 0 0 0 0 0 0 0 0,
-
-TE-default-metric: 100 metric: 100, ADJ-SID: 119001(70)
-
-ADJ-SID: 119002(30) , ext-admin-group: 0x00000000.0x00000000
-
-.0x00000000.0x00000000.0x00000000.0x00000000.0x00000000
-
-.0x00000000
-
-## Task 5: Verify PCE Communication
+## Task 1.5: Verify PCE Communication
 
 All of the SRTE headend work will be done on R1 and R2 in this lab.
+```
+show segment-routing traffic-eng pcc ipv4 peer
+```
+![](images/shSegTePcc.png)
+<br/><br/>
 
-RP/0/RP0/CPU0:R1# **show segment-routing traffic-eng pcc ipv4 peer**
-
-Tue Apr 12 20:58:34.791 UTC
-
-PCC's peer database:
-
---------------------
-
-Peer address: 11.11.11.11, Precedence: 255, (best PCE)
-
-State up
-
-Capabilities: Stateful, Update, Segment-Routing, Instantiation
-
+#
 # Scenario 2 - Inter-Domain Network Slicing for Regular Traffic
 
 In this scenario we will get a baseline of the default routing scheme (IGP shortest path) for vrf "CUSTOMER-A" that we can use it to compare with the other scenarios later
 
-## Task 1: Verify Service Path
+## Task 2.1: Verify Service Path
 
 On CE1, issue a traceroute in CUSTOMER-A vrf to loopback 31 interface of CE2 and CE3
 
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.22.1.1 probe 1**
+```
+traceroute vrf CUSTOMER-A 150.22.1.1 probe 1
+traceroute vrf CUSTOMER-A 150.23.1.1 probe 1
+```
+![](images/2.1_traceroute.png)
 
-Type escape sequence to abort.
-
-Tracing the route to 150.22.1.1
-
-1 r1 (172.1.21.0) 9 msec
-
-2 r2 (172.1.2.1) [MPLS: Labels 19004/119001 Exp 0] 0 msec
-
-3 r4 (172.4.11.0) [MPLS: Label 119001 Exp 0] 0 msec
-
-4 ce2 (172.4.22.1) 0 msec
-
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.23.1.1 probe 1**
-
-Type escape sequence to abort.
-
-Tracing the route to 150.23.1.1
-
-1 r1 (172.1.21.0) 9 msec
-
-2 r3 (172.1.3.1) [MPLS: Labels 19007/119008 Exp 0] 0 msec
-
-3 r5 (172.3.5.1) [MPLS: Labels 19007/119008 Exp 0] 0 msec
-
-4 r7 (172.5.7.1) [MPLS: Label 119008 Exp 0] 0 msec
-
-5 ce3 (172.7.23.1) 0 msec
-
-
-NOTE:
-Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
-
+>NOTE:
+>Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
+<br/><br/>
+#
 # Scenario 3 - Inter-domain SRTE using Explicit-path
 
 In this scenario we will slice our network using explicit path. We will create two explicit paths, depicted below, the green path (color 3222) from CE1 to CE2 Loopback32 (150.22.2.2) and a red path (color 3232) from CE1 to CE3 Loopback32 (150.23.2.2).
 
-![](images/17e50e0097672cd5.gif)
+![](images/3.0_flows.png)
+<br/><br/>
 
-## Task 1: Configure color for Explicit-path
+## Task 3.1: Configure color for Explicit-path
 
 We will assign the color for each explicit path at the tail end of each tunnel. The first step is to create an extended community for the colors.
 
 Apply the following configuration in R4:
 
-**extcommunity-set opaque COLOR-3222**
-
-**3222**
-
-**end-set**
+```
+extcommunity-set opaque COLOR-3222
+  3222
+end-set
+```
 
 Since CE3 has two connections to our network using R7 and R8, we will need to assign color 3232 on both routers.
 
 Apply the following configuration in R7 and R8:
-
-**extcommunity-set opaque COLOR-3232**
-
-**3232**
-
-**end-set**
+```
+extcommunity-set opaque COLOR-3232
+  3232
+end-set
+```
 
 After we have created the extended communities, we will need to create the route maps to apply the color to our prefixes, we will apply our route policies in the ingress direction from the CEs.
 
 The route-policy will match our destination IP on the CEs and tag the prefixes with the extended community, then we can use the extended community later to choose the desired path.
 
 Apply the following configuration in R4:
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path - Color 3222 #####**
-
-**if destination in (150.22.2.2) then**
-
-**set extcommunity color COLOR-3222**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-**!**
-
-**router bgp 65001**
-
-**vrf CUSTOMER-A**
-
-**neighbor 172.4.22.1**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-A\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
+```
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path - Color 3222 #####
+  if destination in (150.22.2.2) then
+    set extcommunity color COLOR-3222
+  ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+!
+router bgp 65001
+ vrf CUSTOMER-A
+  neighbor 172.4.22.1
+   address-family ipv4 unicast
+    route-policy CUST-A_SET_COLOR_IN in
+   !
+  !
+ !
+!
+```
 
 Apply the following configuration in R7 and R8:
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path – Color 3232 #####**
-
-**if destination in (150.23.2.2) then**
-
-**set extcommunity color COLOR-3232**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
+```
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path – Color 3232 #####
+  if destination in (150.23.2.2) then
+    set extcommunity color COLOR-3232
+  ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+```
 
 Apply the following configuration in R7:
-
-**router bgp 65001**
-
-**vrf CUSTOMER-A**
-
-**neighbor 172.7.23.1**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-A\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
+```
+router bgp 65001
+ vrf CUSTOMER-A
+  neighbor 172.7.23.1
+   address-family ipv4 unicast
+    route-policy CUST-A_SET_COLOR_IN in
+   !
+  !
+ !
+!
+```
 
 Apply the following configuration in R8:
+```
+router bgp 65001
+ vrf CUSTOMER-A
+  neighbor 172.8.23.1
+   address-family ipv4 unicast
+    route-policy CUST-A_SET_COLOR_IN in
+   !
+  !
+```
 
-**router bgp 65001**
-
-**vrf CUSTOMER-A**
-
-**neighbor 172.8.23.1**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-A\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-## Task 2: Verify the prefixes are tagged with the new color
+## Task 3.2: Verify the prefixes are tagged with the new color
 
 In our path head-end (R1 & R2) we will display the BGP attributes of our prefixes to make sure they have been tagged with the new color.
 
 In R1 issue the following commands:
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.22.2.2**
-
-BGP routing table entry for 150.22.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 34 34
-
-Last Modified: Apr 14 00:02:46.705 for 00:02:19
-
-Paths: (1 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-4.4.4.4 (metric 300) from 11.11.11.11 (4.4.4.4)
-
-Received Label 119002
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 34
-
-Extended community: Color:3222 RT:65001:3
-
-Originator: 4.4.4.4, Cluster list: 11.11.11.11
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 4.4.4.4:3
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.2.2**
-
-BGP routing table entry for 150.23.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 36 36
-
-Last Modified: Apr 14 00:04:35.705 for 00:01:19
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119009
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 35
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119011
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
+```
+sh bgp vrf CUSTOMER-A 150.22.2.2
+sh bgp vrf CUSTOMER-A 150.23.2.2
+```
+![](images/3.2_shBgp.png)
 
 
+>NOTE:
+>Output from R2 is similar, omitted for brevity.
 
-NOTE:
-Output from R2 is similar, omitted for brevity. |
+<br/><br/>
 
-## Task 3: Configure SRTE policy using Explicit-path
+## Task 3.3: Configure SRTE policy using Explicit-path
 
 To configure an SR-TE policy with an explicit path, we will need to create the segment list and the SR-TE policy.
 
@@ -758,482 +466,127 @@ The segment-list describes each segment on the path that the packets will need t
 An Explicit-path policy is identified by the head-end, color and tail-end tuple, in this task we will be configuring at the head-end router the policy with the assigned color and tail-end (end-point).
 
 On R1 & R2 apply the following configuration:
+```
+segment-routing
+ traffic-eng
+  segment-list PCE1-R3-R4
+   index 10 mpls adjacency 11.11.11.11
+   index 20 mpls adjacency 3.3.3.3
+   index 30 mpls adjacency 4.4.4.4
+  !
+  segment-list R3-R4-R6-R5-R7
+   index 10 mpls label 19003
+   index 20 mpls label 19004
+   index 30 mpls label 19006
+   index 40 mpls label 19005
+   index 50 mpls label 19007
+  !
+  segment-list R4-R3-R5-R6-R8
+   index 10 mpls label 19004
+   index 20 mpls label 19003
+   index 30 mpls label 19005
+   index 40 mpls label 19006
+   index 50 mpls label 19008
+  !
+ 
+  policy EXP_COLOR-3222_R4
+   color 3222 end-point ipv4 4.4.4.4
+   candidate-paths
+    preference 100
+     explicit segment-list PCE1-R3-R4
+     !
+    !
+   !
+  !
+  policy EXP_COLOR-3232_R7
+   color 3232 end-point ipv4 7.7.7.7
+   candidate-paths
+    preference 100
+     explicit segment-list R3-R4-R6-R5-R7
 
-**segment-routing**
+     !
+    !
+   !      
+  !
+  policy EXP_COLOR-3232_R8
+   color 3232 end-point ipv4 8.8.8.8
+   candidate-paths
+    preference 100
+     explicit segment-list R4-R3-R5-R6-R8
+     !
+    !
+   !
+  !
+ !
+!
+```
 
-**traffic-eng**
-
-**segment-list PCE1-R3-R4**
-
-**index 10 mpls adjacency 11.11.11.11**
-
-**index 20 mpls adjacency 3.3.3.3**
-
-**index 30 mpls adjacency 4.4.4.4**
-
-**!**
-
-**segment-list R3-R4-R6-R5-R7**
-
-**index 10 mpls label 19003**
-
-**index 20 mpls label 19004**
-
-**index 30 mpls label 19006**
-
-**index 40 mpls label 19005**
-
-**index 50 mpls label 19007**
-
-**!**
-
-**segment-list R4-R3-R5-R6-R8**
-
-**index 10 mpls label 19004**
-
-**index 20 mpls label 19003**
-
-**index 30 mpls label 19005**
-
-**index 40 mpls label 19006**
-
-**index 50 mpls label 19008**
-
-**!**
-
-**policy EXP\_COLOR-3222\_R4**
-
-**color 3222 end-point ipv4 4.4.4.4**
-
-**candidate-paths**
-
-**preference 100**
-
-**explicit segment-list PCE1-R3-R4**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**policy EXP\_COLOR-3232\_R7**
-
-**color 3232 end-point ipv4 7.7.7.7**
-
-**candidate-paths**
-
-**preference 100**
-
-**explicit segment-list R3-R4-R6-R5-R7**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**policy EXP\_COLOR-3232\_R8**
-
-**color 3232 end-point ipv4 8.8.8.8**
-
-**candidate-paths**
-
-**preference 100**
-
-**explicit segment-list R4-R3-R5-R6-R8**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-## Task 4: Verify Service Path
+<br/><br/>
+## Task 3.4: Verify Service Path
 
 On R1 & R2 display the BGP prefixes.
+```
+sh bgp vrf CUSTOMER-A 150.22.2.2
+```
+![](images/3.4_1.png)
+```
+sh bgp vrf CUSTOMER-A 150.23.2.2
+```
+![](images/3.4_2.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.22.2.2**
-
-BGP routing table entry for 150.22.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 79 79
-
-Last Modified: May 7 04:43:20.425 for 00:20:31
-
-Paths: (1 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-4.4.4.4 C:3222 (bsid:119008) (metric 300) from 11.11.11.11 (4.4.4.4)
-
-Received Label 119013
-
-![Shape1](images/32a410b690a134b0.gif)
-
-Now SR policy is attached in BGP. This is automated steering,
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 76
-
-Extended community: Color:3222 RT:65001:3
-
-Originator: 4.4.4.4, Cluster list: 11.11.11.11
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3222, up, not-registered, bsid 119008
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 4.4.4.4:3
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.2.2**
-
-BGP routing table entry for 150.23.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 80 80
-
-Last Modified: May 7 04:43:20.425 for 00:20:35
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 C:3232 (bsid:119011) (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119004
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 77
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3232, up, not-registered, bsid 119011
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 C:3232 (bsid:119020) (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119002
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3232, up, not-registered, bsid 119020
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
-
-
-### NOTE:
-Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2 display the SR-TE policy details then observe the path and verify that the Binding SID matches the previous output
+```
+sh segment-routing traffic-eng policy color 3222
+```
+![](images/3.4_3.1.png)
+
+```
+sh segment-routing traffic-eng policy color 3232
+```
+![](images/3.4_3.2.png)
+
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 3222**
-
-SR-TE policy database
-
----------------------
-
-Color: 3222, End-point: 4.4.4.4
-
-Name: srte\_c\_3222\_ep\_4.4.4.4
-
-Status:
-
-Admin: up Operational: up for 00:11:36 (since Apr 14 00:12:52.665)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: EXP\_COLOR-3222\_R4
-
-Requested BSID: dynamic
-
-Explicit: segment-list PCE1-R3-R4 (valid)
-
-Weight: 1, Metric Type: TE
-
-19011 [Prefix-SID, 11.11.11.11]
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19004 [Prefix-SID, 4.4.4.4]
-
-Attributes:
-
-Binding SID: 119008
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 3232**
-
-SR-TE policy database
-
----------------------
-
-Color: 3232, End-point: 7.7.7.7
-
-Name: srte\_c\_3232\_ep\_7.7.7.7
-
-Status:
-
-Admin: up Operational: up for 00:12:33 (since Apr 14 00:12:52.665)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: EXP\_COLOR-3232\_R7
-
-Requested BSID: dynamic
-
-Explicit: segment-list R3-R4-R6-R5-R7 (valid)
-
-Weight: 1, Metric Type: TE
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19004
-
-19006
-
-19005
-
-19007
-
-Attributes:
-
-Binding SID: 119011
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-Color: 3232, End-point: 8.8.8.8
-
-Name: srte\_c\_3232\_ep\_8.8.8.8
-
-Status:
-
-Admin: up Operational: up for 00:12:33 (since Apr 14 00:12:52.665)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: EXP\_COLOR-3232\_R8
-
-Requested BSID: dynamic
-
-Explicit: segment-list R4-R3-R5-R6-R8 (valid)
-
-Weight: 1, Metric Type: TE
-
-19004 [Prefix-SID, 4.4.4.4]
-
-19003
-
-19005
-
-19006
-
-19008
-
-Attributes:
-
-Binding SID: 119020
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
 
 On R1 & R2, display cef for CE2 Loopback32 (150.22.2.2) and CE3 Loopback32 (150.23.2.2).
+```
+sh cef vrf CUSTOMER-A 150.22.2.2
+sh cef vrf CUSTOMER-A 150.23.2.2
+```
+![](images/3.4_4.png)
 
-RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.22.2.2**
 
-![Shape2](images/375de1d559d53e15.gif)
 
-Local-label is the binding sid
-
-150.22.2.2/32, version 51, internal 0x5000001 0x30 (ptr 0xd7affa0) [1], 0x0 (0xe1dc848), 0xa08 (0xec01ac8)
-
-Updated May 7 04:43:20.835
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 3
-
-via local-label 119008, 3 dependencies, recursive [flags 0x6000]
-
-![Shape3](images/fb07b8123d04d809.gif)
-
-119013 label imposed is the vpn label.
-
-path-idx 0 NHID 0x0 [0xd8f8670 0x0]
-
-recursion-via-label
-
-next hop VRF - 'default', table - 0xe0000000
-
-next hop via 119008/0/21
-
-next hop srte\_c\_3222\_ labels imposed {ImplNull 119013}
-
-RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.23.2.2**
-
-150.23.2.2/32, version 53, internal 0x5000001 0x30 (ptr 0xd7ae0f0) [1], 0x0 (0xe1dd148), 0xa08 (0xec01a80)
-
-Updated May 7 04:43:20.835
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 3
-
-via local-label 119011, 3 dependencies, recursive [flags 0x6000]
-
-path-idx 0 NHID 0x0 [0xd8f8378 0x0]
-
-recursion-via-label
-
-next hop VRF - 'default', table - 0xe0000000
-
-next hop via 119011/0/21
-
-next hop srte\_c\_3232\_ labels imposed {ImplNull 119004}
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2, display the binding SID info
-
-RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119008**
-
-Local Outgoing Prefix Outgoing Next Hop Bytes
-
-Label Label or ID Interface Switched
-
+```
+RP/0/RP0/CPU0:R1#sh mpls forwarding labels 119008
+ 
+Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes       
+Label  Label       or ID              Interface                    Switched    
 ------ ----------- ------------------ ------------ --------------- ------------
-
-119008 Pop No ID srte\_c\_3222\_ point2point 0
-
-RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119011**
-
-Local Outgoing Prefix Outgoing Next Hop Bytes
-
-Label Label or ID Interface Switched
-
+119008 Pop         No ID              srte_c_3222_ point2point     0           
+RP/0/RP0/CPU0:R1#sh mpls forwarding labels 119011
+ 
+Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes       
+Label  Label       or ID              Interface                    Switched    
 ------ ----------- ------------------ ------------ --------------- ------------
+119011 Pop         No ID              srte_c_3232_ point2point     0           
 
-119011 Pop No ID srte\_c\_3232\_ point2point 0
+```
+>NOTE:
+Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
+<br/>
 
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | For the first scenario, we will link everything together from the outputs to verify the label stack. Even though this is only shown here, the same steps can be followed for each scenario. |
+>NOTE:
+>For the first scenario, we will link everything together from the outputs to verify the label stack. Even though this is only shown here, the same steps can be followed for each scenario.
 
 Before looking at the traceroute let's predict the label stack for traffic hitting the SR-TE policy, entering R1.
 
@@ -1246,273 +599,139 @@ Since PCE1 (label 19011) is the next hop from R1, it will PHP the top lab and th
 Let's see if that is what we see.
 
 On CE1, traceroute to CE2 Loopback32 (150.22.2.2) & CE3 Loopback32 (150.23.2.2) to display the path taken.
-
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.22.2.2 source lo31 probe 1**
-
+```
+RP/0/0/CPU0:CE1#traceroute vrf CUSTOMER-A 150.22.2.2 source lo31 probe 1      
 Tue May 17 17:59:31.145 UTC
 
 Type escape sequence to abort.
-
 Tracing the route to 150.22.2.2
 
-1 r1 (172.1.21.0) 0 msec
+ 1  r1 (172.1.21.0) 0 msec 
+ 2  pce1 (172.1.11.1) [MPLS: Labels 19003/19004/119013 Exp 0] 0 msec 
+ 3  r3 (172.3.11.0) [MPLS: Labels 19004/119013 Exp 0] 119 msec 
+ 4  r4 (172.3.4.101) [MPLS: Label 119013 Exp 0] 19 msec 
+ 5  ce2 (172.4.22.1) 19 msec
 
-2 pce1 (172.1.11.1) [MPLS: Labels 19003/19004/119013 Exp 0] 0 msec
-
-3 r3 (172.3.11.0) [MPLS: Labels 19004/119013 Exp 0] 119 msec
-
-4 r4 (172.3.4.101) [MPLS: Label 119013 Exp 0] 19 msec
-
-5 ce2 (172.4.22.1) 19 msec
-
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.23.2.2 source lo32 probe 1**
-
+RP/0/0/CPU0:CE1#traceroute vrf CUSTOMER-A 150.23.2.2 source lo32 probe 1
 Tue May 17 18:03:04.340 UTC
 
 Type escape sequence to abort.
-
 Tracing the route to 150.23.2.2
 
-1 r1 (172.1.21.0) 19 msec
+ 1  r1 (172.1.21.0) 19 msec 
+ 2  r3 (172.1.3.1) [MPLS: Labels 19004/19006/19005/19007/119004 Exp 0] 39 msec 
+ 3  r4 (172.3.4.101) [MPLS: Labels 19006/19005/19007/119004 Exp 0] 9 msec 
+ 4  r6 (172.4.6.1) [MPLS: Labels 19005/19007/119004 Exp 0] 79 msec 
+ 5  r5 (172.5.6.0) [MPLS: Labels 19007/119004 Exp 0] 9 msec 
+ 6  r7 (172.5.7.1) [MPLS: Label 119004 Exp 0] 0 msec 
+ 7  ce3 (172.7.23.1) 0 msec
 
-2 r3 (172.1.3.1) [MPLS: Labels 19004/19006/19005/19007/119004 Exp 0] 39 msec
+```
 
-3 r4 (172.3.4.101) [MPLS: Labels 19006/19005/19007/119004 Exp 0] 9 msec
+>NOTE
+>Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
 
-4 r6 (172.4.6.1) [MPLS: Labels 19005/19007/119004 Exp 0] 79 msec
-
-5 r5 (172.5.6.0) [MPLS: Labels 19007/119004 Exp 0] 9 msec
-
-6 r7 (172.5.7.1) [MPLS: Label 119004 Exp 0] 0 msec
-
-7 ce3 (172.7.23.1) 0 msec
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
-
+<br/><br/>
 # Scenario 4 - Inter-Domain Network Slicing for Low Latency
 
 In this scenario, we will slice our network using a dynamic path. A dynamic path does not use a segment list, but it calculates on the head end the shortest path to the destination using the metric type selected. In this scenario, we will create a dynamic path from CE1 to CE3 Loopback33 (150.23.3.3) using delay as the metric.
 
-![](images/2f80a5b1f5c00c7d.gif)
+![](images/4.0_flowDiagram.png)
 
-## Task 1: Configure color Low Latency Traffic
+## Task 4.1: Configure color Low Latency Traffic
 
 Similar to what we did for Explicit path, we will assign the color at the tail end of the tunnel.
 
-NOTE: We can only configure one route-policy to any given neighbor in each direction also inline modification of a route-policy is not allowed, therefore we will need to recreate the route-policy to include previous lines and add our new lines.
+>NOTE: We can only configure one route-policy to any given neighbor in each direction also inline modification of a route-policy is not allowed, therefore we will need to recreate the route-policy to include previous lines and add our new lines.
 
 Apply the following configuration in R7 and R8:
+```
+extcommunity-set opaque COLOR-3233
+  3233
+end-set
+!
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path - Color 3232 #####
+  if destination in (150.23.2.2) then
+    set extcommunity color COLOR-3232
+    ##### Dynamic Path - Latency #####
+  elseif destination in (150.23.3.3) then
+    set extcommunity color COLOR-3233
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+```
 
-**extcommunity-set opaque COLOR-3233**
+>NOTE:
+>There is no need to apply the route-policy in the BGP of R7 & R8 towards CE3 since that was done in scenario 2 already.
 
-**3233**
+<br/><br/>
 
-**end-set**
 
-**!**
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path - Color 3232 #####**
-
-**if destination in (150.23.2.2) then**
-
-**set extcommunity color COLOR-3232**
-
-**##### Dynamic Path - Latency #####**
-
-**elseif destination in (150.23.3.3) then**
-
-**set extcommunity color COLOR-3233**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | There is no need to apply the route-policy in the BGP of R7 & R8 towards CE3 since that was done in scenario 2 already. |
-
-##
-
-## Task 2: Verify the prefix is tagged with the new color
+## Task 4.2: Verify the prefix is tagged with the new color
 
 In our path head-end (R1 & R2) we will display the BGP attributes of our prefix to make sure it has been tagged with the new color.
 
 In R1 & R2 issue the following command:
+```
+sh bgp vrf CUSTOMER-A 150.23.3.3
+```
+![](images/4.2_shBgp.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.3.3**
+>NOTE:
+>Output from R2 is similar, omitted for brevity. 
 
-BGP routing table entry for 150.23.3.3/32, Route Distinguisher: 1.1.1.1:3
+<br/><br/>
 
-Versions:
+#
 
-Process bRIB/RIB SendTblVer
-
-Speaker 40 40
-
-Last Modified: Apr 14 04:27:50.705 for 00:00:03
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119010
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 39
-
-Extended community: Color:3233 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119012
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3233 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. |
-
-##
-
-## Task 3: Configure SRTE policy Low Latency Traffic
+## Task 4.3: Configure SRTE policy Low Latency Traffic
 
 Similar to the explicit path, a dynamic path is identified by the head-end, color and tail-end tuple. In this task, we will be configuring at the head-end router the policy with the assigned color and tail-end (end-point) however instead of using an explicit list, we will be using a dynamic calculation based on the lowest latency path.
 
 On R1 & R2 apply the following configuration:
+```
+segment-routing
+ traffic-eng
+  policy DYN-Latency_COLOR-3233_R7
+   color 3233 end-point ipv4 7.7.7.7
+   candidate-paths
+    preference 100
+     dynamic
+      pcep
+      !
+      metric
+       type latency
+      !
+     !
+    !
+   !
+  !
+  policy DYN-Latency_COLOR-3233_R8
+   color 3233 end-point ipv4 8.8.8.8
+   candidate-paths
+    preference 100
+     dynamic
+      pcep
+      !
+      metric
+       type latency
+      !
+     !
+    !
+   !
+  !
+ !
+!
+```
 
-**segment-routing**
+>NOTE: For inter-domain SR-TE with multiple IGP without mutual redistribution, it is required to have a PCEP that can collect all the link information from all IGPs, without a PCEP, the head end will not have a complete view of the network and it will be unable to create a valid path that traverses multiple IGP.
 
-**traffic-eng**
+<br/><br/>
 
-**policy DYN-Latency\_COLOR-3233\_R7**
-
-**color 3233 end-point ipv4 7.7.7.7**
-
-**candidate-paths**
-
-**preference 100**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**metric**
-
-**type latency**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**policy DYN-Latency\_COLOR-3233\_R8**
-
-**color 3233 end-point ipv4 8.8.8.8**
-
-**candidate-paths**
-
-**preference 100**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**metric**
-
-**type latency**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-NOTE: For inter-domain SR-TE with multiple IGP without mutual redistribution, it is required to have a PCEP that can collect all the link information from all IGPs, without a PCEP, the head end will not have a complete view of the network and it will be unable to create a valid path that traverses multiple IGP.
-
-## Task 4: Verify Service Path
+## Task 4.4: Verify Service Path
 
 On R1 & R2 display the BGP prefix.
 
