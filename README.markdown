@@ -503,7 +503,8 @@ sh bgp vrf CUSTOMER-A 150.23.2.2
 
 
 >NOTE:
->Output from R2 is similar, omitted for brevity. |
+>Output from R2 is similar, omitted for brevity.
+
 <br/><br/>
 
 ## Task 3.3: Configure SRTE policy using Explicit-path
@@ -515,482 +516,127 @@ The segment-list describes each segment on the path that the packets will need t
 An Explicit-path policy is identified by the head-end, color and tail-end tuple, in this task we will be configuring at the head-end router the policy with the assigned color and tail-end (end-point).
 
 On R1 & R2 apply the following configuration:
+```
+segment-routing
+ traffic-eng
+  segment-list PCE1-R3-R4
+   index 10 mpls adjacency 11.11.11.11
+   index 20 mpls adjacency 3.3.3.3
+   index 30 mpls adjacency 4.4.4.4
+  !
+  segment-list R3-R4-R6-R5-R7
+   index 10 mpls label 19003
+   index 20 mpls label 19004
+   index 30 mpls label 19006
+   index 40 mpls label 19005
+   index 50 mpls label 19007
+  !
+  segment-list R4-R3-R5-R6-R8
+   index 10 mpls label 19004
+   index 20 mpls label 19003
+   index 30 mpls label 19005
+   index 40 mpls label 19006
+   index 50 mpls label 19008
+  !
+ 
+  policy EXP_COLOR-3222_R4
+   color 3222 end-point ipv4 4.4.4.4
+   candidate-paths
+    preference 100
+     explicit segment-list PCE1-R3-R4
+     !
+    !
+   !
+  !
+  policy EXP_COLOR-3232_R7
+   color 3232 end-point ipv4 7.7.7.7
+   candidate-paths
+    preference 100
+     explicit segment-list R3-R4-R6-R5-R7
 
-**segment-routing**
+     !
+    !
+   !      
+  !
+  policy EXP_COLOR-3232_R8
+   color 3232 end-point ipv4 8.8.8.8
+   candidate-paths
+    preference 100
+     explicit segment-list R4-R3-R5-R6-R8
+     !
+    !
+   !
+  !
+ !
+!
+```
 
-**traffic-eng**
-
-**segment-list PCE1-R3-R4**
-
-**index 10 mpls adjacency 11.11.11.11**
-
-**index 20 mpls adjacency 3.3.3.3**
-
-**index 30 mpls adjacency 4.4.4.4**
-
-**!**
-
-**segment-list R3-R4-R6-R5-R7**
-
-**index 10 mpls label 19003**
-
-**index 20 mpls label 19004**
-
-**index 30 mpls label 19006**
-
-**index 40 mpls label 19005**
-
-**index 50 mpls label 19007**
-
-**!**
-
-**segment-list R4-R3-R5-R6-R8**
-
-**index 10 mpls label 19004**
-
-**index 20 mpls label 19003**
-
-**index 30 mpls label 19005**
-
-**index 40 mpls label 19006**
-
-**index 50 mpls label 19008**
-
-**!**
-
-**policy EXP\_COLOR-3222\_R4**
-
-**color 3222 end-point ipv4 4.4.4.4**
-
-**candidate-paths**
-
-**preference 100**
-
-**explicit segment-list PCE1-R3-R4**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**policy EXP\_COLOR-3232\_R7**
-
-**color 3232 end-point ipv4 7.7.7.7**
-
-**candidate-paths**
-
-**preference 100**
-
-**explicit segment-list R3-R4-R6-R5-R7**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**policy EXP\_COLOR-3232\_R8**
-
-**color 3232 end-point ipv4 8.8.8.8**
-
-**candidate-paths**
-
-**preference 100**
-
-**explicit segment-list R4-R3-R5-R6-R8**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-## Task 4: Verify Service Path
+<br/><br/>
+## Task 3.4: Verify Service Path
 
 On R1 & R2 display the BGP prefixes.
+```
+sh bgp vrf CUSTOMER-A 150.22.2.2
+```
+![](images/3.4_1.png)
+```
+sh bgp vrf CUSTOMER-A 150.23.2.2
+```
+![](images/3.4_2.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.22.2.2**
-
-BGP routing table entry for 150.22.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 79 79
-
-Last Modified: May 7 04:43:20.425 for 00:20:31
-
-Paths: (1 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-4.4.4.4 C:3222 (bsid:119008) (metric 300) from 11.11.11.11 (4.4.4.4)
-
-Received Label 119013
-
-![Shape1](images/32a410b690a134b0.gif)
-
-Now SR policy is attached in BGP. This is automated steering,
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 76
-
-Extended community: Color:3222 RT:65001:3
-
-Originator: 4.4.4.4, Cluster list: 11.11.11.11
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3222, up, not-registered, bsid 119008
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 4.4.4.4:3
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.2.2**
-
-BGP routing table entry for 150.23.2.2/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 80 80
-
-Last Modified: May 7 04:43:20.425 for 00:20:35
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 C:3232 (bsid:119011) (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119004
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 77
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3232, up, not-registered, bsid 119011
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 C:3232 (bsid:119020) (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119002
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3232 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3232, up, not-registered, bsid 119020
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
-
-
-### NOTE:
-Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2 display the SR-TE policy details then observe the path and verify that the Binding SID matches the previous output
+```
+sh segment-routing traffic-eng policy color 3222
+```
+![](images/3.4_3.1.png)
+
+```
+sh segment-routing traffic-eng policy color 3232
+```
+![](images/3.4_3.2.png)
+
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 3222**
-
-SR-TE policy database
-
----------------------
-
-Color: 3222, End-point: 4.4.4.4
-
-Name: srte\_c\_3222\_ep\_4.4.4.4
-
-Status:
-
-Admin: up Operational: up for 00:11:36 (since Apr 14 00:12:52.665)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: EXP\_COLOR-3222\_R4
-
-Requested BSID: dynamic
-
-Explicit: segment-list PCE1-R3-R4 (valid)
-
-Weight: 1, Metric Type: TE
-
-19011 [Prefix-SID, 11.11.11.11]
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19004 [Prefix-SID, 4.4.4.4]
-
-Attributes:
-
-Binding SID: 119008
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 3232**
-
-SR-TE policy database
-
----------------------
-
-Color: 3232, End-point: 7.7.7.7
-
-Name: srte\_c\_3232\_ep\_7.7.7.7
-
-Status:
-
-Admin: up Operational: up for 00:12:33 (since Apr 14 00:12:52.665)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: EXP\_COLOR-3232\_R7
-
-Requested BSID: dynamic
-
-Explicit: segment-list R3-R4-R6-R5-R7 (valid)
-
-Weight: 1, Metric Type: TE
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19004
-
-19006
-
-19005
-
-19007
-
-Attributes:
-
-Binding SID: 119011
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-Color: 3232, End-point: 8.8.8.8
-
-Name: srte\_c\_3232\_ep\_8.8.8.8
-
-Status:
-
-Admin: up Operational: up for 00:12:33 (since Apr 14 00:12:52.665)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: EXP\_COLOR-3232\_R8
-
-Requested BSID: dynamic
-
-Explicit: segment-list R4-R3-R5-R6-R8 (valid)
-
-Weight: 1, Metric Type: TE
-
-19004 [Prefix-SID, 4.4.4.4]
-
-19003
-
-19005
-
-19006
-
-19008
-
-Attributes:
-
-Binding SID: 119020
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
 
 On R1 & R2, display cef for CE2 Loopback32 (150.22.2.2) and CE3 Loopback32 (150.23.2.2).
-
+```
 RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.22.2.2**
+```
+![](images/3.4_4.png)
 
-![Shape2](images/375de1d559d53e15.gif)
+```
+sh cef vrf CUSTOMER-A 150.23.2.2
+```
 
-Local-label is the binding sid
-
-150.22.2.2/32, version 51, internal 0x5000001 0x30 (ptr 0xd7affa0) [1], 0x0 (0xe1dc848), 0xa08 (0xec01ac8)
-
-Updated May 7 04:43:20.835
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 3
-
-via local-label 119008, 3 dependencies, recursive [flags 0x6000]
-
-![Shape3](images/fb07b8123d04d809.gif)
-
-119013 label imposed is the vpn label.
-
-path-idx 0 NHID 0x0 [0xd8f8670 0x0]
-
-recursion-via-label
-
-next hop VRF - 'default', table - 0xe0000000
-
-next hop via 119008/0/21
-
-next hop srte\_c\_3222\_ labels imposed {ImplNull 119013}
-
-RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.23.2.2**
-
-150.23.2.2/32, version 53, internal 0x5000001 0x30 (ptr 0xd7ae0f0) [1], 0x0 (0xe1dd148), 0xa08 (0xec01a80)
-
-Updated May 7 04:43:20.835
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 3
-
-via local-label 119011, 3 dependencies, recursive [flags 0x6000]
-
-path-idx 0 NHID 0x0 [0xd8f8378 0x0]
-
-recursion-via-label
-
-next hop VRF - 'default', table - 0xe0000000
-
-next hop via 119011/0/21
-
-next hop srte\_c\_3232\_ labels imposed {ImplNull 119004}
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2, display the binding SID info
-
-RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119008**
-
-Local Outgoing Prefix Outgoing Next Hop Bytes
-
-Label Label or ID Interface Switched
-
+```
+RP/0/RP0/CPU0:R1#sh mpls forwarding labels 119008
+ 
+Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes       
+Label  Label       or ID              Interface                    Switched    
 ------ ----------- ------------------ ------------ --------------- ------------
-
-119008 Pop No ID srte\_c\_3222\_ point2point 0
-
-RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119011**
-
-Local Outgoing Prefix Outgoing Next Hop Bytes
-
-Label Label or ID Interface Switched
-
+119008 Pop         No ID              srte_c_3222_ point2point     0           
+RP/0/RP0/CPU0:R1#sh mpls forwarding labels 119011
+ 
+Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes       
+Label  Label       or ID              Interface                    Switched    
 ------ ----------- ------------------ ------------ --------------- ------------
+119011 Pop         No ID              srte_c_3232_ point2point     0           
 
-119011 Pop No ID srte\_c\_3232\_ point2point 0
+```
+>NOTE:
+Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | For the first scenario, we will link everything together from the outputs to verify the label stack. Even though this is only shown here, the same steps can be followed for each scenario. |
+<br/>
+>NOTE:
+>For the first scenario, we will link everything together from the outputs to verify the label stack. Even though this is only shown here, the same steps can be followed for each scenario.
 
 Before looking at the traceroute let's predict the label stack for traffic hitting the SR-TE policy, entering R1.
 
@@ -1003,58 +649,39 @@ Since PCE1 (label 19011) is the next hop from R1, it will PHP the top lab and th
 Let's see if that is what we see.
 
 On CE1, traceroute to CE2 Loopback32 (150.22.2.2) & CE3 Loopback32 (150.23.2.2) to display the path taken.
-
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.22.2.2 source lo31 probe 1**
-
+```
+RP/0/0/CPU0:CE1#traceroute vrf CUSTOMER-A 150.22.2.2 source lo31 probe 1      
 Tue May 17 17:59:31.145 UTC
 
 Type escape sequence to abort.
-
 Tracing the route to 150.22.2.2
 
-1 r1 (172.1.21.0) 0 msec
+ 1  r1 (172.1.21.0) 0 msec 
+ 2  pce1 (172.1.11.1) [MPLS: Labels 19003/19004/119013 Exp 0] 0 msec 
+ 3  r3 (172.3.11.0) [MPLS: Labels 19004/119013 Exp 0] 119 msec 
+ 4  r4 (172.3.4.101) [MPLS: Label 119013 Exp 0] 19 msec 
+ 5  ce2 (172.4.22.1) 19 msec
 
-2 pce1 (172.1.11.1) [MPLS: Labels 19003/19004/119013 Exp 0] 0 msec
-
-3 r3 (172.3.11.0) [MPLS: Labels 19004/119013 Exp 0] 119 msec
-
-4 r4 (172.3.4.101) [MPLS: Label 119013 Exp 0] 19 msec
-
-5 ce2 (172.4.22.1) 19 msec
-
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.23.2.2 source lo32 probe 1**
-
+RP/0/0/CPU0:CE1#traceroute vrf CUSTOMER-A 150.23.2.2 source lo32 probe 1
 Tue May 17 18:03:04.340 UTC
 
 Type escape sequence to abort.
-
 Tracing the route to 150.23.2.2
 
-1 r1 (172.1.21.0) 19 msec
+ 1  r1 (172.1.21.0) 19 msec 
+ 2  r3 (172.1.3.1) [MPLS: Labels 19004/19006/19005/19007/119004 Exp 0] 39 msec 
+ 3  r4 (172.3.4.101) [MPLS: Labels 19006/19005/19007/119004 Exp 0] 9 msec 
+ 4  r6 (172.4.6.1) [MPLS: Labels 19005/19007/119004 Exp 0] 79 msec 
+ 5  r5 (172.5.6.0) [MPLS: Labels 19007/119004 Exp 0] 9 msec 
+ 6  r7 (172.5.7.1) [MPLS: Label 119004 Exp 0] 0 msec 
+ 7  ce3 (172.7.23.1) 0 msec
 
-2 r3 (172.1.3.1) [MPLS: Labels 19004/19006/19005/19007/119004 Exp 0] 39 msec
+```
 
-3 r4 (172.3.4.101) [MPLS: Labels 19006/19005/19007/119004 Exp 0] 9 msec
+>NOTE
+>Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
 
-4 r6 (172.4.6.1) [MPLS: Labels 19005/19007/119004 Exp 0] 79 msec
-
-5 r5 (172.5.6.0) [MPLS: Labels 19007/119004 Exp 0] 9 msec
-
-6 r7 (172.5.7.1) [MPLS: Label 119004 Exp 0] 0 msec
-
-7 ce3 (172.7.23.1) 0 msec
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
-
+<br/><br/>
 # Scenario 4 - Inter-Domain Network Slicing for Low Latency
 
 In this scenario, we will slice our network using a dynamic path. A dynamic path does not use a segment list, but it calculates on the head end the shortest path to the destination using the metric type selected. In this scenario, we will create a dynamic path from CE1 to CE3 Loopback33 (150.23.3.3) using delay as the metric.
