@@ -685,7 +685,6 @@ sh bgp vrf CUSTOMER-A 150.23.3.3
 
 <br/><br/>
 
-#
 
 ## Task 4.3: Configure SRTE policy Low Latency Traffic
 
@@ -776,7 +775,7 @@ On CE1, traceroute to CE3 Loopback33 (150.23.3.3) to display the path taken.
 ```
 traceroute vrf CUSTOMER-A 150.23.3.3 probe 1
 ```
-1[](images/4.4_5_tracert.png)
+![](images/4.4_5_tracert.png)
 
 >NOTE:
 >Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity.
@@ -807,650 +806,177 @@ performance-measurement
 
 The new SR-TE path will re-optimize to avoid the high delay links.
 
-![](images/ed9d4513afc3b5e2.gif)
+![](images/4.6_diagram.png)
 
 On R1 & R2 display the SR-TE policy details.
+```
+sh segment-routing traffic-eng policy color 3233
+```
+![](images/4.6_1_shSegTe.png)
 
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 3233**
-
-SR-TE policy database
-
----------------------
-
-Color: 3233, End-point: 7.7.7.7
-
-Name: srte\_c\_3233\_ep\_7.7.7.7
-
-Status:
-
-Admin: up Operational: up for 00:04:50 (since Apr 14 04:49:53.203)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: DYN\_COLOR-3233\_R7
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: cfg\_DYN\_COLOR-3233\_R7\_discr\_100
-
-PLSP-ID: 3
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: LATENCY, Path Accumulated Metric: 140
-
-19011 [Prefix-SID, 11.11.11.11]
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19005 [Prefix-SID, 5.5.5.5]
-
-19013 [Prefix-SID, 13.13.13.13]
-
-19007 [Prefix-SID, 7.7.7.7]
-
-Attributes:
-
-Binding SID: 119022
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-Color: 3233, End-point: 8.8.8.8
-
-Name: srte\_c\_3233\_ep\_8.8.8.8
-
-Status:
-
-Admin: up Operational: up for 00:04:50 (since Apr 14 04:49:53.203)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: DYN\_COLOR-3233\_R8
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: cfg\_DYN\_COLOR-3233\_R8\_discr\_100
-
-PLSP-ID: 4
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: LATENCY, Path Accumulated Metric: 140
-
-19011 [Prefix-SID, 11.11.11.11]
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19005 [Prefix-SID, 5.5.5.5]
-
-19013 [Prefix-SID, 13.13.13.13]
-
-19008 [Prefix-SID, 8.8.8.8]
-
-Attributes:
-
-Binding SID: 119024
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity.
 
 On CE1, traceroute to CE3 to display the new path taken.
+```
+traceroute vrf CUSTOMER-A 150.23.3.3 probe 1
+```
+![](images/4.6_2_tracert.png)
 
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-A 150.23.3.3 probe 1**
+>NOTE:
+>Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity.
 
-Type escape sequence to abort.
-
-Tracing the route to 150.23.3.3
-
-1 r1 (172.1.21.0) 9 msec
-
-2 pce1 (172.1.11.1) [MPLS: Labels 19003/19005/19013/19007/119010 Exp 0] 9 msec
-
-3 r3 (172.3.11.0) [MPLS: Labels 19005/19013/19007/119010 Exp 0] 0 msec
-
-4 r5 (172.3.5.1) [MPLS: Labels 19013/19007/119010 Exp 0] 0 msec
-
-5 pce3 (172.5.13.1) [MPLS: Labels 19007/119010 Exp 0] 0 msec
-
-6 r7 (172.7.13.0) [MPLS: Label 119010 Exp 0] 0 msec
-
-7 ce3 (172.7.23.1) 0 msec
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
-
-##
-
-## Task 7: Restore the original Latency value
+## Task 4.7: Restore the original Latency value
 
 On PCE2 restore the delay to R5 and R6 from 150ms to 10ms & 13ms respectively.
+```
+performance-measurement
+ interface GigabitEthernet0/0/0/2
+  delay-measurement
+   advertise-delay 10
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  delay-measurement
+   advertise-delay 13
+  !
+ !
+!
+```
+<br/><br/>
 
-**performance-measurement**
-
-**interface GigabitEthernet0/0/0/2**
-
-**delay-measurement**
-
-**advertise-delay 10**
-
-**!**
-
-**!**
-
-**interface GigabitEthernet0/0/0/3**
-
-**delay-measurement**
-
-**advertise-delay 13**
-
-**!**
-
-**!**
-
-**!**
+#
 
 # Scenario 5 - Inter-Domain Network Slicing for TE-Metric
 
 In this scenario, we will slice our network using a dynamic path with TE metric. We will create a dynamic path from CE1 to CE3 Loopback34 (150.23.4.4) using TE metric.
 
-![](images/ce8a3c921e9d73e2.gif)
+![](images/5.0_diagram.png)
 
-## Task 1: Configure color for TE-metric
+## Task 5.1: Configure color for TE-metric
 
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | We can only configure one route-policy to any given neighbor in each direction also inline modification of a route-policy is not allowed, therefore we will need to recreate the route-policy to include previous lines and add our new lines. |
+>NOTE:
+>We can only configure one route-policy to any given neighbor in each direction also inline modification of a route-policy is not allowed, therefore we will need to recreate the route-policy to include previous lines and add our new lines.
 
 Apply the following configuration in R7 and R8:
+```
+extcommunity-set opaque COLOR-3234
+  3234
+end-set
+!
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path - Color 3232 #####
+  if destination in (150.23.2.2) then
+    set extcommunity color COLOR-3232
+    ##### Dynamic Path - Latency #####
+  elseif destination in (150.23.3.3) then
+    set extcommunity color COLOR-3233
+    ##### Dynamic Path - TE #####
+  elseif destination in (150.23.4.4) then
+    set extcommunity color COLOR-3234
+ 
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+```
 
-**extcommunity-set opaque COLOR-3234**
+>NOTE:
+>There is no need to apply the route-policy in R7 & R8 towards CE3 since that was done in scenario 2 already. 
 
-**3234**
+<br/><br/>
 
-**end-set**
-
-**!**
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path - Color 3232 #####**
-
-**if destination in (150.23.2.2) then**
-
-**set extcommunity color COLOR-3232**
-
-**##### Dynamic Path - Latency #####**
-
-**elseif destination in (150.23.3.3) then**
-
-**set extcommunity color COLOR-3233**
-
-**##### Dynamic Path - TE #####**
-
-**elseif destination in (150.23.4.4) then**
-
-**set extcommunity color COLOR-3234**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | There is no need to apply the route-policy in R7 & R8 towards CE3 since that was done in scenario 2 already. |
-
-## Task 2: Verify the prefix is tagged with the new color
+## Task 5.2: Verify the prefix is tagged with the new color
 
 In our path head-end (R1 & R2) we will display the BGP attributes of our prefix to make sure it has been tagged with the right color.
 
 In R1 & R2 issue the following command:
+```
+sh bgp vrf CUSTOMER-A 150.23.4.4
+```
+![](images/5.2_1_shBgp.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.4.4**
+>NOTE:
+>Output from R2 is similar, omitted for brevity. 
 
-BGP routing table entry for 150.23.4.4/32, Route Distinguisher: 1.1.1.1:3
+<br/><br/>
 
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 46 46
-
-Last Modified: Apr 14 15:07:16.705 for 00:00:51
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119006
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 46
-
-Extended community: Color:3234 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119004
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3234 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
-
-RP/0/RP0/CPU0:R1#
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. |
-
-## Task 3: Configure SRTE policy for TE-metric
+## Task 5.3: Configure SRTE policy for TE-metric
 
 The configuration of dynamic path with TE metric is similar to the previous scenario where we used latency, the only difference is changing the metric type from latency to TE. Also, since we are going across multiple IGP without mutual redistribution, again we will be using a PCEP to obtain the dynamic path.
 
 On R1 & R2 apply the following configuration:
+```
+segment-routing
+ traffic-eng
+  policy DYN-TE_COLOR-3234_R7
+   color 3234 end-point ipv4 7.7.7.7
+   candidate-paths
+    preference 100
+     dynamic
+      pcep
+      !
+      metric
+       type te
+      !
+     !
+    !
+   !
+  !
+  policy DYN-TE_COLOR-3234_R8
+   color 3234 end-point ipv4 8.8.8.8
+   candidate-paths
+    preference 100
+     dynamic
+      pcep
+      !
+      metric
+       type te
+      !
+     !
+    !
+   !
+  !
+ !
+!
+```
+<br/><br/>
 
-**segment-routing**
-
-**traffic-eng**
-
-**policy DYN-TE\_COLOR-3234\_R7**
-
-**color 3234 end-point ipv4 7.7.7.7**
-
-**candidate-paths**
-
-**preference 100**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**metric**
-
-**type te**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**policy DYN-TE\_COLOR-3234\_R8**
-
-**color 3234 end-point ipv4 8.8.8.8**
-
-**candidate-paths**
-
-**preference 100**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**metric**
-
-**type te**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-## Task 4: Verify Service Path
+## Task 5.4: Verify Service Path
 
 On R1 & R2 display the BGP prefix.
+```
+sh bgp vrf CUSTOMER-A 150.23.4.4
+```
+![](images/5.4_1_shBgp.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.4.4**
-
-BGP routing table entry for 150.23.4.4/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 188 188
-
-Last Modified: May 9 15:29:15.425 for 00:00:34
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 C:3234 (bsid:119026) (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119006
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 186
-
-Extended community: Color:3234 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3234, up, not-registered, bsid 119026
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 C:3234 (bsid:119028) (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119004
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3234 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 3234, up, not-registered, bsid 119028
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2 display the SR-TE policy details then observe the path and verify that the Binding SID matches the previous output
-
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 3234**
-
+```
+sh segment-routing traffic-eng policy color 3234
+```
 SR-TE policy database
+![](images/5.4_2_shBgp.png)
 
----------------------
-
-Color: 3234, End-point: 7.7.7.7
-
-Name: srte\_c\_3234\_ep\_7.7.7.7
-
-Status:
-
-Admin: up Operational: up for 00:09:01 (since Apr 14 15:18:09.818)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: DYN\_COLOR-3234\_R7
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: cfg\_DYN\_COLOR-3234\_R7\_discr\_100
-
-PLSP-ID: 5
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: TE, Path Accumulated Metric: 2500
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19012 [Prefix-SID, 12.12.12.12]
-
-19005 [Prefix-SID, 5.5.5.5]
-
-19007 [Prefix-SID, 7.7.7.7]
-
-Attributes:
-
-Binding SID: 119026
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-Color: 3234, End-point: 8.8.8.8
-
-Name: srte\_c\_3234\_ep\_8.8.8.8
-
-Status:
-
-Admin: up Operational: up for 00:09:01 (since Apr 14 15:18:10.018)
-
-Candidate-paths:
-
-Preference: 100 (configuration) (active)
-
-Name: DYN\_COLOR-3234\_R8
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: cfg\_DYN\_COLOR-3234\_R8\_discr\_100
-
-PLSP-ID: 6
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: TE, Path Accumulated Metric: 2500
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19012 [Prefix-SID, 12.12.12.12]
-
-19006 [Prefix-SID, 6.6.6.6]
-
-19008 [Prefix-SID, 8.8.8.8]
-
-Attributes:
-
-Binding SID: 119028
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. 
 
 On R1 & R2, display cef for 150.23.4.4
-
+```
 RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.23.4.4**
+```
+![](images/5.4_3_shCef.png)
 
-Mon May 9 15:36:54.270 UTC
-
-150.23.4.4/32, version 123, internal 0x5000001 0x30 (ptr 0xd7aec08) [1], 0x0 (0xe1dcf08), 0xa08 (0xec01a80)
-
-Updated May 9 15:29:15.495
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 3
-
-via local-label 119026, 3 dependencies, recursive [flags 0x6000]
-
-path-idx 0 NHID 0x0 [0xd8f7cd0 0x0]
-
-recursion-via-label
-
-next hop VRF - 'default', table - 0xe0000000
-
-next hop via 119026/0/21
-
-next hop srte\_c\_3234\_ labels imposed {ImplNull 119006}
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2, display the binding SID info
-
+```
 RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119026**
-
+```
 Local Outgoing Prefix Outgoing Next Hop Bytes
 
 Label Label or ID Interface Switched
