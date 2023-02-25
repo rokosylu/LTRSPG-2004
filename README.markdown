@@ -318,129 +318,33 @@ Topology-Independent Loop-Free Alternate (TI-LFA) uses segment routing to provid
 
 TI-LFA is enabled under the interfaces in ISIS. Run the following command to verify the configuration.
 
-RP/0/RP0/CPU0:R3# **show run router isis ACCESS-1 interface**
+```
+show run router isis ACCESS-1 interface
+```
 
-router isis ACCESS-1
+![](images/shRunRouterIsisAccess.png)
+<br/>
 
-!
-
-interface Loopback0
-
-address-family ipv4 unicast
-
-tag 100
-
-prefix-sid index 3
-
-!
-
-interface GigabitEthernet0/0/0/1.34
-
-bfd minimum-interval 300
-
-bfd multiplier 4
-
-bfd fast-detect ipv4
-
-point-to-point
-
-hello-password hmac-md5 encrypted 104D000A0618
-
-address-family ipv4 unicast
-
-fast-reroute per-prefix
-
-fast-reroute per-prefix ti-lfa
-
-!
-
-interface GigabitEthernet0/0/0/2
-
-bfd minimum-interval 300
-
-bfd multiplier 4
-
-bfd fast-detect ipv4
-
-point-to-point
-
-hello-password hmac-md5 encrypted 110A1016141D
-
-address-family ipv4 unicast
-
-fast-reroute per-prefix
-
-fast-reroute per-prefix ti-lfa
-
-!
-
-interface GigabitEthernet0/0/0/3
-
-bfd minimum-interval 300
-
-bfd multiplier 4
-
-bfd fast-detect ipv4
-
-point-to-point
-
-hello-password hmac-md5 encrypted 14141B180F0B
-
-address-family ipv4 unicast
-
-fast-reroute per-prefix
-
-fast-reroute per-prefix ti-lfa
 
 Checking the details of the primary and backup path the following commands are run.
 
-NOTE: The primary path information is in GREEN and the backup path information is in BLUE.
+>NOTE: The primary path information is in GREEN and the backup path information is in BLUE.
 
-RP/0/RP0/CPU0:R3# **show isis ipv4 fast-reroute 1.1.1.1/32 detail**
+```
+show isis ipv4 fast-reroute 1.1.1.1/32 detail
+```
+![](images/shIsisIpv4Fast.png)
+<br/>
 
-L1 1.1.1.1/32 [200/115] Label: 19001, medium priority
-
-via 172.1.3.0, GigabitEthernet0/0/0/3, Label: ImpNull, R1 tag 100, SRGB Base: 19000, Weight: 0
-
-Backup path: LFA, via 172.3.11.1, GigabitEthernet0/0/0/2, Label: 19001, PCE1, SRGB Base: 19000, Weight: 0, Metric: 300
-
-P: No, TM: 300, LC: No, NP: No, D: No, SRLG: Yes
-
-src R1.00-00, 1.1.1.1, tag 100, prefix-SID index 1, R:0 N:1 P:0 E:0 V:0
-
-L:0, Alg:0
-
-RP/0/RP0/CPU0:R3# **show cef 1.1.1.1/32**
-
-1.1.1.1/32, version 110, labeled SR, internal 0x1000001 0x8310 (ptr 0xdbe72c8) [1], 0x0 (0xe4aa728), 0xa28 (0xf3932d8)
-
-Updated Apr 12 19:11:49.905
-
-remote adjacency to GigabitEthernet0/0/0/3
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 1
-
-via 172.1.3.0/32, GigabitEthernet0/0/0/3, 4 dependencies, weight 0, class 0, protected [flags 0x400]
-
-path-idx 0 bkup-idx 1 NHID 0x0 [0xf6e5b90 0xf6e5aa8]
-
-next hop 172.1.3.0/32
-
-local label 19001 labels imposed {ImplNull}
-
-via 172.3.11.1/32, GigabitEthernet0/0/0/2, 10 dependencies, weight 0, class 0, backup (Local-LFA) [flags 0x300]
-
-path-idx 1 NHID 0x0 [0xf2f3e58 0x0]
-
-next hop 172.3.11.1/32
-
-remote adjacency
-
-local label 19001 labels imposed {19001}
+```
+show cef 1.1.1.1/32
+```
+![](images/shCef.png)
 
 The output above shows the regular path sending the traffic to the link between R3-R1 via 171.1.3.0 with a ImpNull label (PHP). The backup path sends to traffic to PCE-1 via 172.3.11.1, and imposes the label of 19001.
+<br/><br/>
 
-## Task 4: Verify BGL-LS
+## Task 1.4: Verify BGL-LS
 
 BGP Link-State (LS) is an address family designed to carry an IGP link-state information through BGP. BGP-LS delivers the network topology information to topology servers, or any other application needing to know the topology for decisions.
 
