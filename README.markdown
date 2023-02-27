@@ -193,7 +193,7 @@ show isis adjacency
 ```
 
 
-![](images/isisadjacency.png)
+![](images/1.1_1_isisadjacency.png)
 
 You can verify the other ABRs (R4, R5, R6) have adjacencies in both processes.
 
@@ -219,7 +219,7 @@ Verify the size of the SRGB on R3 is the same as what is configured. It starts a
 ```
 sh mpls label table label 19000 detail 
 ```
-![](images/shMplsLabelTableLabel.png)
+![](images/1.2_2_shMplsLabTab.png)
 <br/><br/>
 
 The table below shows the table of the router hostname and the Prefix-Sid values.
@@ -283,7 +283,7 @@ Checking the details of the primary and backup path the following commands are r
 ```
 show isis ipv4 fast-reroute 1.1.1.1/32 detail
 ```
-![](images/shIsisIpv4Fast.png)
+![](images/1.3_2_shIsisFast.png)
 <br/>
 
 ```
@@ -566,20 +566,11 @@ sh cef vrf CUSTOMER-A 150.23.2.2
 
 On R1 & R2, display the binding SID info
 ```
-RP/0/RP0/CPU0:R1#sh mpls forwarding labels 119008
- 
-Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes       
-Label  Label       or ID              Interface                    Switched    
------- ----------- ------------------ ------------ --------------- ------------
-119008 Pop         No ID              srte_c_3222_ point2point     0           
-RP/0/RP0/CPU0:R1#sh mpls forwarding labels 119011
- 
-Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes       
-Label  Label       or ID              Interface                    Switched    
------- ----------- ------------------ ------------ --------------- ------------
-119011 Pop         No ID              srte_c_3232_ point2point     0           
+sh mpls forwarding labels 119008
+sh mpls forwarding labels 119011
+ ```
+![](images/3.4_5_shMplsForLab.png)
 
-```
 >NOTE:
 Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
@@ -600,33 +591,10 @@ Let's see if that is what we see.
 
 On CE1, traceroute to CE2 Loopback32 (150.22.2.2) & CE3 Loopback32 (150.23.2.2) to display the path taken.
 ```
-RP/0/0/CPU0:CE1#traceroute vrf CUSTOMER-A 150.22.2.2 source lo31 probe 1      
-Tue May 17 17:59:31.145 UTC
-
-Type escape sequence to abort.
-Tracing the route to 150.22.2.2
-
- 1  r1 (172.1.21.0) 0 msec 
- 2  pce1 (172.1.11.1) [MPLS: Labels 19003/19004/119013 Exp 0] 0 msec 
- 3  r3 (172.3.11.0) [MPLS: Labels 19004/119013 Exp 0] 119 msec 
- 4  r4 (172.3.4.101) [MPLS: Label 119013 Exp 0] 19 msec 
- 5  ce2 (172.4.22.1) 19 msec
-
-RP/0/0/CPU0:CE1#traceroute vrf CUSTOMER-A 150.23.2.2 source lo32 probe 1
-Tue May 17 18:03:04.340 UTC
-
-Type escape sequence to abort.
-Tracing the route to 150.23.2.2
-
- 1  r1 (172.1.21.0) 19 msec 
- 2  r3 (172.1.3.1) [MPLS: Labels 19004/19006/19005/19007/119004 Exp 0] 39 msec 
- 3  r4 (172.3.4.101) [MPLS: Labels 19006/19005/19007/119004 Exp 0] 9 msec 
- 4  r6 (172.4.6.1) [MPLS: Labels 19005/19007/119004 Exp 0] 79 msec 
- 5  r5 (172.5.6.0) [MPLS: Labels 19007/119004 Exp 0] 9 msec 
- 6  r7 (172.5.7.1) [MPLS: Label 119004 Exp 0] 0 msec 
- 7  ce3 (172.7.23.1) 0 msec
-
+traceroute vrf CUSTOMER-A 150.22.2.2 source lo31 probe 1      
+traceroute vrf CUSTOMER-A 150.23.2.2 source lo32 probe 1
 ```
+![](images/3.4_6_tracert.png)
 
 >NOTE
 >Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
@@ -1229,268 +1197,112 @@ traceroute vrf CUSTOMER-A 150.23.6.6 probe 1
 >Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. 
 <br/><br/>
 
-# Scenario 8 – Intra and Inter-Domain Network Slicing for On-Demand Next Hop (ODN)
+# Scenario 7 – Intra and Inter-Domain Network Slicing for On-Demand Next Hop (ODN)
 
 Segment Routing On-Demand Next Hop (ODN) allows a service head-end router to automatically instantiate an SR policy to a BGP next-hop when required (on-demand).
 
 For this scenario, we will be using CE2 Loopback 37 (150.22.7.7) and CE3 Loopback37 (150.23.7.7) both will use the color 3207
 
-![](images/a9bf7dbf27925959.gif)
+![](images/7.0_diagram.png)
+<br/><br/>
 
-## Task 1: Configure color for ODN
+## Task 7.1: Configure color for ODN
 
 Create the extended community and update the route-policy.
 
 Apply the following configuration in R4:
-
-**extcommunity-set opaque COLOR-3207**
-
-**3207**
-
-**end-set**
-
-**!**
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path - Color 3222 #####**
-
-**if destination in (150.22.2.2) then**
-
-**set extcommunity color COLOR-3222**
-
-**##### ODN - Latency #####**
-
-**elseif destination in (150.22.7.7) then**
-
-**set extcommunity color COLOR-3207**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
+```
+extcommunity-set opaque COLOR-3207
+  3207
+end-set
+!
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path - Color 3222 #####
+  if destination in (150.22.2.2) then
+    set extcommunity color COLOR-3222
+    ##### ODN - Latency #####
+  elseif destination in (150.22.7.7) then
+    set extcommunity color COLOR-3207
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+```
 
 Apply the following configuration in R7 and R8:
+```
+extcommunity-set opaque COLOR-3207
+  3207
+end-set
+!
+route-policy CUST-A_SET_COLOR_IN
+  ##### Explicit Path - Color 3232 #####
+  if destination in (150.23.2.2) then
+    set extcommunity color COLOR-3232
+    ##### Dynamic Path - Latency #####
+  elseif destination in (150.23.3.3) then
+    set extcommunity color COLOR-3233
+    ##### Dynamic Path - TE #####
+  elseif destination in (150.23.4.4) then
+    set extcommunity color COLOR-3234
+    ##### Anycast SID - TE #####
+  elseif destination in (150.23.5.5) then
+    set extcommunity color COLOR-3235
+    ##### Affinity - TE #####
+  elseif destination in (150.23.6.6) then
+    set extcommunity color COLOR-3236
+    ##### ODN - Latency #####
+  elseif destination in (150.23.7.7) then
+    set extcommunity color COLOR-3207
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+```
 
-**extcommunity-set opaque COLOR-3207**
+>NOTE: There is no need to apply the route-policy in R4, R7 & R8 towards CE3 since that was done in scenario 2 already.
+<br/><br/>
 
-**3207**
-
-**end-set**
-
-**!**
-
-**route-policy CUST-A\_SET\_COLOR\_IN**
-
-**##### Explicit Path - Color 3232 #####**
-
-**if destination in (150.23.2.2) then**
-
-**set extcommunity color COLOR-3232**
-
-**##### Dynamic Path - Latency #####**
-
-**elseif destination in (150.23.3.3) then**
-
-**set extcommunity color COLOR-3233**
-
-**##### Dynamic Path - TE #####**
-
-**elseif destination in (150.23.4.4) then**
-
-**set extcommunity color COLOR-3234**
-
-**##### Anycast SID - TE #####**
-
-**elseif destination in (150.23.5.5) then**
-
-**set extcommunity color COLOR-3235**
-
-**##### Affinity - TE #####**
-
-**elseif destination in (150.23.6.6) then**
-
-**set extcommunity color COLOR-3236**
-
-**##### ODN - Latency #####**
-
-**elseif destination in (150.23.7.7) then**
-
-**set extcommunity color COLOR-3207**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-NOTE: There is no need to apply the route-policy in R4, R7 & R8 towards CE3 since that was done in scenario 2 already.
-
-## Task 2: Verify the prefix is tagged with the new color
+## Task 7.2: Verify the prefix is tagged with the new color
 
 In our path head-end (R1 & R2) we will display the BGP attributes of our prefix to make sure it has been tagged with the right color.
 
 In R1 & R2 issue the following commands:
+```
+sh bgp vrf CUSTOMER-A 150.22.7.7
+sh bgp vrf CUSTOMER-A 150.23.7.7
+```
+![](images/7.2_1_shBgp.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.22.7.7**
-
-BGP routing table entry for 150.22.7.7/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 197 197
-
-Last Modified: May 9 16:10:51.425 for 00:01:25
-
-Paths: (1 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-4.4.4.4 (metric 300) from 11.11.11.11 (4.4.4.4)
-
-Received Label 119016
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 197
-
-Extended community: Color:3207 RT:65001:3
-
-Originator: 4.4.4.4, Cluster list: 11.11.11.11
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 4.4.4.4:3
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-A 150.23.7.7**
-
-BGP routing table entry for 150.23.7.7/32, Route Distinguisher: 1.1.1.1:3
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 63 63
-
-Last Modified: Apr 19 04:57:32.272 for 00:00:15
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.1
-
-Local
-
-7.7.7.7 (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119009
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 62
-
-Extended community: Color:3207 RT:65001:3
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:3
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119007
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:3207 RT:65001:3
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:3
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity.
+<br/><br/>
 
 ## Task 3: Configure SRTE policy to use ODN vs defined end point.
 
 The configuration of SR-TE ODN does not use the end-point IP, instead it dynamically creates the path based on the received BGP routes next hop, then the head-end will contact the PCE and request the path towards the destination that minimize the cumulative latency
 
 On R1 and R2 issue the following command:
+```
+segment-routing
+ traffic-eng
+  on-demand color 3207
+   dynamic
+    pcep
+    !
+    metric
+     type latency
+    !
+   !
+  !
+ !
+!
+```
+<br/><br/>
 
-**segment-routing**
-
-**traffic-eng**
-
-**on-demand color 3207**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**metric**
-
-**type latency**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-## Task 4: Verify Service Path
+## Task 7.4: Verify Service Path
 
 On R1 & R2 display the BGP prefixes.
 
