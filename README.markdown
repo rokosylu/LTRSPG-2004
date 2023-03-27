@@ -1775,8 +1775,8 @@ On R1 & R2 display the SR-TE policy details then observe the path and verify tha
 ```
 sh segment-routing traffic-eng policy color 4128
 ```
-![](images/8.7_1.png)
 ![](images/8.7_2.png)
+![](images/8.7_3.png)
 >NOTE:
 >Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
