@@ -1559,888 +1559,226 @@ router isis ACCESS-1
 
 Apply the following configuration in PCE2:
 ```
-
+router isis AGG-CORE
+ flex-algo 128
+!
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid algorithm 128 absolute 112128
+  !
+ !
 ```
-**router isis AGG-CORE**
-
-**flex-algo 128**
-
-**!**
-
-**interface Loopback0**
-
-**address-family ipv4 unicast**
-
-**prefix-sid algorithm 128 absolute 112128**
-
-**!**
-
-**!**
 
 Apply the following configuration in PCE3:
+```
+router isis ACCESS-2
+ flex-algo 128
+!
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid algorithm 128 absolute 113128
+  !
+ !
+```
 
-**router isis ACCESS-2**
-
-**flex-algo 128**
-
-**!**
-
-**interface Loopback0**
-
-**address-family ipv4 unicast**
-
-**prefix-sid algorithm 128 absolute 113128**
-
-**!**
-
-**!**
 
 Apply the following configuration in R7:
+```
+router isis ACCESS-2
+ flex-algo 128
+!
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid algorithm 128 absolute 107128
+  !
+ !
+```
 
-**router isis ACCESS-2**
-
-**flex-algo 128**
-
-**!**
-
-**interface Loopback0**
-
-**address-family ipv4 unicast**
-
-**prefix-sid algorithm 128 absolute 107128**
-
-**!**
-
-**!**
 
 Apply the following configuration in R8:
+```
+router isis ACCESS-2
+ flex-algo 128
+!
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid algorithm 128 absolute 108128
+  !
+ !
+```
+<br/><br/>
 
-**router isis ACCESS-2**
-
-**flex-algo 128**
-
-**!**
-
-**interface Loopback0**
-
-**address-family ipv4 unicast**
-
-**prefix-sid algorithm 128 absolute 108128**
-
-**!**
-
-**!**
-
-## Task 3: Verify Flex Algo 128 on all ISIS nodes
+## Task 8.3: Verify Flex Algo 128 on all ISIS nodes
 
 Issue the following command on R1, R2 & PCE1:
+```
+sh isis flex-algo 128
+```
 
-RP/0/RP0/CPU0:R1# **sh isis flex-algo 128**
+![](images/8.3_1.png)
 
-IS-IS ACCESS-1 Flex-Algo Database
-
-Flex-Algo 128:
-
-Level-1:
-
-Definition Priority: 128
-
-Definition Source: R4.00
-
-Definition Equal to Local: No
-
-Definition Metric Type: Delay
-
-Definition Flex-Algo Prefix Metric: No
-
-Disabled: No
-
-Local Priority: 128
-
-FRR Disabled: No
-
-Microloop Avoidance Disabled: No
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 & PCE1 are similar, omitted for brevity. |
+>NOTE:
+>Output from R2 & PCE1 are similar, omitted for brevity. 
 
 Issue the following command on R3, R4 & PCE2:
+```
+sh isis flex-algo 128
+```
 
-RP/0/RP0/CPU0:R3# **sh isis flex-algo 128**
+![](images/8.3_2.png)
 
-IS-IS ACCESS-1 Flex-Algo Database
-
-Flex-Algo 128:
-
-Level-1:
-
-Definition Priority: 128
-
-Definition Source: R4.00
-
-Definition Equal to Local: Yes
-
-Definition Metric Type: Delay
-
-Definition Flex-Algo Prefix Metric: No
-
-Disabled: No
-
-Local Priority: 128
-
-FRR Disabled: No
-
-Microloop Avoidance Disabled: No
-
-IS-IS AGG-CORE Flex-Algo Database
-
-Flex-Algo 128:
-
-Level-1:
-
-Definition Priority: 128
-
-Definition Source: R6.00
-
-Definition Equal to Local: Yes
-
-Definition Metric Type: Delay
-
-Definition Flex-Algo Prefix Metric: No
-
-Disabled: No
-
-Local Priority: 128
-
-FRR Disabled: No
-
-Microloop Avoidance Disabled: No
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R4 & PCE2 are similar, omitted for brevity. |
+>NOTE:
+>Output from R4 & PCE2 are similar, omitted for brevity.
 
 Issue the following commands on R5, R6, PCE3, R7 & R8:
+```
+show isis flex-algo 128
+```
 
-RP/0/RP0/CPU0:R5# **show isis flex-algo 128**
+![](images/8.3_3.png)
 
-IS-IS ACCESS-2 Flex-Algo Database
+>NOTE:
+>Output from R6,PCE3 & R8 are similar, omitted for brevity. 
+<br/><br/>
 
-Flex-Algo 128:
-
-Level-1:
-
-Definition Priority: 128
-
-Definition Source: R6.00
-
-Definition Equal to Local: Yes
-
-Definition Metric Type: Delay
-
-Definition Flex-Algo Prefix Metric: No
-
-Disabled: No
-
-Local Priority: 128
-
-FRR Disabled: No
-
-Microloop Avoidance Disabled: No
-
-IS-IS AGG-CORE Flex-Algo Database
-
-Flex-Algo 128:
-
-Level-1:
-
-Definition Priority: 128
-
-Definition Source: R6.00
-
-Definition Equal to Local: Yes
-
-Definition Metric Type: Delay
-
-Definition Flex-Algo Prefix Metric: No
-
-Disabled: No
-
-Local Priority: 128
-
-FRR Disabled: No
-
-Microloop Avoidance Disabled: No
-
-RP/0/RP0/CPU0:R7# **sh isis flex-algo 128**
-
-Tue May 3 02:29:09.983 UTC
-
-IS-IS ACCESS-2 Flex-Algo Database
-
-Flex-Algo 128:
-
-Level-1:
-
-Definition Priority: 128
-
-Definition Source: R6.00
-
-Definition Equal to Local: No
-
-Definition Metric Type: Delay
-
-Definition Flex-Algo Prefix Metric: No
-
-Disabled: No
-
-Local Priority: 128
-
-FRR Disabled: No
-
-Microloop Avoidance Disabled: No
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R6,PCE3 & R8 are similar, omitted for brevity. |
-
-## Task 4: RPL to Color CE prefixes of VRF CUSTOMER-B on R4, R7 & R8
+## Task 8.4: RPL to Color CE prefixes of VRF CUSTOMER-B on R4, R7 & R8
 
 Apply the following configuration in R4:
+```
+extcommunity-set opaque COLOR-4128
+  4128
+end-set
+!
+route-policy CUST-B_SET_COLOR_IN
+  ##### ODN Flex Algo 128 - Latency #####
+  if destination in (150.22.7.7) then
+    set extcommunity color COLOR-4128
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+!
+router bgp 65001
+ vrf CUSTOMER-B
+  neighbor 172.4.22.101
+   address-family ipv4 unicast
+    route-policy CUST-B_SET_COLOR_IN in
+   !
+  !
+ !
+!
+```
 
-**extcommunity-set opaque COLOR-4128**
-
-**4128**
-
-**end-set**
-
-**!**
-
-**route-policy CUST-B\_SET\_COLOR\_IN**
-
-**##### ODN Flex Algo 128 - Latency #####**
-
-**if destination in (150.22.7.7) then**
-
-**set extcommunity color COLOR-4128**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-**!**
-
-**router bgp 65001**
-
-**vrf CUSTOMER-B**
-
-**neighbor 172.4.22.101**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-B\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
 
 Apply the following configuration in R7:
-
-**extcommunity-set opaque COLOR-4128**
-
-**4128**
-
-**end-set**
-
-**!**
-
-**route-policy CUST-B\_SET\_COLOR\_IN**
-
-**##### ODN Flex Algo 128 - Latency #####**
-
-**if destination in (150.23.7.7) then**
-
-**set extcommunity color COLOR-4128**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-**!**
-
-**router bgp 65001**
-
-**vrf CUSTOMER-B**
-
-**neighbor 172.7.23.101**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-B\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
+```
+extcommunity-set opaque COLOR-4128
+  4128
+end-set
+!
+route-policy CUST-B_SET_COLOR_IN
+  ##### ODN Flex Algo 128 - Latency #####
+  if destination in (150.23.7.7) then
+    set extcommunity color COLOR-4128
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+!
+router bgp 65001
+ vrf CUSTOMER-B
+  neighbor 172.7.23.101
+   address-family ipv4 unicast
+    route-policy CUST-B_SET_COLOR_IN in
+   !
+  !
+ !
+!
+```
 
 Apply the following configuration in R8:
+```
+extcommunity-set opaque COLOR-4128
+  4128
+end-set
+!
+route-policy CUST-B_SET_COLOR_IN
+  ##### ODN Flex Algo 128 - Latency #####
+  if destination in (150.23.7.7) then
+    set extcommunity color COLOR-4128
+    ##### Everything Else #####
+  else
+    pass
+  endif
+end-policy
+!
+router bgp 65001
+ vrf CUSTOMER-B
+  neighbor 172.8.23.101
+   address-family ipv4 unicast
+    route-policy CUST-B_SET_COLOR_IN in
+   !
+  !
+ !
+!
+```
+<br/><br/>
 
-**extcommunity-set opaque COLOR-4128**
-
-**4128**
-
-**end-set**
-
-**!**
-
-**route-policy CUST-B\_SET\_COLOR\_IN**
-
-**##### ODN Flex Algo 128 - Latency #####**
-
-**if destination in (150.23.7.7) then**
-
-**set extcommunity color COLOR-4128**
-
-**##### Everything Else #####**
-
-**else**
-
-**pass**
-
-**endif**
-
-**end-policy**
-
-**!**
-
-**router bgp 65001**
-
-**vrf CUSTOMER-B**
-
-**neighbor 172.8.23.101**
-
-**address-family ipv4 unicast**
-
-**route-policy CUST-B\_SET\_COLOR\_IN in**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-## Task 5: Verify the prefix is tagged with the new color
+## Task 8.5: Verify the prefix is tagged with the new color
 
 On our path head-end (R1 & R2) we will display the BGP attributes of our prefix to make sure it has been tagged with the right color (4128).
 
 On R1 & R2 issue the following commands:
+```
+sh bgp vrf CUSTOMER-B 150.22.7.7
+sh bgp vrf CUSTOMER-B 150.23.7.7
+```
+![](images/8.5_1.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-B 150.22.7.7**
+>NOTE: Output from R2 is similar, omitted for brevity.
+<br/><br/>
 
-BGP routing table entry for 150.22.7.7/32, Route Distinguisher: 1.1.1.1:4
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 122 122
-
-Last Modified: May 3 03:03:40.059 for 00:00:44
-
-Paths: (1 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Local
-
-4.4.4.4 (metric 300) from 11.11.11.11 (4.4.4.4)
-
-Received Label 119015
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 122
-
-Extended community: **Color:4128** RT:65001:4
-
-Originator: 4.4.4.4, Cluster list: 11.11.11.11
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 4.4.4.4:4
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-B 150.23.7.7**
-
-BGP routing table entry for 150.23.7.7/32, Route Distinguisher: 1.1.1.1:4
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 117 117
-
-Last Modified: May 3 02:44:33.059 for 00:15:44
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Local
-
-7.7.7.7 (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119018
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 116
-
-Extended community: **Color:4128** RT:65001:4
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:4
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119007
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: **Color:4128** RT:65001:4
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:4
-
-NOTE: Output from R2 is similar, omitted for brevity.
-
-## Task 6: ODN and flex Algo 128 policy on R1 & R2
+## Task 8.6: ODN and flex Algo 128 policy on R1 & R2
 
 Configure SR Policy with ODN and Flex Algo on the head end R1 and R2.
 
 Apply the following configuration in R1 & R2:
+```
+segment-routing
+ traffic-eng
+  on-demand color 4128
+   dynamic
+    pcep
+    !
+    sid-algorithm 128
+   !
+  !
+ !
+!
+```
+<br/><br/>
 
-**segment-routing**
-
-**traffic-eng**
-
-**on-demand color 4128**
-
-**dynamic**
-
-**pcep**
-
-**!**
-
-**sid-algorithm 128**
-
-**!**
-
-**!**
-
-**!**
-
-**!**
-
-## Task 7: Verify Service Path
+## Task 8.7: Verify Service Path
 
 On R1 & R2 display the BGP prefixes.
+```
+sh bgp vrf CUSTOMER-B 150.22.7.7
+```
+![](images/8.7_1.png)
 
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-B 150.22.7.7**
-
-BGP routing table entry for 150.22.7.7/32, Route Distinguisher: 1.1.1.1:4
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 203 203
-
-Last Modified: May 9 21:34:15.425 for 02:36:05
-
-Paths: (1 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Local
-
-4.4.4.4 C:4128 (bsid:119072) (metric 300) from 11.11.11.11 (4.4.4.4)
-
-Received Label 119004
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 202
-
-Extended community: Color:4128 RT:65001:4
-
-Originator: 4.4.4.4, Cluster list: 11.11.11.11
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 4128, up, registered, bsid 119072, if-handle 0x000000b4
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 4.4.4.4:4
-
-RP/0/RP0/CPU0:R1# **sh bgp vrf CUSTOMER-B 150.23.7.7**
-
-BGP routing table entry for 150.23.7.7/32, Route Distinguisher: 1.1.1.1:4
-
-Versions:
-
-Process bRIB/RIB SendTblVer
-
-Speaker 204 204
-
-Last Modified: May 9 21:34:15.425 for 02:36:13
-
-Paths: (2 available, best #1)
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Path #1: Received by speaker 0
-
-Advertised to CE peers (in unique update groups):
-
-172.1.21.101
-
-Local
-
-7.7.7.7 C:4128 (bsid:119075) (metric 600) from 11.11.11.11 (7.7.7.7)
-
-Received Label 119018
-
-Origin incomplete, metric 0, localpref 100, valid, internal, best, group-best, import-candidate, imported
-
-Received Path ID 1, Local Path ID 1, version 200
-
-Extended community: Color:4128 RT:65001:4
-
-Originator: 7.7.7.7, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 4128, up, registered, bsid 119075, if-handle 0x000000bc
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 7.7.7.7:4
-
-Path #2: Received by speaker 0
-
-Not advertised to any peer
-
-Local
-
-8.8.8.8 C:4128 (bsid:119076) (metric 700) from 11.11.11.11 (8.8.8.8)
-
-Received Label 119020
-
-Origin incomplete, metric 0, localpref 100, valid, internal, import-candidate, imported
-
-Received Path ID 1, Local Path ID 0, version 0
-
-Extended community: Color:4128 RT:65001:4
-
-Originator: 8.8.8.8, Cluster list: 11.11.11.11, 3.3.3.3, 12.12.12.12, 5.5.5.5, 13.13.13.13
-
-EVPN Gateway Address : 0.0.0.0
-
-SR policy color 4128, up, registered, bsid 119076, if-handle 0x000000c4
-
-Source AFI: L2VPN EVPN, Source VRF: default, Source Route Distinguisher: 8.8.8.8:4
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2 display the SR-TE policy details then observe the path and verify that the Binding SID matches the previous output
-
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 4128**
-
-SR-TE policy database
-
----------------------
-
-Color: 4128, End-point: 4.4.4.4
-
-Name: srte\_c\_4128\_ep\_4.4.4.4
-
-Status:
-
-Admin: up Operational: up for 00:07:30 (since May 3 03:17:04.171)
-
-Candidate-paths:
-
-Preference: 200 (BGP ODN) (shutdown)
-
-Requested BSID: dynamic
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (invalid)
-
-Metric Type: TE, Path Accumulated Metric: 0
-
-Preference: 100 (BGP ODN) (active)
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: bgp\_c\_4128\_ep\_4.4.4.4\_discr\_100
-
-PLSP-ID: 12
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: LATENCY, Path Accumulated Metric: 23
-
-104128 [Prefix-SID, 4.4.4.4]
-
-Attributes:
-
-Binding SID: 119072
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-Color: 4128, End-point: 7.7.7.7
-
-Name: srte\_c\_4128\_ep\_7.7.7.7
-
-Status:
-
-Admin: up Operational: up for 00:07:30 (since May 3 03:17:04.205)
-
-Candidate-paths:
-
-Preference: 200 (BGP ODN) (shutdown)
-
-Requested BSID: dynamic
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (invalid)
-
-Metric Type: TE, Path Accumulated Metric: 0
-
-Preference: 100 (BGP ODN) (active)
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: bgp\_c\_4128\_ep\_7.7.7.7\_discr\_100
-
-PLSP-ID: 13
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: LATENCY, Path Accumulated Metric: 60
-
-103128 [Prefix-SID, 3.3.3.3]
-
-105128 [Prefix-SID, 5.5.5.5]
-
-107128 [Prefix-SID, 7.7.7.7]
-
-Attributes:
-
-Binding SID: 119075
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-Color: 4128, End-point: 8.8.8.8
-
-Name: srte\_c\_4128\_ep\_8.8.8.8
-
-Status:
-
-Admin: up Operational: up for 00:07:30 (since May 3 03:17:04.205)
-
-Candidate-paths:
-
-Preference: 200 (BGP ODN) (shutdown)
-
-Requested BSID: dynamic
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (invalid)
-
-Metric Type: TE, Path Accumulated Metric: 0
-
-Preference: 100 (BGP ODN) (active)
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: bgp\_c\_4128\_ep\_8.8.8.8\_discr\_100
-
-PLSP-ID: 14
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: LATENCY, Path Accumulated Metric: 60
-
-103128 [Prefix-SID, 3.3.3.3]
-
-105128 [Prefix-SID, 5.5.5.5]
-
-108128 [Prefix-SID, 8.8.8.8]
-
-Attributes:
-
-Binding SID: 119076
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+```
+sh segment-routing traffic-eng policy color 4128
+```
+![](images/8.7_1.png)
+![](images/8.7_2.png)
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2, display cef for 150.22.7.7 and 150.23.7.7
 
