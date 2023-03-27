@@ -1781,7 +1781,9 @@ sh segment-routing traffic-eng policy color 4128
 >Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab.
 
 On R1 & R2, display cef for 150.22.7.7 and 150.23.7.7
-
+```
+sh cef vrf CUSTOMER-B 150.22.7.7
+```
 RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-B 150.22.7.7**
 
 150.22.7.7/32, version 130, internal 0x5000001 0x30 (ptr 0xd7af960) [1], 0x0 (0xe1dc920), 0xa08 (0xec026e0)
