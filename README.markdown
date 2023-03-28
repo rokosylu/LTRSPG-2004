@@ -1784,447 +1784,123 @@ On R1 & R2, display cef for 150.22.7.7 and 150.23.7.7
 ```
 sh cef vrf CUSTOMER-B 150.22.7.7
 ```
-RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-B 150.22.7.7**
+![](images/8.7_4.png)
 
-150.22.7.7/32, version 130, internal 0x5000001 0x30 (ptr 0xd7af960) [1], 0x0 (0xe1dc920), 0xa08 (0xec026e0)
-
-Updated May 9 21:34:15.270
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 3
-
-via local-label 119072, 3 dependencies, recursive [flags 0x6000]
-
-path-idx 0 NHID 0x0 [0xd8f6668 0x0]
-
-recursion-via-label
-
-next hop VRF - 'default', table - 0xe0000000
-
-next hop via 119072/0/21
-
-next hop srte\_c\_4128\_ labels imposed {ImplNull 119004}
-
-RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-B 150.23.7.7**
-
-150.23.7.7/32, version 132, internal 0x5000001 0x30 (ptr 0xd7adb10) [1], 0x0 (0xe1dd070), 0xa08 (0xec02410)
-
-Updated May 9 21:34:15.270
-
-Prefix Len 32, traffic index 0, precedence n/a, priority 3
-
-via local-label 119075, 3 dependencies, recursive [flags 0x6000]
-
-path-idx 0 NHID 0x0 [0xd8f6ac0 0x0]
-
-recursion-via-label
-
-next hop VRF - 'default', table - 0xe0000000
-
-next hop via 119075/0/21
-
-next hop srte\_c\_4128\_ labels imposed {ImplNull 119018}
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. 
 
 On R1 & R2, display the binding SID info
+```
+sh mpls forwarding labels 119072
+sh mpls forwarding labels 119075
+```
+![](images/8.7_5.png)
 
-RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119072**
+>NOTE:
+>Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. 
 
-Local Outgoing Prefix Outgoing Next Hop Bytes
-
-Label Label or ID Interface Switched
-
------- ----------- ------------------ ------------ --------------- ------------
-
-119072 Pop No ID srte\_c\_4128\_ point2point 0
-
-RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119075**
-
-Local Outgoing Prefix Outgoing Next Hop Bytes
-
-Label Label or ID Interface Switched
-
------- ----------- ------------------ ------------ --------------- ------------
-
-119075 Pop No ID srte\_c\_4128\_ point2point 0
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar, omitted for brevity. Binding SID may have a different value in your lab. |
 
 On CE1, traceroute to CE3 to display the path taken.
 
 Below traceroute follow **inter domain path** using labels from ODN and Flex algo 128 policy on R1 and R2 covered in previous steps
 
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-B 150.23.7.7 probe 1**
+```
+traceroute vrf CUSTOMER-B 150.23.7.7 probe 1
+```
 
-Type escape sequence to abort.
+![](images/8.7_6.png)
 
-Tracing the route to 150.23.7.7
-
-1 r2 (172.2.21.100) 0 msec
-
-2 pce1 (172.2.11.1) [MPLS: Labels 103128/105128/108128/119007 Exp 0] 0 msec
-
-3 r3 (172.3.11.0) [MPLS: Labels 105128/108128/119007 Exp 0] 0 msec
-
-4 pce2 (172.3.12.1) [MPLS: Labels 105128/108128/119007 Exp 0] 249 msec
-
-5 r5 (172.5.12.0) [MPLS: Labels 108128/119007 Exp 0] 0 msec
-
-6 pce3 (172.5.13.1) [MPLS: Labels 108128/119007 Exp 0] 0 msec
-
-7 r8 (172.8.13.0) [MPLS: Label 119007 Exp 0] 0 msec
-
-8 ce3 (172.8.23.101) 0 msec
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity. |
+>NOTE:
+>Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity. 
 
 ##
 
 Below traceroute follow **intra domain path using** labels fromODN and Flex algo 128 policy on R1 and R2 covered in previous steps.
+```
+traceroute vrf CUSTOMER-B 150.22.7.7 probe 1
+```
 
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-B 150.22.7.7 probe 1**
+![](images/8.7_7.png)
 
-Type escape sequence to abort.
-
-Tracing the route to 150.22.7.7
-
-1 r2 (172.2.21.100) 0 msec
-
-2 pce1 (172.2.11.1) [MPLS: Labels 104128/119015 Exp 0] 0 msec
-
-3 r4 (172.4.11.0) [MPLS: Label 119015 Exp 0] 0 msec
-
-4 ce2 (172.4.22.101) 0 msec
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity. |
+>NOTE:
+>Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity. 
 
 Prefix-SIDs of Flex algorithm allows SRTE paths to be expressed in a better way by reducing the number of SID's required in the SID list.
 
 Below Section compares the SID LIST of ODN SR Policy (Color 3207) and Flex Algo + ODN SR policy (Color 4128).
+```
+show segment-routing traffic-eng policy color 3207 endpoint ipv4 7.7.7.7 | in  Prefix-SID 
+show segment-routing traffic-eng policy color 4128 endpoint ipv4 7.7.7.7 | in  Prefix-SID 
+show segment-routing traffic-eng policy color 3207 endpoint ipv4 8.8.8.8 | in  Prefix-SID 
+show segment-routing traffic-eng policy color 4128 endpoint ipv4 8.8.8.8 | in  Prefix-SID 
+```
+![](images/8.7_8.png)
+<br/><br/>
 
-RP/0/RP0/CPU0:R1# **show segment-routing traffic-eng policy color 3207 endpoint ipv4 7.7.7.7 | in Prefix-SID**
-
-19011 [Prefix-SID, 11.11.11.11]
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19012 [Prefix-SID, 12.12.12.12]
-
-19005 [Prefix-SID, 5.5.5.5]
-
-19013 [Prefix-SID, 13.13.13.13]
-
-19007 [Prefix-SID, 7.7.7.7]
-
-RP/0/RP0/CPU0:R1# **show segment-routing traffic-eng policy color 4128 endpoint ipv4 7.7.7.7 | in Prefix-SID**
-
-103128 [Prefix-SID, 3.3.3.3]
-
-105128 [Prefix-SID, 5.5.5.5]
-
-107128 [Prefix-SID, 7.7.7.7]
-
-RP/0/RP0/CPU0:R1# **show segment-routing traffic-eng policy color 3207 endpoint ipv4 8.8.8.8 | in Prefix-SID**
-
-19011 [Prefix-SID, 11.11.11.11]
-
-19003 [Prefix-SID, 3.3.3.3]
-
-19012 [Prefix-SID, 12.12.12.12]
-
-19005 [Prefix-SID, 5.5.5.5]
-
-19013 [Prefix-SID, 13.13.13.13]
-
-19008 [Prefix-SID, 8.8.8.8]
-
-RP/0/RP0/CPU0:R1# **show segment-routing traffic-eng policy color 4128 endpoint ipv4 8.8.8.8 | in Prefix-SID**
-
-103128 [Prefix-SID, 3.3.3.3]
-
-105128 [Prefix-SID, 5.5.5.5]
-
-108128 [Prefix-SID, 8.8.8.8]
-
-##
-
-## Task 8: Change Latency value of a link
+## Task 8.8: Change Latency value of a link
 
 In this task, we will temporarily make changes to the delay of PCE2-R5 and PCE2-R6 to simulate a degradation of those links which will trigger a re-optimization of the path.
 
 On PCE2 configure the delay to R5 and R6 as 150ms.
+```
+performance-measurement
+ interface GigabitEthernet0/0/0/2
+  delay-measurement
+   advertise-delay 150
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  delay-measurement
+   advertise-delay 150
+  !
+ !
+!
+```
+<br/><br/>
 
-**performance-measurement**
 
-**interface GigabitEthernet0/0/0/2**
-
-**delay-measurement**
-
-**advertise-delay 150**
-
-**!**
-
-**!**
-
-**interface GigabitEthernet0/0/0/3**
-
-**delay-measurement**
-
-**advertise-delay 150**
-
-**!**
-
-**!**
-
-**!**
-
-##
-
-## Task 9: Verify Service Path Change
+## Task 8.9: Verify Service Path Change
 
 The new SR-TE path should re-optimize to avoid the high delay links.
 
-![](images/65dd843e42a2b8e.gif)
+![](images/8.9_Diagram.png)
 
 On R1 & R2 display the SR-TE policy details.
-
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 4128**
-
-SR-TE policy database
-
----------------------
-
-Color: 4128, End-point: 7.7.7.7
-
-Name: srte\_c\_4128\_ep\_7.7.7.7
-
-Status:
-
-Admin: up Operational: up for 00:38:19 (since May 3 03:17:04.205)
-
-Candidate-paths:
-
-Preference: 200 (BGP ODN) (shutdown)
-
-Requested BSID: dynamic
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (invalid)
-
-Metric Type: TE, Path Accumulated Metric: 0
-
-Preference: 100 (BGP ODN) (active)
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: bgp\_c\_4128\_ep\_7.7.7.7\_discr\_100
-
-PLSP-ID: 13
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: LATENCY, Path Accumulated Metric: 140
-
-103128 [Prefix-SID, 3.3.3.3]
-
-105128 [Prefix-SID, 5.5.5.5]
-
-107128 [Prefix-SID, 7.7.7.7]
-
-Attributes:
-
-Binding SID: 119075
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-Color: 4128, End-point: 8.8.8.8
-
-Name: srte\_c\_4128\_ep\_8.8.8.8
-
-Status:
-
-Admin: up Operational: up for 00:38:19 (since May 3 03:17:04.205)
-
-Candidate-paths:
-
-Preference: 200 (BGP ODN) (shutdown)
-
-Requested BSID: dynamic
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (invalid)
-
-Metric Type: TE, Path Accumulated Metric: 0
-
-Preference: 100 (BGP ODN) (active)
-
-Requested BSID: dynamic
-
-PCC info:
-
-Symbolic name: bgp\_c\_4128\_ep\_8.8.8.8\_discr\_100
-
-PLSP-ID: 14
-
-Constraints:
-
-Prefix-SID Algorithm: 128
-
-Maximum SID Depth: 10
-
-Dynamic (pce 11.11.11.11) (valid)
-
-Metric Type: LATENCY, Path Accumulated Metric: 140
-
-103128 [Prefix-SID, 3.3.3.3]
-
-105128 [Prefix-SID, 5.5.5.5]
-
-108128 [Prefix-SID, 8.8.8.8]
-
-Attributes:
-
-Binding SID: 119076
-
-Forward Class: Not Configured
-
-Steering labeled-services disabled: no
-
-Steering BGP disabled: no
-
-IPv6 caps enable: yes
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Output from R2 is similar & Output for SR Policy to 4.4.4.4 is unaffected, omitted for brevity. |
+```
+sh segment-routing traffic-eng policy color 4128
+```
+![](images/8.9_1.png)
+>NOTE:
+>Output from R2 is similar & Output for SR Policy to 4.4.4.4 is unaffected, omitted for brevity. 
 
 On CE1, traceroute to CE3 to display the new path taken.
+```
+traceroute vrf CUSTOMER-B 150.23.7.7 probe 1
+```
+![](images/8.9_2.png)
 
-RP/0/0/CPU0:CE1# **traceroute vrf CUSTOMER-B 150.23.7.7 probe 1**
+>NOTE:
+>Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. 
+<br/><br/>
 
-Type escape sequence to abort.
-
-Tracing the route to 150.23.7.7
-
-1 r2 (172.2.21.100) 9 msec
-
-2 pce1 (172.2.11.1) [MPLS: Labels 103128/105128/108128/119007 Exp 0] 239 msec
-
-3 r3 (172.3.11.0) [MPLS: Labels 105128/108128/119007 Exp 0] 29 msec
-
-4 r5 (172.3.5.1) [MPLS: Labels 108128/119007 Exp 0] 39 msec
-
-5 pce3 (172.5.13.1) [MPLS: Labels 108128/119007 Exp 0] 19 msec
-
-6 r8 (172.8.13.0) [MPLS: Label 119007 Exp 0] 9 msec
-
-7 ce3 (172.8.23.101) 9 msec
-
-| ! |
- |
- |
-| --- | --- | --- |
-|
-
-NOTE
-
- |
- | Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
-
-## Task 10: Restore original Latency value
+## Task 8.10: Restore original Latency value
 
 On PCE2 restore the delay to R5 as 10ms and to R6 as 13ms.
-
-**performance-measurement**
-
-**interface GigabitEthernet0/0/0/2**
-
-**delay-measurement**
-
-**advertise-delay 10**
-
-**!**
-
-**!**
-
-**interface GigabitEthernet0/0/0/3**
-
-**delay-measurement**
-
-**advertise-delay 13**
-
-**!**
-
-**!**
-
-**!**
+```
+performance-measurement
+ interface GigabitEthernet0/0/0/2
+  delay-measurement
+   advertise-delay 10
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  delay-measurement
+   advertise-delay 13
+  !
+ !
+!
+```
+<br/><br/>
 
 # Scenario 10 - Configure Flex Algo for Dual Plane
 
