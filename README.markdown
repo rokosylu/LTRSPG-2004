@@ -1,24 +1,6 @@
 #
 
-![](images/cisco-live.png)ADD CISCO LIVE IMAGE WHEN AVAILABLE
-
- -2023
-
-#
-# **Programmable Intent-Based Slicing, Powered by Segment Routing on IOS XR**
-
-# **LTRSPG-2004**
-
-**Speakers:**
-
-**Rob Kosyluk – Customer Delivery Architect**
-
-**Pradeep Malik – Customer Delivery Architect**
-
-**Sam Yagui – Customer Delivery Architect**
-
-![](images/cisco-live-2.png) ADD CISCO LIVE IMAGE WHEN AVAILABLE
-
+![](images/0.0 Title page.png)
 
 #
 
