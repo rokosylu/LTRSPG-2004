@@ -1,6 +1,6 @@
 #
 
-![](images/0.0 Title page.png)
+![](images/0.0%20Title%20page.png)
 
 #
 
