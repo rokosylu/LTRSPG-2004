@@ -104,31 +104,31 @@ The default TE metric is 1000 throughout the topology.
 
 To start, find the anyconnect icon on the taskbar or home screen.
 
-![](images/14ce9d0a18fb7108.png)
+![](images/access-1.png)
 
 Double click on the icon to open the Cisco AnyConnect Mobility Client.
 
-![](images/325ba1b133700f9e.png)
+![](images/access-2.png)
 
 Connect to your POD. The format will be [https://64.100.9.4/CLPODx](https://64.100.9.4/CLPODx) where X is your POD number.
 
-![](images/cd00f0ae868d297d.png)
+![](images/access-3.png)
 
 Once connected a security warning message will be seen. Click "Connect Anyway".
 
-![](images/46a2b563343ce9ea.png)
+![](images/access-4.png)
 
 Enter the username and password for your pod.
 
-![](images/95dab4b1258cd5cd.png)
+![](images/access-5.png)
 
 Click accept to connect to the lab.
 
-![](images/b79d42209b771423.png)
+![](images/access-6.png)
 
 Once connected you will see this popup window.
 
-![](images/7049bb8d24cac6c3.png)
+![](images/access-7.png)
 
 Now you are ready to start the lab
 
@@ -298,6 +298,7 @@ In the example below, look in the link-state database and search for 172.7.8.1 (
 
 ```
 show bgp link-state link-state | i 172.7.8.1
+show bgp link-state link-state [E][L1][I0x67][N[c65001][b0.0.0.0][s0000.0000.0007.00]][R[c65001][b0.0.0.0][s0000.0000.0008.00]][L[i172.7.8.0][n172.7.8.1]]/696
 ```
 ![](images/shBgpLsLs.png)
 <br/><br/>
@@ -327,7 +328,7 @@ traceroute vrf CUSTOMER-A 150.23.1.1 probe 1
 ![](images/2.1_traceroute.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
+>Your lab output may be different if the ECMP hashed to a different path, output using R2 is omitted for brevity. |
 <br/><br/>
 #
 # Scenario 3 - Inter-domain SRTE using Explicit-path
@@ -388,7 +389,7 @@ router bgp 65001
 Apply the following configuration in R7 and R8:
 ```
 route-policy CUST-A_SET_COLOR_IN
-  ##### Explicit Path – Color 3232 #####
+  ##### Explicit Path - Color 3232 #####
   if destination in (150.23.2.2) then
     set extcommunity color COLOR-3232
   ##### Everything Else #####
@@ -579,7 +580,7 @@ traceroute vrf CUSTOMER-A 150.23.2.2 source lo32 probe 1
 ![](images/3.4_6_tracert.png)
 
 >NOTE
->Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. |
+>Your lab output may be different if the ECMP hashed to a different path, output using R2 is omitted for brevity. |
 
 <br/><br/>
 # Scenario 4 - Inter-Domain Network Slicing for Low Latency
@@ -703,7 +704,7 @@ sh segment-routing traffic-eng policy color 3233
 
 On R1 & R2, display cef for 150.23.3.3
 ```
-RP/0/RP0/CPU0:R1# **sh cef vrf CUSTOMER-A 150.23.3.3**
+sh cef vrf CUSTOMER-A 150.23.3.3
 ```
 
 ![](images/4.4_3_shCef.png)
@@ -728,7 +729,7 @@ traceroute vrf CUSTOMER-A 150.23.3.3 probe 1
 ![](images/4.4_5_tracert.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity.
+>Your lab output may be different if the ECMP hashed to a different path, output using R2 is omitted for brevity.
 <br/><br/>
 
 ## Task 4.5: Change the Latency value of a link
@@ -774,7 +775,7 @@ traceroute vrf CUSTOMER-A 150.23.3.3 probe 1
 ![](images/4.6_2_tracert.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity.
+>Your lab output may be different if the ECMP hashed to a different path, output using R2 is omitted for brevity.
 
 ## Task 4.7: Restore the original Latency value
 
@@ -939,7 +940,7 @@ traceroute vrf CUSTOMER-A 150.23.4.4 probe 1
 ![](images/5.4_5_tracert.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity. 
+>Your lab output may be different if the ECMP hashed to a different path, output using R1 is omitted for brevity. 
 
 <br/><br/>
 
@@ -966,7 +967,7 @@ The new SR-TE path should avoid the high TE metric links
 
 On R1 & R2 display the SR-TE policy details.
 ```
-RP/0/RP0/CPU0:R1# **sh segment-routing traffic-eng policy color 3234**
+sh segment-routing traffic-eng policy color 3234
 ```
 ![](images/5.6_2_shSegTe.png)
 
@@ -980,7 +981,7 @@ traceroute vrf CUSTOMER-A 150.23.4.4 probe 1
 ![](images/5.6_3_tracert.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity.
+>Your lab output may be different if the ECMP hashed to a different path, output using R1 is omitted for brevity.
 
 <br/><br/>
 
@@ -1027,9 +1028,6 @@ route-policy CUST-A_SET_COLOR_IN
     ##### Dynamic Path - TE #####
   elseif destination in (150.23.4.4) then
     set extcommunity color COLOR-3234
-    ##### Anycast SID - TE #####
-  elseif destination in (150.23.5.5) then
-    set extcommunity color COLOR-3235
     ##### Affinity - TE #####
   elseif destination in (150.23.6.6) then
     set extcommunity color COLOR-3236
@@ -1162,7 +1160,7 @@ sh cef vrf CUSTOMER-A 150.23.6.6
 
 On R1 & R2, display the binding SID info.
 ```
-RP/0/RP0/CPU0:R1# **sh mpls forwarding labels 119038**
+sh mpls forwarding labels 119038
 ```
 ![](images/6.5_4_shMplsLab.png)
 
@@ -1176,7 +1174,7 @@ traceroute vrf CUSTOMER-A 150.23.6.6 probe 1
 ![](images/6.5_5_tracert.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. 
+>Your lab output may be different if the ECMP hashed to a different path, output using R2 is omitted for brevity. 
 <br/><br/>
 
 # Scenario 7 – Intra and Inter-Domain Network Slicing for On-Demand Next Hop (ODN)
@@ -1228,9 +1226,6 @@ route-policy CUST-A_SET_COLOR_IN
     ##### Dynamic Path - TE #####
   elseif destination in (150.23.4.4) then
     set extcommunity color COLOR-3234
-    ##### Anycast SID - TE #####
-  elseif destination in (150.23.5.5) then
-    set extcommunity color COLOR-3235
     ##### Affinity - TE #####
   elseif destination in (150.23.6.6) then
     set extcommunity color COLOR-3236
@@ -1340,7 +1335,7 @@ traceroute vrf CUSTOMER-A 150.23.7.7 probe 1
 
 
 >NOTE:
->Your lab output may be different if the ECMP hashed R1 instead, output using R1 is omitted for brevity. 
+>Your lab output may be different if the ECMP hashed to a different path, output using R1 is omitted for brevity. 
 <br/><br/>
 
 # Scenario 8 - Configure Flex Algo & ODN for low latency
@@ -1747,6 +1742,7 @@ segment-routing
 On R1 & R2 display the BGP prefixes.
 ```
 sh bgp vrf CUSTOMER-B 150.22.7.7
+sh bgp vrf CUSTOMER-B 150.23.7.7
 ```
 ![](images/8.7_1.png)
 
@@ -1793,7 +1789,7 @@ traceroute vrf CUSTOMER-B 150.23.7.7 probe 1
 ![](images/8.7_6.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity. 
+>Your lab output may be different if the ECMP hashed to a different path, output using R1 is omitted for brevity. 
 
 ##
 
@@ -1805,7 +1801,7 @@ traceroute vrf CUSTOMER-B 150.22.7.7 probe 1
 ![](images/8.7_7.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R1 instead, output using R1 is omitted for brevity. 
+>Your lab output may be different if the ECMP hashed to a different path, output using R1 is omitted for brevity. 
 
 Prefix-SIDs of Flex algorithm allows SRTE paths to be expressed in a better way by reducing the number of SID's required in the SID list.
 
@@ -1862,7 +1858,7 @@ traceroute vrf CUSTOMER-B 150.23.7.7 probe 1
 ![](images/8.9_2.png)
 
 >NOTE:
->Your lab output may be different if the ECMP hashed to R2 instead, output using R2 is omitted for brevity. 
+>Your lab output may be different if the ECMP hashed to a different path, output using R2 is omitted for brevity. 
 <br/><br/>
 
 ## Task 8.10: Restore original Latency value
@@ -1884,7 +1880,7 @@ performance-measurement
 ```
 <br/><br/>
 
-# Scenario 10 - Configure Flex Algo for Dual Plane
+# Scenario 9 - Configure Flex Algo for Dual Plane
 
 One use case of Flex-Algo involve dual plane disjoint paths. Below topology consists of two planes:
 
