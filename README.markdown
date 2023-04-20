@@ -6,9 +6,9 @@
 
 # Table of Content
 
-Use GitHub TOC
+To access the Table of Content in hub, click on the drop down menu, see picture below:
 
-![](images/) ADD A PIC OF A capture of TOC on GITHUB
+![](images/TOC_1.png) 
 
 <br/>
 <br/>
